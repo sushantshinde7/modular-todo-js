@@ -1,0 +1,191 @@
+ *{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px;
+  }
+  
+  .app-container {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #taskInput {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+  
+  #taskInput:focus {
+    outline: none;
+    border-color: #5c67f2;
+  }
+  
+  #addBtn {
+    padding: 10px 18px;
+    background-color: #5c67f2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  #addBtn:hover {
+    background-color: #4e55d4;
+  }
+  
+  #addBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transition: opacity 0.2s ease;
+  }
+  
+  ul#taskList {
+    list-style: none;
+  }
+  
+  #taskList li {
+    background: #f9f9f9;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+    transition: background 0.2s;
+  }
+  
+  #taskList li input[type="checkbox"] {
+    transform: translateY(1px);
+    cursor: pointer;
+  }
+  
+  #taskList li:hover {
+    background: #eef2f7;
+  }
+  
+  #taskList li span {
+    flex: 1;
+    word-break: break-word;
+    white-space: pre-wrap;
+    padding-right: 10px;
+  }
+  
+  #taskList button {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+  }
+  
+  #taskList button:hover {
+    background-color: #eaeaea;
+  }
+  
+  #taskList button i {
+    width: 18px;
+    height: 18px;
+    stroke: #444;
+    stroke-width: 2;
+  }
+  
+  #taskList button.edit-btn i {
+    stroke: #5c67f2;
+  }
+  
+  #taskList button.delete-btn i {
+    stroke: #e24c4c;
+  }
+  
+  .completed {
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+  
+  #emptyMessage {
+    font-size: 1rem;
+    color: #6d6a6a;
+    margin-top: 1rem;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+  }
+  
+  #emptyMessage.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .edit-input {
+    font-size: 1rem;
+    padding: 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .edit-btn svg,
+  .delete-btn svg {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    flex-shrink: 0;
+  }
+  @media (max-width: 480px) {
+    .app-container {
+      padding: 20px 16px;
+    }
+  
+    .input-section {
+      flex-direction: column;
+      gap: 8px;
+    }
+  
+    #taskInput,
+    #addBtn {
+      font-size: 15px;
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 22px;
+    }
+  }
+  
