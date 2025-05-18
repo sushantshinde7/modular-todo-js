@@ -188,4 +188,21 @@
       font-size: 22px;
     }
   }
+  #clear-all-btn {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: none;
+  }
+  
+  #clear-all-btn.show {
+    display: inline-block;
+} 
+  #clear-all-btn:hover {
+    background-color: darkred;
+  }
   

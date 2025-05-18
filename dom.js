@@ -64,7 +64,6 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
       list.appendChild(li);
     });
   
-    // Important: Re-render icons after updating DOM
     lucide.createIcons();
   }
   

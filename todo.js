@@ -1,17 +1,9 @@
 // todo.js
 
-const STORAGE_KEY = 'todoTasks';
-let tasks = loadTasks();
+let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// Save tasks to localStorage
 function saveTasks() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
-}
-
-// Load tasks from localStorage
-function loadTasks() {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  return saved ? JSON.parse(saved) : [];
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 export function addTask(text) {
@@ -19,13 +11,13 @@ export function addTask(text) {
   saveTasks();
 }
 
-export function getTasks() {
-  return tasks;
-}
-
 export function removeTask(index) {
   tasks.splice(index, 1);
   saveTasks();
+}
+
+export function getTasks() {
+  return tasks;
 }
 
 export function toggleComplete(index) {
@@ -34,7 +26,12 @@ export function toggleComplete(index) {
 }
 
 export function editTask(index, newText) {
-    tasks[index].text = newText;
-    saveTasks();
-  }
-  
+  tasks[index].text = newText;
+  saveTasks();
+}
+
+export function clearAllTasks() {
+  tasks = [];
+  saveTasks();
+}
+

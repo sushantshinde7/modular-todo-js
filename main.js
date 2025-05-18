@@ -1,8 +1,9 @@
-import { addTask, removeTask, getTasks, toggleComplete, editTask } from './todo.js';
+import { addTask, removeTask, getTasks, toggleComplete, editTask, clearAllTasks } from './todo.js';
 import { renderTasks } from './dom.js';
 
 const input = document.getElementById('taskInput');
 const addBtn = document.getElementById('addBtn');
+const clearAllBtn = document.getElementById('clearAllBtn'); // new
 
 function updateUI() {
   renderTasks(
@@ -20,6 +21,7 @@ function updateUI() {
       updateUI();
     }
   );
+  clearAllBtn.style.display = getTasks().length ? 'inline-block' : 'none'; // show/hide
 }
 
 function validateInput() {
@@ -43,6 +45,11 @@ addBtn.addEventListener('click', () => {
     updateUI();
     validateInput();
   }
+});
+
+clearAllBtn.addEventListener('click', () => {
+  localStorage.removeItem('tasks');
+  updateUI();
 });
 
 validateInput();
