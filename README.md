@@ -8,6 +8,8 @@ Add new tasks
 
 Delete individual tasks
 
+Clear All Tasks/ Toast msg for all clear
+
 Edit existing tasks
 
 Modular JavaScript structure using import/export

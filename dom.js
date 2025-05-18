@@ -1,3 +1,5 @@
+// dom.js
+
 export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCallback) {
     const list = document.getElementById('taskList');
     const emptyMsg = document.getElementById('emptyMessage');
@@ -8,15 +10,18 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
     tasks.forEach((task, index) => {
       const li = document.createElement('li');
   
+      // Checkbox for completion
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.checked = task.completed;
       checkbox.addEventListener('change', () => onToggleComplete(index));
   
+      // Task text display
       const span = document.createElement('span');
       span.textContent = task.text;
       if (task.completed) span.classList.add('completed');
   
+      // Edit button
       const editBtn = document.createElement('button');
       editBtn.classList.add('edit-btn');
       editBtn.innerHTML = '<i data-lucide="pencil"></i>';
@@ -51,12 +56,14 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
         input.focus();
       });
   
+      // Delete button
       const deleteBtn = document.createElement('button');
       deleteBtn.classList.add('delete-btn');
       deleteBtn.innerHTML = '<i data-lucide="trash-2"></i>';
       deleteBtn.title = 'Delete task';
       deleteBtn.addEventListener('click', () => onRemoveCallback(index));
   
+      // Append all elements to the list item
       li.appendChild(checkbox);
       li.appendChild(span);
       li.appendChild(editBtn);
@@ -64,6 +71,7 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
       list.appendChild(li);
     });
   
+    // Replace all Lucide icons
     lucide.createIcons();
   }
   

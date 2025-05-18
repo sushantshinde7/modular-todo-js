@@ -1,9 +1,10 @@
+// main.js
 import { addTask, removeTask, getTasks, toggleComplete, editTask, clearAllTasks } from './todo.js';
 import { renderTasks } from './dom.js';
 
 const input = document.getElementById('taskInput');
 const addBtn = document.getElementById('addBtn');
-const clearAllBtn = document.getElementById('clearAllBtn'); // new
+const clearAllBtn = document.getElementById('clearAllBtn');
 
 function updateUI() {
   renderTasks(
@@ -21,13 +22,23 @@ function updateUI() {
       updateUI();
     }
   );
-  clearAllBtn.style.display = getTasks().length ? 'inline-block' : 'none'; // show/hide
+  clearAllBtn.style.display = getTasks().length ? 'inline-block' : 'none';
 }
 
 function validateInput() {
   const trimmed = input.value.trim();
   addBtn.disabled = trimmed === '';
 }
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+  
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2000); // Toast visible for 2s
+  }
 
 input.addEventListener('input', validateInput);
 
@@ -47,13 +58,18 @@ addBtn.addEventListener('click', () => {
   }
 });
 
-clearAllBtn.addEventListener('click', () => {
-  localStorage.removeItem('tasks');
+// ✅ Clear all tasks when clicked (NO confirm box)
+clearAllBtn.addEventListener('click', (e) => {
+  e.preventDefault(); // Ensure no default form behavior
+  clearAllTasks();
   updateUI();
+  showToast("All tasks cleared!");//shows a toast message
 });
 
 validateInput();
 updateUI();
+
+
 
 
 

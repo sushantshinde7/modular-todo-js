@@ -1,4 +1,4 @@
- *{
+*{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -168,6 +168,7 @@
     padding: 0;
     flex-shrink: 0;
   }
+  
   @media (max-width: 480px) {
     .app-container {
       padding: 20px 16px;
@@ -188,7 +189,9 @@
       font-size: 22px;
     }
   }
-  #clear-all-btn {
+  
+  /* ✅ FIXED selector here */
+  #clearAllBtn {
     margin-top: 10px;
     padding: 8px 16px;
     background-color: crimson;
@@ -196,13 +199,34 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    display: none;
   }
   
-  #clear-all-btn.show {
-    display: inline-block;
-} 
-  #clear-all-btn:hover {
+  #clearAllBtn:hover {
     background-color: darkred;
   }
+  .toast {
+    visibility: hidden;
+    min-width: 200px;
+    margin: 10px auto;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px 16px;
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  
+  .toast.show {
+    visibility: visible;
+    opacity: 1;
+  }
+    
+    
+
   
