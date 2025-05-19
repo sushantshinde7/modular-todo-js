@@ -1,5 +1,3 @@
-// dom.js
-
 export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCallback) {
     const list = document.getElementById('taskList');
     const emptyMsg = document.getElementById('emptyMessage');
@@ -10,16 +8,26 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
     tasks.forEach((task, index) => {
       const li = document.createElement('li');
   
-      // Checkbox for completion
+      // Checkbox
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.checked = task.completed;
       checkbox.addEventListener('change', () => onToggleComplete(index));
   
-      // Task text display
-      const span = document.createElement('span');
-      span.textContent = task.text;
-      if (task.completed) span.classList.add('completed');
+      // Number and Task Text in separate spans
+      const containerSpan = document.createElement('span');
+  
+      const numberSpan = document.createElement('span');
+      numberSpan.textContent = `${index + 1}. `;
+      numberSpan.style.color = 'gray';
+      numberSpan.style.marginRight = '5px';
+  
+      const taskTextSpan = document.createElement('span');
+      taskTextSpan.textContent = task.text;
+      if (task.completed) taskTextSpan.classList.add('completed');
+  
+      containerSpan.appendChild(numberSpan);
+      containerSpan.appendChild(taskTextSpan);
   
       // Edit button
       const editBtn = document.createElement('button');
@@ -52,7 +60,7 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
   
         input.addEventListener('blur', handleEditComplete);
   
-        li.replaceChild(input, span);
+        li.replaceChild(input, containerSpan);
         input.focus();
       });
   
@@ -63,17 +71,20 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
       deleteBtn.title = 'Delete task';
       deleteBtn.addEventListener('click', () => onRemoveCallback(index));
   
-      // Append all elements to the list item
+      // Append elements
       li.appendChild(checkbox);
-      li.appendChild(span);
+      li.appendChild(containerSpan);
       li.appendChild(editBtn);
       li.appendChild(deleteBtn);
       list.appendChild(li);
     });
   
-    // Replace all Lucide icons
+    // Replace Lucide icons
     lucide.createIcons();
   }
+  
+  
+  
   
   
   

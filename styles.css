@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -6,68 +6,142 @@
   
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f0f4f8;
+    background: #e9f0f7;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
     padding: 40px;
+    transition: background 0.4s ease, color 0.4s ease;
+    color: #333;
+  }
+  
+  body.dark-mode {
+    background: #0f0f0f;
+    color: #f0f0f0;
   }
   
   .app-container {
-    background: white;
-    padding: 30px 25px;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom right, #ffffff, #f4f6f8);
+    padding: 32px 28px;
+    border-radius: 18px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
     width: 100%;
-    max-width: 400px;
+    max-width: 520px;
+    position: relative;
+    transition: background 0.4s ease, color 0.4s ease, box-shadow 0.3s ease;
+  }
+  
+  body.dark-mode .app-container {
+    background: #1c1c1c;
+    color: #eaeaea;
+    box-shadow: 0 12px 24px rgba(255, 255, 255, 0.08);
   }
   
   h1 {
-    font-size: 26px;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 28px;
+    margin-bottom: 24px;
     text-align: center;
+    color: #333;
   }
   
+  body.dark-mode h1 {
+    color: #f0f0f0;
+  }
+  
+  /* Theme toggle button */
+  #themeToggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  #themeToggle:hover {
+    transform: rotate(20deg);
+  }
+  
+  body.dark-mode #themeToggle {
+    color: #f5f5f5;
+  }
+  
+  /* Theme icon styles */
+  .theme-icon {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  
+  #sunIcon {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  #moonIcon {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  
+  body.dark-mode #sunIcon {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  
+  body.dark-mode #moonIcon {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  /* Input section */
   .input-section {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 24px;
   }
   
   #taskInput {
     flex: 1;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    padding: 12px 14px;
+    border: 1px solid #b4c0cc;
+    border-radius: 10px;
     font-size: 16px;
-    transition: border-color 0.3s ease;
+    background-color: #fff;
+    color: #333;
+    transition: border 0.3s ease;
   }
   
   #taskInput:focus {
     outline: none;
-    border-color: #5c67f2;
+    border-color: #4d5dfb;
   }
   
   #addBtn {
-    padding: 10px 18px;
-    background-color: #5c67f2;
+    padding: 12px 20px;
+    background-color: #4d5dfb;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s ease;
   }
   
   #addBtn:hover {
-    background-color: #4e55d4;
+    background-color: #3b47d6;
   }
   
   #addBtn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    transition: opacity 0.2s ease;
   }
   
   ul#taskList {
@@ -75,26 +149,27 @@
   }
   
   #taskList li {
-    background: #f9f9f9;
-    padding: 12px 15px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    background: #f6f8fa;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    overflow-wrap: anywhere;
-    line-height: 1.4;
-    transition: background 0.2s;
+    transition: background 0.3s ease;
   }
   
-  #taskList li input[type="checkbox"] {
-    transform: translateY(1px);
-    cursor: pointer;
+  body.dark-mode #taskList li {
+    background: #2a2a2a;
   }
   
   #taskList li:hover {
-    background: #eef2f7;
+    background: #e2eaf1;
+  }
+  
+  body.dark-mode #taskList li:hover {
+    background: #383838;
   }
   
   #taskList li span {
@@ -107,27 +182,31 @@
   #taskList button {
     background: transparent;
     border: none;
-    padding: 4px;
+    padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
-    transition: background-color 0.2s;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
   }
   
   #taskList button:hover {
-    background-color: #eaeaea;
+    background-color: #e4e4e4;
+  }
+  
+  body.dark-mode #taskList button:hover {
+    background-color: #444;
   }
   
   #taskList button i {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     stroke: #444;
     stroke-width: 2;
   }
   
   #taskList button.edit-btn i {
-    stroke: #5c67f2;
+    stroke: #4d5dfb;
   }
   
   #taskList button.delete-btn i {
@@ -141,12 +220,12 @@
   
   #emptyMessage {
     font-size: 1rem;
-    color: #6d6a6a;
+    color: #808080;
     margin-top: 1rem;
-    transition: opacity 0.5s ease, transform 0.5s ease;
     opacity: 0;
     transform: translateY(10px);
     pointer-events: none;
+    transition: all 0.3s ease;
   }
   
   #emptyMessage.show {
@@ -156,63 +235,37 @@
   
   .edit-input {
     font-size: 1rem;
-    padding: 4px;
+    padding: 6px;
     width: 100%;
     box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #ccc;
   }
   
-  .edit-btn svg,
-  .delete-btn svg {
-    width: 18px;
-    height: 18px;
-    padding: 0;
-    flex-shrink: 0;
-  }
-  
-  @media (max-width: 480px) {
-    .app-container {
-      padding: 20px 16px;
-    }
-  
-    .input-section {
-      flex-direction: column;
-      gap: 8px;
-    }
-  
-    #taskInput,
-    #addBtn {
-      font-size: 15px;
-      padding: 10px;
-    }
-  
-    h1 {
-      font-size: 22px;
-    }
-  }
-  
-  /* ✅ FIXED selector here */
   #clearAllBtn {
-    margin-top: 10px;
-    padding: 8px 16px;
+    margin-top: 12px;
+    padding: 10px 18px;
     background-color: crimson;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
   #clearAllBtn:hover {
     background-color: darkred;
   }
+  
   .toast {
     visibility: hidden;
-    min-width: 200px;
+    min-width: 220px;
     margin: 10px auto;
     background-color: #333;
     color: white;
     text-align: center;
     border-radius: 8px;
-    padding: 12px 16px;
+    padding: 14px 18px;
     position: fixed;
     bottom: 30px;
     left: 50%;
@@ -226,6 +279,42 @@
     visibility: visible;
     opacity: 1;
   }
+  
+  @media (max-width: 480px) {
+    .app-container {
+      padding: 22px 18px;
+    }
+  
+    .input-section {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    #taskInput,
+    #addBtn {
+      font-size: 15px;
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 24px;
+    }
+  
+    #themeToggle {
+      top: 15px;
+      right: 15px;
+      width: 36px;
+      height: 36px;
+    }
+  
+    .theme-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  
+  
     
     
 
