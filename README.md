@@ -18,6 +18,9 @@ Saves tasks to browser local storage
 
 Responsive and centered user interface design
 
+Dark mode toggle and task numbering
+
+
 🚀 Getting Started
 
 Clone the repository
