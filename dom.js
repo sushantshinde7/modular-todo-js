@@ -8,25 +8,31 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
     tasks.forEach((task, index) => {
       const li = document.createElement('li');
   
+      // Main container: number + checkbox + text
+      const containerSpan = document.createElement('span');
+      containerSpan.className = 'task-container';
+  
+      // Number
+      const numberSpan = document.createElement('span');
+      numberSpan.textContent = `${index + 1}. `;
+      numberSpan.className = 'task-number'; // optional CSS class
+  
       // Checkbox
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.checked = task.completed;
       checkbox.addEventListener('change', () => onToggleComplete(index));
+      checkbox.className = 'task-checkbox'; // optional CSS class
   
-      // Number and Task Text in separate spans
-      const containerSpan = document.createElement('span');
-  
-      const numberSpan = document.createElement('span');
-      numberSpan.textContent = `${index + 1}. `;
-      numberSpan.style.color = 'gray';
-      numberSpan.style.marginRight = '5px';
-  
+      // Task text
       const taskTextSpan = document.createElement('span');
       taskTextSpan.textContent = task.text;
       if (task.completed) taskTextSpan.classList.add('completed');
+      taskTextSpan.className = 'task-text';
   
+      // Append all to container
       containerSpan.appendChild(numberSpan);
+      containerSpan.appendChild(checkbox);
       containerSpan.appendChild(taskTextSpan);
   
       // Edit button
@@ -71,8 +77,7 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
       deleteBtn.title = 'Delete task';
       deleteBtn.addEventListener('click', () => onRemoveCallback(index));
   
-      // Append elements
-      li.appendChild(checkbox);
+      // Append everything to list item
       li.appendChild(containerSpan);
       li.appendChild(editBtn);
       li.appendChild(deleteBtn);
@@ -82,6 +87,7 @@ export function renderTasks(tasks, onRemoveCallback, onToggleComplete, onEditCal
     // Replace Lucide icons
     lucide.createIcons();
   }
+  
   
   
   

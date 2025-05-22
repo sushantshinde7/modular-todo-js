@@ -6,8 +6,6 @@
     const emptyMessage = document.getElementById("emptyMessage");
     const toast = document.getElementById("toast");
     const themeToggle = document.getElementById("themeToggle");
-    const sunIcon = document.getElementById("sun");
-    const moonIcon = document.getElementById("moon");
   
     let toastTimeout;
   
@@ -23,13 +21,29 @@
   
       if (tasks.length === 0) {
         emptyMessage.classList.add("show");
+        clearAllBtn.style.display = "none";
       } else {
         emptyMessage.classList.remove("show");
+        clearAllBtn.style.display = "inline-block";
       }
   
       tasks.forEach((task, index) => {
         const li = document.createElement("li");
   
+        // ✅ Numbering
+        const numberSpan = document.createElement("span");
+        numberSpan.className = "task-number";
+        numberSpan.textContent = `${index + 1}. `;
+        li.appendChild(numberSpan);
+  
+        // ✅ Checkbox
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.completed;
+        checkbox.addEventListener("change", () => toggleComplete(index));
+        li.appendChild(checkbox);
+  
+        // ✅ Task text
         const span = document.createElement("span");
         span.textContent = task.text;
         if (task.completed) {
@@ -37,20 +51,22 @@
         }
   
         span.addEventListener("click", () => toggleComplete(index));
+        li.appendChild(span);
   
+        // ✅ Edit button
         const editBtn = document.createElement("button");
         editBtn.classList.add("edit-btn");
         editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
         editBtn.addEventListener("click", () => editTask(index, span.textContent));
+        li.appendChild(editBtn);
   
+        // ✅ Delete button
         const deleteBtn = document.createElement("button");
         deleteBtn.classList.add("delete-btn");
         deleteBtn.innerHTML = `<i data-lucide="trash-2"></i>`;
         deleteBtn.addEventListener("click", () => deleteTask(index));
-  
-        li.appendChild(span);
-        li.appendChild(editBtn);
         li.appendChild(deleteBtn);
+  
         taskList.appendChild(li);
       });
   
@@ -85,7 +101,7 @@
   
     const editTask = (index, oldText) => {
       const li = taskList.children[index];
-      const span = li.querySelector("span");
+      const span = li.querySelector("span:not(.task-number)");
   
       const input = document.createElement("input");
       input.type = "text";
@@ -122,13 +138,11 @@
       }, 2000);
     };
   
-    // ✅ New: Theme toggle logic
     const toggleTheme = () => {
       document.body.classList.toggle("dark-mode");
       localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
     };
   
-    // ✅ On load: apply saved theme
     const applySavedTheme = () => {
       const savedTheme = localStorage.getItem("theme");
       if (savedTheme === "dark") {
@@ -136,12 +150,10 @@
       }
     };
   
-    // ✅ Feature: Enable/disable Add button based on input
     taskInput.addEventListener("input", () => {
       addBtn.disabled = taskInput.value.trim() === "";
     });
   
-    // ✅ Feature: Press Enter to add task
     taskInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && taskInput.value.trim() !== "") {
         addTask();
@@ -152,7 +164,6 @@
     clearAllBtn.addEventListener("click", clearAllTasks);
     themeToggle.addEventListener("click", toggleTheme);
   
-    // ✅ Initial setup
     applySavedTheme();
     addBtn.disabled = true;
     renderTasks();
