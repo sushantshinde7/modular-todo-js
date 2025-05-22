@@ -1,47 +1,41 @@
 📝 To-Do App (Modules-based)
-
-This is a simple and clean To-Do List Web App built using HTML, CSS, and JavaScript ES Modules. It allows users to add, complete, and delete tasks easily. The project structure is modular, making the codebase organized and maintainable.
+A clean and responsive To-Do List Web App built using HTML, CSS, and modular JavaScript (ES Modules). It supports task management with visual feedback, theme switching, and local storage — all wrapped in an organized project structure.
 
 📌 Features
+✅ Add, edit, delete, and clear tasks
 
-Add new tasks
+🔄 Smooth animations for task actions (add/edit/delete/clear)
 
-Delete individual tasks
+🔔 Toast notifications for all key actions
 
-Clear All Tasks/ Toast msg for all clear
+🌗 Dark mode toggle with animated icons
 
-Edit existing tasks
+🧠 Task state saved using Local Storage
 
-Modular JavaScript structure using import/export
+🧩 Modular JavaScript structure (import/export)
 
-Saves tasks to browser local storage
+📱 Responsive and accessible UI
 
-Responsive and centered user interface design
-
-Dark mode toggle and task numbering
-
+🔢 Task numbering for better tracking
 
 🚀 Getting Started
-
-Clone the repository
 git clone https://github.com/sushantshinde7/To-Do-App.git
+Open index.html in a browser
 
-Open the folder in your browser (just double-click index.html)
-or use a live server extension in VS Code for better experience.
+Or use a Live Server extension in VS Code for real-time updates
 
 📁 Folder Structure
-
+'''
 To-Do-App/
-│
-├── index.html → Main HTML file
-├── styles.css → CSS styling for the app
-├── main.js → Entry point that imports and runs the modules
-├── dom.js → Handles DOM creation and manipulation (UI rendering)
-├── todo.js → Manages task data (add, delete, update logic)
-└── README.md → Project documentation
+├── index.html       → Main HTML file
+├── styles.css       → CSS styling for the app
+├── main.js          → Entry point that imports and runs the modules
+├── dom.js           → Handles DOM creation and manipulation (UI rendering)
+├── todo.js          → Manages task data (add, delete, update logic)
+└── README.md        → Project documentation
+'''
 
 🙋‍♂️ Author
-
 Sushant Shinde
-Feel free to explore, use, and contribute to the project.
 GitHub: @sushantshinde7
+
