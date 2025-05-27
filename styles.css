@@ -234,8 +234,10 @@ body.dark-mode #taskList li:hover {
   background: transparent;
   border: none;
   padding: 5px;
-  min-width: 44px;
-  min-height: 44px;
+  /*min-width: 44px;
+  min-height: 44px;*/
+  width: 36px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -245,6 +247,7 @@ body.dark-mode #taskList li:hover {
 
 #taskList button:hover {
   background-color: #e4e4e4;
+  transform: scale(1.2);
 }
 
 body.dark-mode #taskList button:hover {
@@ -342,7 +345,7 @@ body.dark-mode #taskList button:hover {
   transform: translateX(-50%) translateY(20px);
   z-index: 999;
   opacity: 0;
-  line-height: 1.4;
+  line-height: 0.7;
   pointer-events: none;
   transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s ease;
 }
@@ -490,8 +493,28 @@ body.dark-mode #taskList button:hover {
 .task-item.clear-animate {
   animation: scatter 0.6s ease forwards;
 }
+.pin-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
 
-  
+.pin-btn svg {
+  color: goldenrod;
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.pin-btn:hover svg {
+  transform: scale(1.2);
+}
+
+
 
   
   
