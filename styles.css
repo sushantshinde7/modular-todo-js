@@ -30,7 +30,8 @@ body.dark-mode {
   border-radius: 18px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 100%;
-  max-width: 520px;
+  max-width: 600px;
+  margin:auto;
   position: relative;
   transition: background 0.4s ease, color 0.4s ease, box-shadow 0.3s ease;
 }
@@ -125,6 +126,17 @@ body.dark-mode #moonIcon {
   margin-bottom: 24px;
   background-color: transparent; /* can be removed if not overridden elsewhere */
 }
+.visually-hidden {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 
 /* Input Field */
 #taskInput {
