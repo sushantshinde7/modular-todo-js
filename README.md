@@ -31,7 +31,13 @@ To-Do-App/
 ├── todo.js          → Manages task data (add, delete, update logic)
 └── README.md        → Project documentation
 ```
-
+🛠 Tech Stack
+-HTML5 — Used for structuring the layout and content of the application.
+-CSS3 — Handles the styling, layout design, and responsive UI.
+-Vanilla JavaScript (ES6+) — Powers the interactivity, logic, and DOM manipulation.
+-JavaScript Modules — Organizes the code into manageable and reusable pieces.
+-LocalStorage API — Stores tasks in the browser to maintain persistence between sessions.
+-Lucide Icons — Provides clean and customizable SVG icons for better UI/UX.
 
 🙋‍♂️ Author
 Sushant Shinde
