@@ -3,6 +3,9 @@ A clean, responsive, and theme-rich To-Do List web application built using modul
 
 👉 Live Demo: https://sushantshinde7.github.io/To-Do-App/
 
+## 🎞️ Live Demo  
+![To‑Do App Demo](./Assets/Todo-app-Demo.gif)
+
 📌 Features
 ✅ Add, edit, delete, and clear tasks
 🔢 Automatic task numbering for better tracking
@@ -27,12 +30,14 @@ Option 2: Use the Live Server extension in VS Code for auto-refresh while editin
 📁 Folder Structure
 ```
 To-Do-App/
-├── index.html        → Main HTML structure
-├── styles.css        → Stylesheet for themes and layout
-├── main.js           → Entry point script (initializes the app)
-├── dom.js            → Handles DOM rendering and updates
-├── todo.js           → Logic for task handling (add, delete, update)
-└── README.md         → Project documentation
+├── Assets                   → Main Assets directory
+|   └── Todo-app-Demo.gif    → Project documentation
+├── index.html               → Main HTML structure
+├── styles.css               → Stylesheet for themes and layout
+├── main.js                  → Entry point script (initializes the app)
+├── dom.js                   → Handles DOM rendering and updates
+├── todo.js                  → Logic for task handling (add, delete, update)
+└── README.md                → Project documentation
 ```
 
 🛠 Tech Stack
