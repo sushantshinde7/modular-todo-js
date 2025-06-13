@@ -83,7 +83,8 @@
       const editBtn = document.createElement("button");
       editBtn.classList.add("edit-btn");
       editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
-      editBtn.setAttribute("aria-label", "Edit Task");
+      editBtn.title = "Edit Task"; // ✅ tooltip
+      editBtn.setAttribute("aria-label", "Edit Task"); // ✅ accessibility
       editBtn.addEventListener("click", () => editTask(index, span.textContent)); // use original index for editing
       li.appendChild(editBtn);
 
@@ -91,7 +92,8 @@
       const deleteBtn = document.createElement("button");
       deleteBtn.classList.add("delete-btn");
       deleteBtn.innerHTML = `<i data-lucide="trash-2"></i>`;
-      deleteBtn.setAttribute("aria-label", "Delete Task");
+      deleteBtn.title = "Delete Task"; // ✅ tooltip
+      deleteBtn.setAttribute("aria-label", "Delete Task"); // ✅ accessibility
       deleteBtn.addEventListener("click", () => deleteTask(index)); // use original index for deletion
       li.appendChild(deleteBtn);
 
@@ -261,12 +263,4 @@
   addBtn.disabled = true;
   renderTasks();
 })();
-
-  
-  
-
-
-
-
-
 

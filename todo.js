@@ -63,4 +63,3 @@ export function clearAllTasks() {
   tasks = [];
   saveTasks();
 }
-
