@@ -1,45 +1,52 @@
-📝 To-Do App (Modules-based)
-A clean, colorful, and responsive To-Do List Web App built using HTML, CSS, and modular JavaScript (ES Modules). It supports complete task management with real-time visual feedback, theme switching, local storage, and now includes pastel and neon-inspired UI themes — all within an organized and scalable project structure.
+📝 Modular To-Do App
+A clean, responsive, and theme-rich To-Do List web application built using modular JavaScript (ES Modules), HTML, and CSS. It enables full task management with toast notifications, dark/light modes, and custom UI themes — all within a well-structured and scalable project setup.
 
-📌 Features  
-- ✅ Add, edit, delete, and clear tasks  
-- 🔄 Smooth animations for task actions (add/edit/delete/clear)  
-- 🔔 Toast notifications for all key actions  
-- 🌗 Dark mode toggle with animated icons  
-- 🧠 Task state saved using Local Storage  
-- 🧩 Modular JavaScript structure (import/export)  
-- 📱 Responsive and accessible UI  
-- 🔢 Task numbering for better tracking  
-- 🎨 Pastel theme across app elements  
-- 🌈 Neon theme for dark and light modes  
-- 🎯 Colored icons and themed toast styles
+👉 Live Demo: https://sushantshinde7.github.io/To-Do-App/
 
+📌 Features
+✅ Add, edit, delete, and clear tasks
+🔢 Automatic task numbering for better tracking
+🌗 Theme switcher with pastel and neon-inspired UI
+🌈 Dark and light modes with animated toggle
+🔄 Smooth transitions for all task actions
+🔔 Toast notifications for user actions
+💾 Task persistence using LocalStorage
+🧩 Organized with modular JavaScript (import/export)
+📱 Fully responsive design for all screen sizes
+♿ Accessible with keyboard and screen reader support
+🎨 Lucide Icons for clean, modern visuals
 
 🚀 Getting Started
+Clone the repository
 git clone https://github.com/sushantshinde7/To-Do-App.git
-Open index.html in your browser
 
-Or use the Live Server extension in VS Code for real-time updates
+Open in your browser
+Option 1: Just open index.html in your browser.
+Option 2: Use the Live Server extension in VS Code for auto-refresh while editing.
 
 📁 Folder Structure
 ```
 To-Do-App/
-├── index.html       → Main HTML file
-├── styles.css       → CSS styling for the app
-├── main.js          → Entry point that imports and runs the modules
-├── dom.js           → Handles DOM creation and manipulation (UI rendering)
-├── todo.js          → Manages task data (add, delete, update logic)
-└── README.md        → Project documentation
+├── index.html        → Main HTML structure
+├── styles.css        → Stylesheet for themes and layout
+├── main.js           → Entry point script (initializes the app)
+├── dom.js            → Handles DOM rendering and updates
+├── todo.js           → Logic for task handling (add, delete, update)
+└── README.md         → Project documentation
 ```
+
 🛠 Tech Stack
--HTML5 — Used for structuring the layout and content of the application.
--CSS3 — Handles the styling, layout design, and responsive UI.
--Vanilla JavaScript (ES6+) — Powers the interactivity, logic, and DOM manipulation.
--JavaScript Modules — Organizes the code into manageable and reusable pieces.
--LocalStorage API — Stores tasks in the browser to maintain persistence between sessions.
--Lucide Icons — Provides clean and customizable SVG icons for better UI/UX.
+HTML5 – For structuring the app
+CSS3 – For styling, layout, and responsiveness
+Vanilla JavaScript (ES6+) – For logic and interactivity
+JavaScript Modules – To maintain modular, clean code
+LocalStorage API – For storing tasks persistently in the browser
+Lucide Icons – SVG icons used for a modern interface
 
 🙋‍♂️ Author
 Sushant Shinde
 GitHub: @sushantshinde7
+linkedin: https://www.linkedin.com/in/sushantshinde7/
+
+
 
