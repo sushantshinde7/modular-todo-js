@@ -31,7 +31,7 @@ Option 2: Use the Live Server extension in VS Code for auto-refresh while editin
 ```
 To-Do-App/
 ├── Assets                   → Main Assets directory
-|   └── Todo-app-Demo.gif    → Project documentation
+|   └── Todo-app-Demo.gif    → Demo gif
 ├── index.html               → Main HTML structure
 ├── styles.css               → Stylesheet for themes and layout
 ├── main.js                  → Entry point script (initializes the app)
