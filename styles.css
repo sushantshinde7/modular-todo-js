@@ -746,3 +746,38 @@ body.dark-mode .toast-uncheck {
   color: #f57c00;
 }
 
+/* Divider line */
+.section-divider {
+  border: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+              #6c9edb 10%,
+              #a1b6f3 55%,
+              #b2c9ff 110%);
+
+  margin: 1.5rem 0;
+  border-radius: 2px;
+}
+
+
+/* Footer */
+.app-footer {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Optional: better color in dark mode */
+body.dark-mode .section-divider {
+  /*border-top: 1px solid #444;*/
+  background: linear-gradient(90deg,
+              #444,      /* deep grey */
+              #555 30%,
+              #666 70%,
+              #777);
+}
+
+body.dark-mode .app-footer {
+  color: #aaa;
+}
