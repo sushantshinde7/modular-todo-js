@@ -760,14 +760,6 @@ body.dark-mode .toast-uncheck {
 }
 
 
-/* Footer */
-.app-footer {
-  text-align: center;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #666;
-}
-
 /* Optional: better color in dark mode */
 body.dark-mode .section-divider {
   /*border-top: 1px solid #444;*/
