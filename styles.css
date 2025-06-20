@@ -772,7 +772,6 @@ body.dark-mode .section-divider {
   margin: 0;
 }
 
-<<<<<<< HEAD
 /* Footer Container */
 .app-footer {
   text-align: center;
@@ -783,16 +782,10 @@ body.dark-mode .section-divider {
   margin: 0;
   flex-shrink: 0;
 }
-=======
->>>>>>> fda03cb09f114909ddb7a8b0e8505b4a4353573a
 /* Dark Mode Footer Text Color */
 body.dark-mode .app-footer {
   color: #aaa;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> fda03cb09f114909ddb7a8b0e8505b4a4353573a
 /* Paragraph inside footer */
 .app-footer p {
   margin: 0;
@@ -816,7 +809,6 @@ body.dark-mode .app-footer {
   color: #383838;
   transition: color 0.3s ease;
 }
-<<<<<<< HEAD
 body.dark-mode .app-footer a svg {
   width: 18px;
   height: 18px;
@@ -825,8 +817,6 @@ body.dark-mode .app-footer a svg {
   color: #aaa;
   transition: color 0.3s ease;
 }
-=======
->>>>>>> fda03cb09f114909ddb7a8b0e8505b4a4353573a
 
 /* GitHub hover */
 .app-footer a[aria-label="GitHub"]:hover svg {
@@ -839,13 +829,3 @@ body.dark-mode .app-footer a svg {
   color: #0077b5;
   transform: scale(1.15);
 }
-
-
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> fda03cb09f114909ddb7a8b0e8505b4a4353573a
