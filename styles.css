@@ -12,10 +12,11 @@ body {
   color: #333;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   min-height: 100vh;
-  padding: 40px;
-  transition: background 0.4s ease, color 0.4s ease;
+  padding: 30px;
+  margin: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 body.dark-mode {
@@ -26,20 +27,28 @@ body.dark-mode {
 /* ---------- App Container ---------- */
 .app-container {
   background-color: #c6e3f0;  /* Mint pastel */
-  padding: 32px 28px;
+  padding: 24px 20px;
   border-radius: 18px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   width: 100%;
   max-width: 600px;
-  margin:auto;
+  height: 87vh;           /* or 600px, depending on design */
+  max-height: 87vh;       /* prevents overexpansion */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; 
+  margin: 0 auto;
   position: relative;
-  transition: background 0.4s ease, color 0.4s ease, box-shadow 0.3s ease;
+  transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode .app-container {
   background: #1c1c1c;
   color: #eaeaea;
-  box-shadow: 0 12px 24px rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.25); /* layered shadow for softness */
 }
 
 /* ---------- Headings ---------- */
@@ -124,19 +133,9 @@ body.dark-mode #moonIcon {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
+  flex-shrink: 0;
   background-color: transparent; /* can be removed if not overridden elsewhere */
 }
-.visually-hidden {
-  position: absolute;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 0;
-  border: 0;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
 
 /* Input Field */
 #taskInput {
@@ -170,7 +169,6 @@ body.dark-mode #taskInput::placeholder {
   color: #888;
 }
 
-
 /* Add Button */
 #addBtn {
   padding: 12px 20px;
@@ -192,11 +190,6 @@ body.dark-mode #taskInput::placeholder {
   color: #9e9e9e;
   cursor: not-allowed;
 }
-/* Optional future tooltip class */
-button[title] {
-  cursor: pointer;
-}
-
 /*--- addBtn DarkMode---*/
 body.dark-mode #addBtn {
   background-color: #388e3c;
@@ -212,15 +205,57 @@ body.dark-mode #addBtn:disabled {
   color: #777;
 }
 
-
-/* ---------- Task List ---------- */
-ul#taskList {
-  list-style: none;
+.visually-hidden {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
   padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
+/* Optional future tooltip class */
+button[title] {
+  cursor: pointer;
+}
+
+/*TASKList starts here......*/
+.task-section {
+  flex: 1;                  /* takes up all available space */
+  overflow-y: auto;
+  min-height: 0;            /* Fix for flex scrolling inside container */
+  padding-right: 4px;
+}
+
+/* ---------- Task List Container ---------- */
+ul#taskList {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 100%;       /* respect container limits */
+  padding-right: 4px;
+  flex-grow: 1;
+}
+
+/* Thin Scrollbar - Chrome/Safari */
+ul#taskList::-webkit-scrollbar {
+  width: 5px;
+}
+
+ul#taskList::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* Scrollbar - Dark Mode */
+body.dark-mode ul#taskList::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---------- Task Items (li) ---------- */
 #taskList li {
-  background-color: #fbe7c6; /* Yellow pastel */
+  background-color: #fbe7c6;
   padding: 10px 6px;
   border-radius: 8px;
   margin-bottom: 12px;
@@ -230,11 +265,215 @@ ul#taskList {
   transition: all 0.3s ease-in-out;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
-/* ---------- TaskList li Drak Mode ---------- */
+
+#taskList li:hover {
+  background: #f8d6a0;
+}
+
+/* ---------- Dark Mode: Task Items ---------- */
 body.dark-mode #taskList li {
-  background-color: #2a2a2a;
+  background-color: #222;
   color: #e0e0e0;
-  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 1px 4px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode #taskList li:hover {
+  background: #383838;
+}
+/*---review start here------*/
+/* Task content structure */
+.task-item,
+.task-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+/* === Task Container === */
+
+.task-container span,
+.task-container input,
+.task-container .task-text {
+  margin: 0;
+  padding: 0;
+}
+.task-item {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+.task-item input[type="checkbox"] {
+  margin-top: 0.25em; /* Align checkbox with first line of text */
+}
+.task-number {
+  margin-top: 0.3em;
+}
+.task-text {
+  display: inline-block;
+  line-height: 1.4;
+  vertical-align: top;
+  margin-top: 0.1em; /* minor tweak for alignment */
+  word-break: break-word;
+  max-width: 100%;
+  flex: 1; /* allows text to fill remaining space */
+}
+
+/* Number before task */
+#taskList li span.task-number {
+  width: 24px;
+  text-align: right;
+  font-weight: bold;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+/* Checkbox */
+#taskList li input[type="checkbox"] {
+  transform: scale(1.2);
+  flex-shrink: 0;
+  margin: 0; /* ✅ Remove any vertical margin */
+}
+/* Text beside checkbox */
+#taskList li span:not(.task-number) {
+  flex: 1;
+  display: block;
+  line-height: 1.4;
+  word-break: break-word;
+  white-space: pre-wrap;
+  padding: 0 2px;
+  box-sizing: border-box;
+}
+
+/* === Edit Input === */
+.edit-input {
+  font-size: 1rem;
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 2px solid #575757;
+  background-color: #ffffff;
+  color: #000000;
+  outline: none; /* removes browser-specific highlight */
+}
+
+body.dark-mode .edit-input {
+  background-color: #111;
+  border-color: #333;
+  color: #f1f1f1;
+}
+/* === Task States === */
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+  color: #757575;
+  font-style: italic;
+  transition: all 0.3s ease;
+}
+
+/*---review till here------*/
+/* ---------- Task Buttons ---------- */
+#taskList button {
+  background: transparent;
+  color: #424242;
+  border: none;
+  padding: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  transform: scale(0.9);
+}
+
+#taskList button:hover {
+  transform: scale(1.2);
+}
+
+/* Dark Mode Buttons */
+body.dark-mode #taskList button {
+  color: #c0c0c0;
+}
+body.dark-mode #taskList button:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Icons Inside Buttons */
+#taskList button i {
+  width: 20px;
+  height: 20px;
+  font-size: 1.1rem;
+  color: #262626;
+  transition: color 0.3s ease;
+}
+
+/* ---------- Button Hover Effects ---------- */
+#taskList button.edit-btn:hover {
+  color: #1976D2; /* Blue */
+  background-color: transparent;
+}
+
+#taskList button.delete-btn:hover {
+  color: #D32F2F; /* Red */
+  background-color: transparent;
+}
+
+#taskList button.pin-btn:hover {
+  color: #000000;
+  background-color: transparent;
+}
+/* Pin Button – Minimalist Style */
+.pin-btn {
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+}
+
+#taskList button.pin-btn.pinned {
+  color: #f57c00;
+}
+/* === Clear All Button === */
+#clearAllBtn {
+  margin-top: 12px;
+  padding: 10px 18px;
+  background-color: #CE93D8; /* soft lavender */
+  color: black;
+  border: none;
+  border-radius: 6px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#clearAllBtn:hover {
+  background-color: #bb34d3;/* deeper purple */
+}
+body.dark-mode #clearAllBtn {
+  background-color: #7e57c2; /* muted purple */
+  color: #f5f5f5;
+}
+
+body.dark-mode #clearAllBtn:hover {
+  background-color: #9575cd;
+}
+/* === Empty Message === */
+#emptyMessage {
+  font-size: 1rem;
+  color: #444;
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  flex-shrink: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#emptyMessage.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 
@@ -256,230 +495,9 @@ body.dark-mode #taskList li {
     transform: translateY(10px);
   }
 }
-
 .fade-out {
   animation: fadeOut 0.3s forwards;
 }
-
-/* === Dark Mode: Task List Items === */
-body.dark-mode #taskList li {
-  background: #222;
-  box-shadow: 0 1px 4px rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode #taskList li:hover {
-  background: #383838;
-}
-
-body.dark-mode .edit-input {
-  background-color: #111;
-  border-color: #333;
-  color: #f1f1f1;
-}
-
-body.dark-mode #taskList button:hover {
-  background-color: #1e1e1e;
-}
-
-/* === Task List Items === */
-#taskList li:hover {
-  background: #f8d6a0; /* subtle hover */
-}
-
-/* === Task List Buttons === */
-#taskList button {
-  background: transparent;
-  color: #424242;
-  border: none;
-  padding: 3px;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  transform: scale(0.9);
-}
-
-#taskList button:hover {
-  transform: scale(1.2);
-}
-
-#taskList button i {
-  width: 20px;
-  height: 20px;
-  font-size: 1.1rem;
-  color: #262626; /* Default black-ish color */
-  transition: color 0.3s ease;
-}
-body.dark-mode #taskList button  {
-  color: #c0c0c0;  /* light gray for visibility */
-}
-
-
-/* Edit Icon Hover */
-#taskList button.edit-btn:hover  {
-  color: #1976D2; /* hover blue */
-  background-color: transparent;
-}
-
-/* Delete Icon Hover */
-#taskList button.delete-btn:hover  {
-  color: #D32F2F; /* hover red */
-  background-color: transparent;
-}
-
-#taskList button.pin-btn:hover  {
-  color: #000000; /* hover red */
-  background-color: transparent;
-}
-
-/* === Task States === */
-.completed {
-  text-decoration: line-through;
-  opacity: 0.6;
-  color: #757575;
-  font-style: italic;
-  transition: all 0.3s ease;
-}
-
-/* === Task Container === */
-.task-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.task-container span,
-.task-container input,
-.task-container .task-text {
-  margin: 0;
-  padding: 0;
-}
-.task-item {
-  display: flex;
-  align-items: flex-start; /* Align items to the top */
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-}
-
-.task-number {
-  margin-top: 0.3em;
-}
-
-.task-item input[type="checkbox"] {
-  margin-top: 0.25em; /* Align checkbox with first line of text */
-}
-
-.task-text {
-  display: inline-block;
-  line-height: 1.4;
-  vertical-align: top;
-  margin-top: 0.1em; /* minor tweak for alignment */
-  word-break: break-word;
-  max-width: 100%;
-  flex: 1; /* allows text to fill remaining space */
-}
-
-#taskList li {
-  display: flex;
-  align-items: center; /* ✅ Center everything vertically */
-  gap: 8px;
-  padding: 10px 6px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  background-color: #fbe7c6;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Number before task */
-#taskList li span.task-number {
-  width: 24px;
-  text-align: right;
-  font-weight: bold;
-  flex-shrink: 0;
-  line-height: 1.2;
-}
-
-/* Checkbox */
-#taskList li input[type="checkbox"] {
-  transform: scale(1.2);
-  flex-shrink: 0;
-  margin: 0; /* ✅ Remove any vertical margin */
-}
-
-/* Text beside checkbox */
-#taskList li span:not(.task-number) {
-  flex: 1;
-  display: block;
-  line-height: 1.4;
-  word-break: break-word;
-  white-space: pre-wrap;
-  padding: 0 2px;
-  box-sizing: border-box;
-}
-
-
-/* === Edit Input === */
-.edit-input {
-  font-size: 1rem;
-  padding: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: 10px;
-  border: 2px solid #575757;
-  background-color: #ffffff;
-  color: #000000;
-  outline: none; /* removes browser-specific highlight */
-}
-
-.edit-input:focus {
-  border-color: #575757; /* ensures focus doesn’t override */
-}
-
-/* === Empty Message === */
-#emptyMessage {
-  font-size: 1rem;
-  color: #444;
-  margin-top: 1rem;
-  opacity: 0;
-  transform: translateY(10px);
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-#emptyMessage.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* === Clear All Button === */
-#clearAllBtn {
-  margin-top: 12px;
-  padding: 10px 18px;
-  background-color: #CE93D8; /* soft lavender */
-  color: black;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-#clearAllBtn:hover {
-  background-color: #bb34d3;/* deeper purple */
-}
-body.dark-mode #clearAllBtn {
-  background-color: #7e57c2; /* muted purple */
-  color: #f5f5f5;
-}
-
-body.dark-mode #clearAllBtn:hover {
-  background-color: #9575cd;
-}
-
-
 
 /* P3 – Crisp & Dramatic Theme Enhancements */
 .toast {
@@ -505,55 +523,6 @@ body.dark-mode #clearAllBtn:hover {
   transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s ease;
 }
 
-/* === Dark Mode: Toasts === */
-body.dark-mode .toast {
-  background-color: #333; /* Dark gray background */
-  color: #eee; /* Light text */
-  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1); /* subtle white glow */
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Dark mode - Specific Toast Types */
-body.dark-mode .toast-add {
-  background-color: #2e7d32; /* dark green */
-  color: #fff;
-}
-
-body.dark-mode .toast-delete {
-  background-color: #c62828; /* dark red */
-  color: #fff;
-}
-
-body.dark-mode .toast-edit {
-  background-color: #1565c0; /* dark blue */
-  color: #fff;
-}
-
-body.dark-mode .toast-clear {
-  background-color: #495057; /* darker grey */
-  color: #fff;
-}
-
-body.dark-mode .toast-pin {
-  background-color: #ef6c00; /* darker orange */
-  color: #fff;
-}
-
-body.dark-mode .toast-unpin {
-  background-color: #d84315; /* darker unpin orange */
-  color: #fff;
-}
-
-body.dark-mode .toast-complete {
-  background-color: #388e3c; /* deeper green */
-  color: #fff;
-}
-
-body.dark-mode .toast-uncheck {
-  background-color: #ff9800; /* rich amber */
-  color: #000;
-}
-
 /* Show State */
 .toast.show {
   visibility: visible;
@@ -567,47 +536,84 @@ body.dark-mode .toast-uncheck {
   background-color: #38a169; /* vivid green */
   color: #fff;
 }
-
 .toast-delete {
   background-color: rgb(252, 47, 47); /* warm red */
   color: #fff;
 }
-
 .toast-edit {
   background-color: #3b82f6; /* Tailwind blue-500 */
   color: white;
 }
-
 .toast-clear {
   background-color: #6c757d; /* neutral grey for "Clear All" */
   color: #fff;
 }
-
 .toast-pin {
   background-color: #f57c00; /* Tailwind blue-500 (still bright but softer) */
   color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 .toast-unpin {
   background-color: #e76f51; /* Orange for unpinned */
   color: white;
-}
-.toast-pin,
-.toast-unpin {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
 .toast-complete {
   background-color: #6cbf84; /* soft green */
   color: #000;
 }
-
 .toast-uncheck {
   background-color: #ffb84d; /* pastel orange */
   color: #000;
 }
 
+/* === Dark Mode: Toasts === */
+body.dark-mode .toast {
+  background-color: #333; /* Dark gray background */
+  color: #eee; /* Light text */
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1); /* subtle white glow */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode - Specific Toast Types */
+body.dark-mode .toast-add {
+  background-color: #2e7d32; /* dark green */
+  color: #fff;
+}
+body.dark-mode .toast-delete {
+  background-color: #c62828; /* dark red */
+  color: #fff;
+}
+body.dark-mode .toast-edit {
+  background-color: #1565c0; /* dark blue */
+  color: #fff;
+}
+body.dark-mode .toast-clear {
+  background-color: #495057; /* darker grey */
+  color: #fff;
+}
+body.dark-mode .toast-pin {
+  background-color: #ef6c00; /* darker orange */
+  color: #fff;
+}
+body.dark-mode .toast-unpin {
+  background-color: #d84315; /* darker unpin orange */
+  color: #fff;
+}
+body.dark-mode .toast-complete {
+  background-color: #388e3c; /* deeper green */
+  color: #fff;
+}
+body.dark-mode .toast-uncheck {
+  background-color: #ff9800; /* rich amber */
+  color: #000;
+}
+
 /* Responsive Tweaks */
 @media (max-width: 480px) {
+  body {
+    padding: 20px;
+  }
   .app-container {
     padding: 22px 18px;
   }
@@ -616,7 +622,6 @@ body.dark-mode .toast-uncheck {
     flex-direction: column;
     gap: 10px;
   }
-
   #taskInput,
   #addBtn {
     font-size: 15px;
@@ -731,32 +736,18 @@ body.dark-mode .toast-uncheck {
   animation: scatter 0.6s ease forwards;
 }
 
-/* Pin Button – Minimalist Style */
-.pin-btn {
-  border: none;
-  cursor: pointer;
-  margin-left: auto;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-}
-
-#taskList button.pin-btn.pinned  {
-  color: #f57c00;
-}
-
 /* Divider line */
 .section-divider {
-  border: 0;
+  border: none;
   height: 2px;
   background: linear-gradient(90deg,
               #6c9edb 10%,
               #a1b6f3 55%,
               #b2c9ff 110%);
 
-  margin: 1.5rem 0;
+  margin: 16px 0;
   border-radius: 2px;
+  flex-shrink: 0;
 }
 
 
