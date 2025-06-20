@@ -7,6 +7,7 @@
   <title>Modern To-Do App</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest" defer></script>
 </head>
 <body>
@@ -61,12 +62,22 @@
 
     <!-- Footer -->
     <footer class="app-footer" aria-label="App Footer">
-      <p>✨ Stay focused & finish strong — built with ❤️ by Sushant</p>
+      <p>✨ Stay focused & finish strong — built with ❤️ by 
+        <span class="footer-author"></span>Sushant
+         <a href="https://github.com/sushantshinde7" target="_blank" aria-label="GitHub">
+           <i data-lucide="github"></i>
+         </a>
+         <a href="https://www.linkedin.com/in/sushantshinde7/" target="_blank" aria-label="LinkedIn">
+           <i data-lucide="linkedin"></i>
+         </a>
+        </span>
+      </p>
     </footer>
 
   </main>
 
   <script type="module" src="./main.js"></script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>
 
