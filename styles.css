@@ -749,6 +749,9 @@ body.dark-mode .toast-uncheck {
   border-radius: 2px;
   flex-shrink: 0;
 }
+
+
+/* Optional: better color in dark mode */
 body.dark-mode .section-divider {
   /*border-top: 1px solid #444;*/
   background: linear-gradient(90deg,
@@ -758,67 +761,6 @@ body.dark-mode .section-divider {
               #777);
 }
 
-/* Footer Container */
-.app-footer {
-  text-align: center;
-  padding: 0;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
-  font-size: 0.8rem;
-  color: #666;
-  margin: 0;
-  flex-shrink: 0;
-}
-/* Dark Mode Footer Text Color */
 body.dark-mode .app-footer {
   color: #aaa;
 }
-/* Paragraph inside footer */
-.app-footer p {
-  margin: 0;
-  display: inline-block;
-}
-
-/* Author text + icons grouped */
-.footer-author {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px; /* Space between Sushant and each icon */
-  margin-left: 2px; /* Small space between 'by' and Sushant+icons */
-}
-
-/* All SVG icons inside footer links */
-.app-footer a svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 1.7;
-  vertical-align: text-bottom;
-  color: #383838;
-  transition: color 0.3s ease;
-}
-body.dark-mode .app-footer a svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 1.7;
-  vertical-align: text-bottom;
-  color: #aaa;
-  transition: color 0.3s ease;
-}
-
-/* GitHub hover */
-.app-footer a[aria-label="GitHub"]:hover svg {
-  color: #000000;
-  transform: scale(1.15);
-}
-
-/* LinkedIn hover */
-.app-footer a[aria-label="LinkedIn"]:hover svg {
-  color: #0077b5;
-  transform: scale(1.15);
-}
-
-
-
-
-
-
-
