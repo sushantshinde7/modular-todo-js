@@ -51,13 +51,22 @@
     </section>
     
     <section class="task-section">
-    <ul id="taskList" role="list" aria-label="List of tasks"></ul>
+      <!-- Empty state for 0 tasks -->
+      <div id="emptyState" class="empty-state">
+        <img src="assets/no-tasks.svg" alt="You're all clear!" />
+        <p>You're all clear! Add a task to get started.</p>
+      </div>
+
+      <!-- Task list -->
+      <ul id="taskList" role="list" aria-label="List of tasks"></ul>
+
     </section>
     <div id="toast" aria-live="polite" class="toast"></div>
-
+          <!-- Banner for few tasks (1–3 only) BELOW task list -->
+      <div id="fewTasksBanner" class="few-tasks-banner">
+      <p id="quoteText">You're doing great. Keep going!</p>
+      </div>
     <button id="clearAllBtn">Clear All Tasks</button>
-
-    <p id="emptyMessage" class="fade">You have no tasks. Add one!</p>
 
     <!-- Divider before footer -->
     <hr class="section-divider" />
