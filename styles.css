@@ -869,11 +869,14 @@ body.dark-mode .app-footer a svg {
   animation: float 4s ease-in-out infinite;
 }
 .empty-state p {
-  font-size: 1rem;
+  font-size: 1 rem;
   font-style: italic;
   color: #666;
   opacity: 0.9;
-  margin-top: 0.5rem;
+}
+.empty-state .keyword {
+  color: #4CAF50;
+  font-weight: 500;
 }
 #quoteText {
   transition: opacity 0.5s ease;
