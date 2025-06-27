@@ -147,9 +147,17 @@
     quoteText.textContent = motivationalQuotes[quoteIndex];
 
     quoteInterval = setInterval(() => {
-      quoteIndex = (quoteIndex + 1) % motivationalQuotes.length;
-      quoteText.textContent = motivationalQuotes[quoteIndex];
-    }, 5000); // change quote every 5 seconds
+      quoteText.classList.add("fade-out");
+
+      // Wait for fade-out to finish before changing text
+      setTimeout(() => {
+        quoteIndex = (quoteIndex + 1) % motivationalQuotes.length;
+        quoteText.textContent = motivationalQuotes[quoteIndex];
+
+        // Fade in the new quote
+        quoteText.classList.remove("fade-out");
+      }, 500); // match transition duration
+    }, 5000);// change quote every 5 seconds
   };
 
   const stopQuoteRotation = () => {
