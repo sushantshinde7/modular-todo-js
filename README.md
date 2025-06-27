@@ -11,7 +11,10 @@ A clean, responsive, and theme-rich To-Do List web application built using modul
 - ✅ Add, edit, delete, and clear tasks 
 - 🔢 Automatic task numbering for better tracking 
 - 🌗 Theme switcher with pastel and neon-inspired UI 
-- 🌈 Dark and light modes with animated toggle 
+- 🌈 Dark and light modes with animated toggle
+- 🧼 Clean empty-state view with SVG illustration when no tasks exist
+- 🧠 Motivational quotes banner shown dynamically when 1–3 tasks exist
+- 🎭 Smooth quote transitions for a pleasant user experience
 - 🔄 Smooth transitions for all task actions 
 - 🔔 Toast notifications for user actions 
 - 💾 Task persistence using LocalStorage 
