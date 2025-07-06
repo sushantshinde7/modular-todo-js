@@ -1,6 +1,6 @@
 📝 Modular To-Do App
 
-A clean, responsive, and theme-rich To-Do List web application built using modular JavaScript (ES Modules), HTML, and CSS. It enables full task management with toast notifications, dark/light modes, and custom UI themes — all within a well-structured and scalable project setup.
+A sleek, responsive, and customizable To-Do List web app built using modular JavaScript (ES Modules), HTML, and CSS. It offers a full suite of task management features with smooth animations, toast notifications, light/dark themes, and motivational touches — all within a scalable and maintainable codebase.
 
 👉 Live Demo: https://sushantshinde7.github.io/To-Do-App/
 
