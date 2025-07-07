@@ -48,7 +48,8 @@ To-Do-App/
 ```
 
 
-🛠 Tech Stack 
+🛠 Tech Stack
+
  ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white&style=flat) ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white&style=flat)         ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat) ![ES6 Modules](https://img.shields.io/badge/-ES6%20Modules-323330?logo=javascript&logoColor=yellow&style=flat) ![LocalStorage](https://img.shields.io/badge/-LocalStorage-FFA500?style=flat) ![Lucide Icons](https://img.shields.io/badge/-Lucide%20Icons-7E5BEF?style=flat)
 > Developed using HTML5 for structure, CSS3 for styling and responsiveness, and modular JavaScript (ES6+) for clean logic. Tasks persist via LocalStorage, with a modern UI enhanced by Lucide Icons.
 
