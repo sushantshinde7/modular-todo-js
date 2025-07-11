@@ -1,6 +1,6 @@
 📝 Modular To-Do App
 
-A clean, responsive, and theme-rich To-Do List web application built using modular JavaScript (ES Modules), HTML, and CSS. It enables full task management with toast notifications, dark/light modes, and custom UI themes — all within a well-structured and scalable project setup.
+A sleek, responsive, and customizable To-Do List web app built using modular JavaScript (ES Modules), HTML, and CSS. It offers a full suite of task management features with smooth animations, toast notifications, light/dark themes, and motivational touches — all within a scalable and maintainable codebase.
 
 👉 Live Demo: https://sushantshinde7.github.io/To-Do-App/
 
@@ -11,7 +11,10 @@ A clean, responsive, and theme-rich To-Do List web application built using modul
 - ✅ Add, edit, delete, and clear tasks 
 - 🔢 Automatic task numbering for better tracking 
 - 🌗 Theme switcher with pastel and neon-inspired UI 
-- 🌈 Dark and light modes with animated toggle 
+- 🌈 Dark and light modes with animated toggle
+- 🧼 Clean empty-state view with SVG illustration when no tasks exist
+- 🧠 Motivational quotes banner shown dynamically when 1–3 tasks exist
+- 🎭 Smooth quote transitions for a pleasant user experience
 - 🔄 Smooth transitions for all task actions 
 - 🔔 Toast notifications for user actions 
 - 💾 Task persistence using LocalStorage 
@@ -45,14 +48,10 @@ To-Do-App/
 ```
 
 
-🛠 Tech Stack 
-- HTML5 – For structuring the app 
-- CSS3 – For styling, layout, and responsiveness 
-- Vanilla JavaScript (ES6+) – For logic and interactivity 
-- JavaScript Modules – To maintain modular, clean code 
-- LocalStorage API – For storing tasks persistently in the browser 
-- Lucide Icons – SVG icons used for a modern interface 
+🛠 Tech Stack
 
+ ![HTML5](https://img.shields.io/badge/-HTML5-E34F26?logo=html5&logoColor=white&style=flat) ![CSS3](https://img.shields.io/badge/-CSS3-1572B6?logo=css3&logoColor=white&style=flat)         ![JavaScript](https://img.shields.io/badge/-JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat) ![ES6 Modules](https://img.shields.io/badge/-ES6%20Modules-323330?logo=javascript&logoColor=yellow&style=flat) ![LocalStorage](https://img.shields.io/badge/-LocalStorage-FFA500?style=flat) ![Lucide Icons](https://img.shields.io/badge/-Lucide%20Icons-7E5BEF?style=flat)
+> Developed using HTML5 for structure, CSS3 for styling and responsiveness, and modular JavaScript (ES6+) for clean logic. Tasks persist via LocalStorage, with a modern UI enhanced by Lucide Icons.
 
 🙋‍♂️ Author 
 - Sushant Shinde 
