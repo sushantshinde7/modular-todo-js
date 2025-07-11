@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,53 +11,57 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest" defer></script>
 </head>
+
 <body>
   <main class="app-container" aria-label="To-Do Application">
     <header class="app-header">
-    <h1> To-Do List</h1>
+      <h1> To-Do List</h1>
 
-    <button id="themeToggle" aria-label="Toggle theme">
+      <button id="themeToggle" aria-label="Toggle theme">
         <!-- Sun Icon -->
         <svg id="sunIcon" class="theme-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+          <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" />
           <g stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
           </g>
         </svg>
         <!-- Moon Icon -->
         <svg id="moonIcon" class="theme-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>
+          <path
+            d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
         </svg>
-    </button>
+      </button>
     </header>
+
+    <!-- 🛑 Offline Banner -->
+    <div id="offlineBanner" class="offline-banner hidden" role="status" aria-live="polite">
+      ⚠️ You’re offline. Changes will be saved locally.
+      <span class="close-banner" title="Dismiss offline notice" aria-label="Dismiss offline notice">&times;</span>
+    </div>
+
     <!-- Divider below header -->
     <hr class="section-divider" />
 
     <section class="input-section">
-      <input
-        type="text"
-        id="taskInput"
-        placeholder="What do you need to do?"
-        aria-label="Enter a new task"
-      />
+      <input type="text" id="taskInput" placeholder="What do you need to do?" aria-label="Enter a new task" />
       <label for="taskInput" class="visually-hidden">New Task</label>
       <button id="addBtn" aria-label="Add task">Add</button>
     </section>
-    
+
     <section class="task-section">
       <!-- Empty state for 0 tasks -->
       <div id="emptyState" class="empty-state">
         <img src="Assets/no-tasks.svg" alt="You're all clear!" />
         <p>
-         <strong>Clean slate!</strong>
-         Start by adding your <span class="keyword">first task</span>.
+          <strong>Clean slate!</strong>
+          Start by adding your <span class="keyword">first task</span>.
         </p>
       </div>
 
@@ -65,10 +70,10 @@
 
     </section>
     <div id="toast" aria-live="polite" class="toast"></div>
-          <!-- Banner for few tasks (1–3 only) BELOW task list -->
-      <div id="fewTasksBanner" class="few-tasks-banner">
+    <!-- Banner for few tasks (1–3 only) BELOW task list -->
+    <div id="fewTasksBanner" class="few-tasks-banner">
       <p id="quoteText">You're doing great. Keep going!</p>
-      </div>
+    </div>
     <button id="clearAllBtn">Clear All Tasks</button>
 
     <!-- Divider before footer -->
@@ -76,14 +81,14 @@
 
     <!-- Footer -->
     <footer class="app-footer" aria-label="App Footer">
-      <p>✨ Stay focused & finish strong — built with ❤️ by 
+      <p>✨ Stay focused & finish strong — built with ❤️ by
         <span class="footer-author"></span>Sushant
-         <a href="https://github.com/sushantshinde7" target="_blank" aria-label="GitHub">
-           <i data-lucide="github"></i>
-         </a>
-         <a href="https://www.linkedin.com/in/sushantshinde7/" target="_blank" aria-label="LinkedIn">
-           <i data-lucide="linkedin"></i>
-         </a>
+        <a href="https://github.com/sushantshinde7" target="_blank" aria-label="GitHub">
+          <i data-lucide="github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/sushantshinde7/" target="_blank" aria-label="LinkedIn">
+          <i data-lucide="linkedin"></i>
+        </a>
         </span>
       </p>
     </footer>
@@ -93,6 +98,5 @@
   <script type="module" src="./main.js"></script>
   <script>lucide.createIcons();</script>
 </body>
+
 </html>
-
-

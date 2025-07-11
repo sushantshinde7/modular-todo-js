@@ -320,4 +320,38 @@
   applySavedTheme();
   addBtn.disabled = true;
   renderTasks();
+
+  // === Offline Banner Logic ===
+  const offlineBanner = document.getElementById("offlineBanner");
+  const closeBannerBtn = document.querySelector(".close-banner");
+  let offlineTimeout;
+
+  const updateNetworkBanner = () => {
+    clearTimeout(offlineTimeout);
+
+    if (!navigator.onLine) {
+      offlineBanner.classList.remove("hidden");
+
+      // Auto-hide after 10 seconds
+      offlineTimeout = setTimeout(() => {
+        offlineBanner.classList.add("hidden");
+      }, 10000);
+    } else {
+      offlineBanner.classList.add("hidden");
+    }
+  };
+
+  // Show/hide on network change
+  window.addEventListener("online", updateNetworkBanner);
+  window.addEventListener("offline", updateNetworkBanner);
+
+  // Allow manual dismiss
+  closeBannerBtn?.addEventListener("click", () => {
+    clearTimeout(offlineTimeout);
+    offlineBanner.classList.add("hidden");
+  });
+
+  // Initial check
+  updateNetworkBanner();
+
 })();
