@@ -21,7 +21,8 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 - 🧩 Organized with modular JavaScript (import/export) 
 - 📱 Fully responsive design for all screen sizes 
 - ♿ Accessible with keyboard and screen reader support 
-- 🎨 Lucide Icons for clean, modern visuals  
+- 🎨 Lucide Icons for clean, modern visuals
+- ⚠️ Offline Detection banner  
 
 
 🚀 Getting Started
