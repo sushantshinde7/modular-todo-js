@@ -18,9 +18,10 @@
     localStorage.setItem("tasks", JSON.stringify(tasks));
   };
 
+  // 🟢 Removed redundant querySelector for taskListEl
+  // Previously: const taskListEl = document.getElementById("taskList");
   const renderTasks = (mode = "", editIndex = -1) => {
-    const taskListEl = document.getElementById("taskList");
-    taskListEl.innerHTML = ""; // clear UI
+    taskList.innerHTML = ""; // clear UI (directly using stored reference)
 
     const tasks = getTasks();
 
@@ -68,9 +69,7 @@
       const pinBtn = document.createElement("button");
       pinBtn.classList.add("pin-btn");
       if (task.isPinned) pinBtn.classList.add("pinned");
-      pinBtn.innerHTML = `<i data-lucide="${
-        task.isPinned ? "pin" : "pin-off"
-      }"></i>`;
+      pinBtn.innerHTML = `<i data-lucide="${task.isPinned ? "pin" : "pin-off"}"></i>`;
       pinBtn.title = task.isPinned ? "Unpin Task" : "Pin Task";
       pinBtn.setAttribute("aria-label", pinBtn.title);
       pinBtn.addEventListener("click", () => togglePin(index));
@@ -82,9 +81,7 @@
       editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
       editBtn.title = "Edit Task";
       editBtn.setAttribute("aria-label", "Edit Task");
-      editBtn.addEventListener("click", () =>
-        editTask(index, span.textContent)
-      );
+      editBtn.addEventListener("click", () => editTask(index, span.textContent));
       li.appendChild(editBtn);
 
       // Delete button
@@ -97,13 +94,10 @@
       li.appendChild(deleteBtn);
 
       // Append to list
-      taskListEl.appendChild(li);
+      taskList.appendChild(li);
     });
 
-    // ✅ Update the visual state (empty image, banner, etc.)
     updateVisualStates();
-
-    // ✅ Refresh icons
     lucide.createIcons();
   };
 
@@ -149,15 +143,12 @@
     quoteInterval = setInterval(() => {
       quoteText.classList.add("fade-out");
 
-      // Wait for fade-out to finish before changing text
       setTimeout(() => {
         quoteIndex = (quoteIndex + 1) % motivationalQuotes.length;
         quoteText.textContent = motivationalQuotes[quoteIndex];
-
-        // Fade in the new quote
         quoteText.classList.remove("fade-out");
-      }, 500); // match transition duration
-    }, 5000);// change quote every 5 seconds
+      }, 500);
+    }, 5000);
   };
 
   const stopQuoteRotation = () => {
@@ -167,15 +158,16 @@
     }
   };
 
+  // 🟢 Small improvement: simpler truthy check for empty input
   const addTask = () => {
     const text = taskInput.value.trim();
-    if (text === "") return;
+    if (!text) return; // was: if (text === "") return;
 
     const tasks = getTasks();
     tasks.push({ text, completed: false, isPinned: false });
     saveTasks(tasks);
     taskInput.value = "";
-    renderTasks("add"); // Trigger add animation
+    renderTasks("add");
     showToast("Task added!", "add");
     addBtn.disabled = true;
   };
@@ -186,7 +178,6 @@
     saveTasks(tasks);
     renderTasks();
 
-    // ✅ Show toast based on completed or uncompleted
     const msg = tasks[index].completed
       ? "Task marked as completed!"
       : "Task marked as incomplete!";
@@ -198,36 +189,28 @@
     const tasks = getTasks();
     const isNowPinned = !tasks[index].isPinned;
     tasks[index].isPinned = isNowPinned;
-
     saveTasks(tasks);
     renderTasks();
-
-    showToast(
-      isNowPinned ? "Task pinned!" : "Task unpinned!",
-      isNowPinned ? "pin" : "unpin"
-    );
+    showToast(isNowPinned ? "Task pinned!" : "Task unpinned!", isNowPinned ? "pin" : "unpin");
   };
 
   const deleteTask = (index) => {
     const li = taskList.children[index];
     if (li) {
       li.classList.add("delete-animate");
-
-      // ✅ Immediately update localStorage
       const tasks = getTasks();
       tasks.splice(index, 1);
       saveTasks(tasks);
-
-      // ✅ Wait for animation to complete before re-rendering
       setTimeout(() => {
         renderTasks();
         showToast("Task deleted!", "delete");
-      }, 600); // Match CSS animation duration
+      }, 600);
     }
   };
 
   const editTask = (index, oldText) => {
     const li = taskList.children[index];
+    if (!li) return; // 🟢 Added guard to avoid errors if element missing
     const span = li.querySelector("span:not(.task-number)");
 
     const input = document.createElement("input");
@@ -239,7 +222,7 @@
 
     input.addEventListener("blur", () => {
       const newText = input.value.trim();
-      if (newText === "") {
+      if (!newText) { // 🟢 simplified check
         showToast("Task cannot be empty!", "error");
         renderTasks();
         return;
@@ -256,9 +239,10 @@
     });
   };
 
+  const ANIM_DURATION = 600; // 🟢 Added constant for animation duration
+
   const clearAllTasks = () => {
-    const listItems = [...taskList.children];
-    listItems.forEach((li, i) => {
+    [...taskList.children].forEach((li) => {
       const randomX = Math.random() * 200 - 100;
       const randomY = Math.random() * 200 - 100;
       li.style.setProperty("--x", `${randomX}px`);
@@ -270,35 +254,28 @@
       localStorage.removeItem("tasks");
       renderTasks();
       showToast("All tasks cleared!", "clear");
-    }, 600);
+    }, ANIM_DURATION); // 🟢 uses the new constant
   };
 
+  // 🟢 Simplified toast reset (cleans all classes at once)
   const showToast = (msg, type = "") => {
-    toast.textContent = msg; // Just plain text
-    toast.className = "toast show"; // Reset classes and add "show"
-
-    if (type) {
-      toast.classList.add(`toast-${type}`); // Optional colored styles
-    }
+    toast.textContent = msg;
+    toast.className = `toast show${type ? ` toast-${type}` : ""}`;
 
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => {
-      toast.classList.remove("show");
-      if (type) toast.classList.remove(`toast-${type}`);
+      toast.className = "toast"; // reset entirely
     }, 2000);
   };
 
+  // 🟢 Simplified theme logic with direct toggle value
   const toggleTheme = () => {
-    document.body.classList.toggle("dark-mode");
-    localStorage.setItem(
-      "theme",
-      document.body.classList.contains("dark-mode") ? "dark" : "light"
-    );
+    const isDark = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   };
 
   const applySavedTheme = () => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
+    if (localStorage.getItem("theme") === "dark") {
       document.body.classList.add("dark-mode");
     }
   };
@@ -331,8 +308,6 @@
 
     if (!navigator.onLine) {
       offlineBanner.classList.remove("hidden");
-
-      // Auto-hide after 10 seconds
       offlineTimeout = setTimeout(() => {
         offlineBanner.classList.add("hidden");
       }, 10000);
@@ -341,17 +316,17 @@
     }
   };
 
-  // Show/hide on network change
   window.addEventListener("online", updateNetworkBanner);
   window.addEventListener("offline", updateNetworkBanner);
 
-  // Allow manual dismiss
   closeBannerBtn?.addEventListener("click", () => {
     clearTimeout(offlineTimeout);
     offlineBanner.classList.add("hidden");
   });
 
-  // Initial check
   updateNetworkBanner();
+
+  // 🟢 Added cleanup for interval leaks
+  window.addEventListener("beforeunload", stopQuoteRotation);
 
 })();
