@@ -173,17 +173,31 @@
   };
 
   const toggleComplete = (index) => {
-    const tasks = getTasks();
-    tasks[index].completed = !tasks[index].completed;
-    saveTasks(tasks);
-    renderTasks();
+  const tasks = getTasks();
+  tasks[index].completed = !tasks[index].completed;
+  saveTasks(tasks);
+  renderTasks();
 
-    const msg = tasks[index].completed
-      ? "Task marked as completed!"
-      : "Task marked as incomplete!";
-    const type = tasks[index].completed ? "complete" : "uncheck";
-    showToast(msg, type);
-  };
+  // 🌈 Animate gradient strike-through after rendering
+  const li = taskList.children[index];
+  if (li) {
+    const span = li.querySelector("span:not(.task-number)");
+    if (span && tasks[index].completed) {
+      span.classList.add("completed");
+      setTimeout(() => span.classList.add("active"), 20);
+    } else if (span) {
+      span.classList.remove("active");
+      setTimeout(() => span.classList.remove("completed"), 350);
+    }
+  }
+
+  const msg = tasks[index].completed
+    ? "Task marked as completed!"
+    : "Task marked as incomplete!";
+  const type = tasks[index].completed ? "complete" : "uncheck";
+  showToast(msg, type);
+};
+
 
   const togglePin = (index) => {
     const tasks = getTasks();
