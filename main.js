@@ -3,7 +3,6 @@
   const addBtn = document.getElementById("addBtn");
   const taskList = document.getElementById("taskList");
   const clearAllBtn = document.getElementById("clearAllBtn");
-  const emptyMessage = document.getElementById("emptyMessage");
   const toast = document.getElementById("toast");
   const themeToggle = document.getElementById("themeToggle");
   const emptyState = document.getElementById("emptyState");
