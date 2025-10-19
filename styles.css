@@ -439,7 +439,7 @@ ul#taskList::-webkit-scrollbar-thumb:hover {
 }
 
 body.dark-mode ul#taskList::-webkit-scrollbar-thumb {
-  background-color: #00e5ff;
+  background-color: var(--color-moon);
 }
 
 body.dark-mode ul#taskList::-webkit-scrollbar-thumb:hover {
