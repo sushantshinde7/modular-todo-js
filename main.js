@@ -8,6 +8,9 @@
   const emptyState = document.getElementById("emptyState");
   const fewTasksBanner = document.getElementById("fewTasksBanner");
   const quoteText = document.getElementById("quoteText");
+  const colorThemeBtn = document.getElementById("colorThemeBtn");
+  const colorWrapper = document.querySelector(".color-theme-wrapper");
+  const fabColors = document.querySelectorAll(".fab-color");
 
   let toastTimeout;
 
@@ -68,7 +71,9 @@
       const pinBtn = document.createElement("button");
       pinBtn.classList.add("pin-btn");
       if (task.isPinned) pinBtn.classList.add("pinned");
-      pinBtn.innerHTML = `<i data-lucide="${task.isPinned ? "pin" : "pin-off"}"></i>`;
+      pinBtn.innerHTML = `<i data-lucide="${
+        task.isPinned ? "pin" : "pin-off"
+      }"></i>`;
       pinBtn.title = task.isPinned ? "Unpin Task" : "Pin Task";
       pinBtn.setAttribute("aria-label", pinBtn.title);
       pinBtn.addEventListener("click", () => togglePin(index));
@@ -80,7 +85,9 @@
       editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
       editBtn.title = "Edit Task";
       editBtn.setAttribute("aria-label", "Edit Task");
-      editBtn.addEventListener("click", () => editTask(index, span.textContent));
+      editBtn.addEventListener("click", () =>
+        editTask(index, span.textContent)
+      );
       li.appendChild(editBtn);
 
       // Delete button
@@ -172,31 +179,30 @@
   };
 
   const toggleComplete = (index) => {
-  const tasks = getTasks();
-  tasks[index].completed = !tasks[index].completed;
-  saveTasks(tasks);
-  renderTasks();
+    const tasks = getTasks();
+    tasks[index].completed = !tasks[index].completed;
+    saveTasks(tasks);
+    renderTasks();
 
-  // 🌈 Animate gradient strike-through after rendering
-  const li = taskList.children[index];
-  if (li) {
-    const span = li.querySelector("span:not(.task-number)");
-    if (span && tasks[index].completed) {
-      span.classList.add("completed");
-      setTimeout(() => span.classList.add("active"), 20);
-    } else if (span) {
-      span.classList.remove("active");
-      setTimeout(() => span.classList.remove("completed"), 350);
+    // 🌈 Animate gradient strike-through after rendering
+    const li = taskList.children[index];
+    if (li) {
+      const span = li.querySelector("span:not(.task-number)");
+      if (span && tasks[index].completed) {
+        span.classList.add("completed");
+        setTimeout(() => span.classList.add("active"), 20);
+      } else if (span) {
+        span.classList.remove("active");
+        setTimeout(() => span.classList.remove("completed"), 350);
+      }
     }
-  }
 
-  const msg = tasks[index].completed
-    ? "Task marked as completed!"
-    : "Task marked as incomplete!";
-  const type = tasks[index].completed ? "complete" : "uncheck";
-  showToast(msg, type);
-};
-
+    const msg = tasks[index].completed
+      ? "Task marked as completed!"
+      : "Task marked as incomplete!";
+    const type = tasks[index].completed ? "complete" : "uncheck";
+    showToast(msg, type);
+  };
 
   const togglePin = (index) => {
     const tasks = getTasks();
@@ -204,7 +210,10 @@
     tasks[index].isPinned = isNowPinned;
     saveTasks(tasks);
     renderTasks();
-    showToast(isNowPinned ? "Task pinned!" : "Task unpinned!", isNowPinned ? "pin" : "unpin");
+    showToast(
+      isNowPinned ? "Task pinned!" : "Task unpinned!",
+      isNowPinned ? "pin" : "unpin"
+    );
   };
 
   const deleteTask = (index) => {
@@ -235,7 +244,8 @@
 
     input.addEventListener("blur", () => {
       const newText = input.value.trim();
-      if (!newText) { // 🟢 simplified check
+      if (!newText) {
+        // 🟢 simplified check
         showToast("Task cannot be empty!", "error");
         renderTasks();
         return;
@@ -342,4 +352,22 @@
   // 🟢 Added cleanup for interval leaks
   window.addEventListener("beforeunload", stopQuoteRotation);
 
+  colorThemeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    colorWrapper.classList.toggle("active");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!colorWrapper.contains(e.target)) {
+      colorWrapper.classList.remove("active");
+    }
+  });
+
+  fabColors.forEach((c) => {
+    c.addEventListener("click", () => {
+      const color = c.getAttribute("data-color");
+      document.querySelector(".app-container").style.backgroundColor = color;
+      colorWrapper.classList.remove("active");
+    });
+  });
 })();
