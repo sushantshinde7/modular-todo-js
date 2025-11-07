@@ -271,24 +271,55 @@ body.dark-mode .header-actions .divider {
   pointer-events: auto;
 }
 
-/* --- Individual color circles --- */
+/* ---------- Color FAB: exact light colors + dark equivalents ---------- */
+
+/* base FAB circle styling (shared) */
 .fab-color {
   width: 26px;
   height: 26px;
   border-radius: 50%;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  /* default border for light mode (subtle white to contrast when selected color is pale) */
+  border: 1.5px solid rgba(255,255,255,0.85);
 }
 
+/* hover */
 .fab-color:hover {
-  transform: scale(1.1);
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
 
-/* --- Pastel colors --- */
-.fab-color:nth-child(1) { background-color: #ffd6a5; } /* soft orange */
-.fab-color:nth-child(2) { background-color: #caffbf; } /* mint green */
-.fab-color:nth-child(3) { background-color: #9bf6ff; } /* light blue */
-.fab-color:nth-child(4) { background-color: #bdb2ff; } /* soft violet */
+/* --- Light mode (must match HTML data-color values) --- */
+.fab-color:nth-child(1) { background-color: #f8c8dc; } /* Pink  (HTML: #f8c8dc) */
+.fab-color:nth-child(2) { background-color: #b3e5fc; } /* Blue  (HTML: #b3e5fc) */
+.fab-color:nth-child(3) { background-color: #c8e6c9; } /* Green (HTML: #c8e6c9) */
+.fab-color:nth-child(4) { background-color: #fff9c4; } /* Yellow(HTML: #fff9c4) */
+
+/* --- Dark mode equivalents (deeper, no whites) --- */
+/* choose deeper, readable hues that still relate to the light ones */
+body.dark-mode .fab-color:nth-child(1) { background-color: #9f5976; } /* deep magenta / rose */
+body.dark-mode .fab-color:nth-child(2) { background-color: #4aa0d6; } /* deep aqua/blue */
+body.dark-mode .fab-color:nth-child(3) { background-color: #4a8a5b; } /* forest/olive green */
+body.dark-mode .fab-color:nth-child(4) { background-color: #c8b84f; } /* warm mustard/gold */
+
+/* border change in dark mode so circles remain distinct against dark app bg */
+body.dark-mode .fab-color {
+  border: 1.5px solid rgba(0,0,0,0.65);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+}
+
+/* When active/selected we could add a subtle ring — optional visual aid */
+.fab-color.selected {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18), 0 0 0 4px rgba(0,0,0,0.03);
+}
+
+/* dark-mode selected ring override (subtler, lighter ring) */
+body.dark-mode .fab-color.selected {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.5), 0 0 0 3px rgba(255,255,255,0.03);
+}
+
 
 /* Icon appearance */
 .theme-icon {

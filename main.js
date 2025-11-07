@@ -11,20 +11,16 @@
   const colorThemeBtn = document.getElementById("colorThemeBtn");
   const colorWrapper = document.querySelector(".color-theme-wrapper");
   const fabColors = document.querySelectorAll(".fab-color");
+  const appContainer = document.querySelector(".app-container");
 
   let toastTimeout;
 
   const getTasks = () => JSON.parse(localStorage.getItem("tasks")) || [];
-
-  const saveTasks = (tasks) => {
+  const saveTasks = (tasks) =>
     localStorage.setItem("tasks", JSON.stringify(tasks));
-  };
 
-  // 🟢 Removed redundant querySelector for taskListEl
-  // Previously: const taskListEl = document.getElementById("taskList");
   const renderTasks = (mode = "", editIndex = -1) => {
-    taskList.innerHTML = ""; // clear UI (directly using stored reference)
-
+    taskList.innerHTML = "";
     const tasks = getTasks();
 
     // Sort tasks: pinned first
@@ -34,16 +30,13 @@
 
     sortedTasks.forEach((task, sortedIndex) => {
       const index = task.originalIndex;
-
       const li = document.createElement("li");
       li.className = "task-item";
 
-      // Animation classes
-      if (mode === "add" && index === tasks.length - 1) {
+      if (mode === "add" && index === tasks.length - 1)
         li.classList.add("add-animate");
-      } else if (mode === "edit" && index === editIndex) {
+      else if (mode === "edit" && index === editIndex)
         li.classList.add("edit-animate");
-      }
 
       // Task number
       const numberSpan = document.createElement("span");
@@ -61,9 +54,7 @@
       // Task text
       const span = document.createElement("span");
       span.textContent = task.text;
-      if (task.completed) {
-        span.classList.add("completed");
-      }
+      if (task.completed) span.classList.add("completed");
       span.addEventListener("click", () => toggleComplete(index));
       li.appendChild(span);
 
@@ -109,7 +100,6 @@
 
   const updateVisualStates = () => {
     const taskCount = taskList.children.length;
-
     if (taskCount === 0) {
       emptyState.style.display = "block";
       fewTasksBanner.style.display = "none";
@@ -145,10 +135,8 @@
   const startQuoteRotation = () => {
     if (quoteInterval) clearInterval(quoteInterval);
     quoteText.textContent = motivationalQuotes[quoteIndex];
-
     quoteInterval = setInterval(() => {
       quoteText.classList.add("fade-out");
-
       setTimeout(() => {
         quoteIndex = (quoteIndex + 1) % motivationalQuotes.length;
         quoteText.textContent = motivationalQuotes[quoteIndex];
@@ -232,7 +220,7 @@
 
   const editTask = (index, oldText) => {
     const li = taskList.children[index];
-    if (!li) return; // 🟢 Added guard to avoid errors if element missing
+    if (!li) return;
     const span = li.querySelector("span:not(.task-number)");
 
     const input = document.createElement("input");
@@ -262,8 +250,7 @@
     });
   };
 
-  const ANIM_DURATION = 600; // 🟢 Added constant for animation duration
-
+  const ANIM_DURATION = 600;
   const clearAllTasks = () => {
     [...taskList.children].forEach((li) => {
       const randomX = Math.random() * 200 - 100;
@@ -277,17 +264,16 @@
       localStorage.removeItem("tasks");
       renderTasks();
       showToast("All tasks cleared!", "clear");
-    }, ANIM_DURATION); // 🟢 uses the new constant
+    }, ANIM_DURATION);
   };
 
   // 🟢 Simplified toast reset (cleans all classes at once)
   const showToast = (msg, type = "") => {
     toast.textContent = msg;
     toast.className = `toast show${type ? ` toast-${type}` : ""}`;
-
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => {
-      toast.className = "toast"; // reset entirely
+      toast.className = "toast";
     }, 2000);
   };
 
@@ -295,6 +281,7 @@
   const toggleTheme = () => {
     const isDark = document.body.classList.toggle("dark-mode");
     localStorage.setItem("theme", isDark ? "dark" : "light");
+    applySavedColors();
   };
 
   const applySavedTheme = () => {
@@ -303,14 +290,56 @@
     }
   };
 
-  taskInput.addEventListener("input", () => {
-    addBtn.disabled = taskInput.value.trim() === "";
+  // === Color Theme FAB Logic ===
+  let selectedLightColor =
+    localStorage.getItem("selectedLightColor") || "#f8c8dc";
+  let selectedDarkColor =
+    localStorage.getItem("selectedDarkColor") || "#9f5976";
+
+  const applySavedColors = () => {
+    const isDark = document.body.classList.contains("dark-mode");
+    appContainer.style.backgroundColor = isDark
+      ? selectedDarkColor
+      : selectedLightColor;
+  };
+
+  colorThemeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    colorWrapper.classList.toggle("active");
   });
 
+  document.addEventListener("click", (e) => {
+    if (!colorWrapper.contains(e.target))
+      colorWrapper.classList.remove("active");
+  });
+
+  fabColors.forEach((c) => {
+    c.addEventListener("click", () => {
+      const isDark = document.body.classList.contains("dark-mode");
+      const color = isDark ? c.dataset.dark : c.dataset.color;
+      appContainer.style.backgroundColor = color;
+
+      if (isDark) {
+        selectedDarkColor = color;
+        localStorage.setItem("selectedDarkColor", color);
+      } else {
+        selectedLightColor = color;
+        localStorage.setItem("selectedLightColor", color);
+      }
+
+      fabColors.forEach((x) => x.classList.remove("selected"));
+      c.classList.add("selected");
+      colorWrapper.classList.remove("active");
+    });
+  });
+
+  // === Initialization ===
+  taskInput.addEventListener(
+    "input",
+    () => (addBtn.disabled = taskInput.value.trim() === "")
+  );
   taskInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && taskInput.value.trim() !== "") {
-      addTask();
-    }
+    if (e.key === "Enter" && taskInput.value.trim() !== "") addTask();
   });
 
   addBtn.addEventListener("click", addTask);
@@ -318,6 +347,7 @@
   themeToggle.addEventListener("click", toggleTheme);
 
   applySavedTheme();
+  applySavedColors();
   addBtn.disabled = true;
   renderTasks();
 
@@ -328,46 +358,22 @@
 
   const updateNetworkBanner = () => {
     clearTimeout(offlineTimeout);
-
     if (!navigator.onLine) {
       offlineBanner.classList.remove("hidden");
-      offlineTimeout = setTimeout(() => {
-        offlineBanner.classList.add("hidden");
-      }, 10000);
-    } else {
-      offlineBanner.classList.add("hidden");
-    }
+      offlineTimeout = setTimeout(
+        () => offlineBanner.classList.add("hidden"),
+        10000
+      );
+    } else offlineBanner.classList.add("hidden");
   };
 
   window.addEventListener("online", updateNetworkBanner);
   window.addEventListener("offline", updateNetworkBanner);
-
   closeBannerBtn?.addEventListener("click", () => {
     clearTimeout(offlineTimeout);
     offlineBanner.classList.add("hidden");
   });
 
   updateNetworkBanner();
-
-  // 🟢 Added cleanup for interval leaks
   window.addEventListener("beforeunload", stopQuoteRotation);
-
-  colorThemeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    colorWrapper.classList.toggle("active");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!colorWrapper.contains(e.target)) {
-      colorWrapper.classList.remove("active");
-    }
-  });
-
-  fabColors.forEach((c) => {
-    c.addEventListener("click", () => {
-      const color = c.getAttribute("data-color");
-      document.querySelector(".app-container").style.backgroundColor = color;
-      colorWrapper.classList.remove("active");
-    });
-  });
 })();
