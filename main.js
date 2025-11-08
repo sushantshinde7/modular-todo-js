@@ -1,3 +1,4 @@
+// =================== 🌟 ELEMENT REFERENCES ===================
 (() => {
   const taskInput = document.getElementById("taskInput");
   const addBtn = document.getElementById("addBtn");
@@ -13,12 +14,25 @@
   const fabColors = document.querySelectorAll(".fab-color");
   const appContainer = document.querySelector(".app-container");
 
+
   let toastTimeout;
 
+  // =================== 🧩 GLOBAL VARIABLES & CONSTANTS ===================
+  const ANIM_DURATION = 600;
+  const motivationalQuotes = [
+    "Start where you are. Use what you have. Do what you can.",
+    "Small steps every day lead to big results.",
+    "You don't need more time. You just need to decide.",
+    "Progress, not perfection.",
+    "One task at a time. You’ve got this!",
+  ];
+
+  // =================== 📦 STORAGE UTILITIES ===================
   const getTasks = () => JSON.parse(localStorage.getItem("tasks")) || [];
   const saveTasks = (tasks) =>
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
+  // =================== 🖋️ TASK RENDERING ===================
   const renderTasks = (mode = "", editIndex = -1) => {
     taskList.innerHTML = "";
     const tasks = getTasks();
@@ -95,64 +109,9 @@
     });
 
     updateVisualStates();
-    lucide.createIcons();
+    requestAnimationFrame(() => lucide.createIcons()); //prevents flicker when icons re-render fast
   };
 
-  const updateVisualStates = () => {
-    const taskCount = taskList.children.length;
-    if (taskCount === 0) {
-      emptyState.style.display = "block";
-      fewTasksBanner.style.display = "none";
-      stopQuoteRotation();
-      taskList.style.display = "none";
-      clearAllBtn.style.display = "none";
-    } else if (taskCount > 0 && taskCount <= 3) {
-      emptyState.style.display = "none";
-      fewTasksBanner.style.display = "block";
-      startQuoteRotation();
-      taskList.style.display = "block";
-      clearAllBtn.style.display = "inline-block";
-    } else {
-      emptyState.style.display = "none";
-      fewTasksBanner.style.display = "none";
-      stopQuoteRotation();
-      taskList.style.display = "block";
-      clearAllBtn.style.display = "inline-block";
-    }
-  };
-
-  const motivationalQuotes = [
-    "Start where you are. Use what you have. Do what you can.",
-    "Small steps every day lead to big results.",
-    "You don't need more time. You just need to decide.",
-    "Progress, not perfection.",
-    "One task at a time. You’ve got this!",
-  ];
-
-  let quoteIndex = 0;
-  let quoteInterval;
-
-  const startQuoteRotation = () => {
-    if (quoteInterval) clearInterval(quoteInterval);
-    quoteText.textContent = motivationalQuotes[quoteIndex];
-    quoteInterval = setInterval(() => {
-      quoteText.classList.add("fade-out");
-      setTimeout(() => {
-        quoteIndex = (quoteIndex + 1) % motivationalQuotes.length;
-        quoteText.textContent = motivationalQuotes[quoteIndex];
-        quoteText.classList.remove("fade-out");
-      }, 500);
-    }, 5000);
-  };
-
-  const stopQuoteRotation = () => {
-    if (quoteInterval) {
-      clearInterval(quoteInterval);
-      quoteInterval = null;
-    }
-  };
-
-  // 🟢 Small improvement: simpler truthy check for empty input
   const addTask = () => {
     const text = taskInput.value.trim();
     if (!text) return; // was: if (text === "") return;
@@ -250,7 +209,6 @@
     });
   };
 
-  const ANIM_DURATION = 600;
   const clearAllTasks = () => {
     [...taskList.children].forEach((li) => {
       const randomX = Math.random() * 200 - 100;
@@ -267,7 +225,7 @@
     }, ANIM_DURATION);
   };
 
-  // 🟢 Simplified toast reset (cleans all classes at once)
+  // =================== 🔔 TOAST NOTIFICATIONS ===================
   const showToast = (msg, type = "") => {
     toast.textContent = msg;
     toast.className = `toast show${type ? ` toast-${type}` : ""}`;
@@ -277,7 +235,7 @@
     }, 2000);
   };
 
-  // 🟢 Simplified theme logic with direct toggle value
+// =================== 🌓 THEME TOGGLE ===================
   const toggleTheme = () => {
     const isDark = document.body.classList.toggle("dark-mode");
     localStorage.setItem("theme", isDark ? "dark" : "light");
@@ -290,7 +248,6 @@
     }
   };
 
-  // === Color Theme FAB Logic ===
   let selectedLightColor =
     localStorage.getItem("selectedLightColor") || "#f8c8dc";
   let selectedDarkColor =
@@ -333,7 +290,80 @@
     });
   });
 
-  // === Initialization ===
+  let quoteIndex = 0;
+  let quoteInterval;
+
+  const startQuoteRotation = () => {
+    if (quoteInterval) clearInterval(quoteInterval);
+    quoteText.textContent = motivationalQuotes[quoteIndex];
+    quoteInterval = setInterval(() => {
+      quoteText.classList.add("fade-out");
+      setTimeout(() => {
+        quoteIndex = (quoteIndex + 1) % motivationalQuotes.length;
+        quoteText.textContent = motivationalQuotes[quoteIndex];
+        quoteText.classList.remove("fade-out");
+      }, 500);
+    }, 5000);
+  };
+
+  const stopQuoteRotation = () => {
+    if (quoteInterval) {
+      clearInterval(quoteInterval);
+      quoteInterval = null;
+    }
+  };
+
+  // =================== 👁️ UI VISUAL STATES ===================
+  const updateVisualStates = () => {
+    const taskCount = taskList.children.length;
+    if (taskCount === 0) {
+      emptyState.style.display = "block";
+      fewTasksBanner.style.display = "none";
+      stopQuoteRotation();
+      taskList.style.display = "none";
+      clearAllBtn.style.display = "none";
+    } else if (taskCount > 0 && taskCount <= 3) {
+      emptyState.style.display = "none";
+      fewTasksBanner.style.display = "block";
+      startQuoteRotation();
+      taskList.style.display = "block";
+      clearAllBtn.style.display = "inline-block";
+    } else {
+      emptyState.style.display = "none";
+      fewTasksBanner.style.display = "none";
+      stopQuoteRotation();
+      taskList.style.display = "block";
+      clearAllBtn.style.display = "inline-block";
+    }
+  };
+
+ // =================== 🌐 OFFLINE BANNER =================== 
+  const offlineBanner = document.getElementById("offlineBanner");
+  const closeBannerBtn = document.querySelector(".close-banner");
+  let offlineTimeout;
+
+  let bannerDebounce;
+  const updateNetworkBanner = () => {
+    clearTimeout(bannerDebounce);
+    bannerDebounce = setTimeout(() => {
+      clearTimeout(offlineTimeout);
+      if (!navigator.onLine) {
+        offlineBanner.classList.remove("hidden");
+        offlineTimeout = setTimeout(
+          () => offlineBanner.classList.add("hidden"),
+          10000
+        );
+      } else offlineBanner.classList.add("hidden");
+    }, 300);
+  };
+
+  window.addEventListener("online", updateNetworkBanner);
+  window.addEventListener("offline", updateNetworkBanner);
+  closeBannerBtn?.addEventListener("click", () => {
+    clearTimeout(offlineTimeout);
+    offlineBanner.classList.add("hidden");
+  });
+
   taskInput.addEventListener(
     "input",
     () => (addBtn.disabled = taskInput.value.trim() === "")
@@ -350,29 +380,6 @@
   applySavedColors();
   addBtn.disabled = true;
   renderTasks();
-
-  // === Offline Banner Logic ===
-  const offlineBanner = document.getElementById("offlineBanner");
-  const closeBannerBtn = document.querySelector(".close-banner");
-  let offlineTimeout;
-
-  const updateNetworkBanner = () => {
-    clearTimeout(offlineTimeout);
-    if (!navigator.onLine) {
-      offlineBanner.classList.remove("hidden");
-      offlineTimeout = setTimeout(
-        () => offlineBanner.classList.add("hidden"),
-        10000
-      );
-    } else offlineBanner.classList.add("hidden");
-  };
-
-  window.addEventListener("online", updateNetworkBanner);
-  window.addEventListener("offline", updateNetworkBanner);
-  closeBannerBtn?.addEventListener("click", () => {
-    clearTimeout(offlineTimeout);
-    offlineBanner.classList.add("hidden");
-  });
 
   updateNetworkBanner();
   window.addEventListener("beforeunload", stopQuoteRotation);
