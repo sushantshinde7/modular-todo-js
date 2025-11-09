@@ -12,21 +12,24 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 
 | Feature | Description |
 |---------|-------------|
-| ✅ Add, edit, delete, and clear tasks | Full task management with simple controls |
-| 🔢 Automatic task numbering | Keeps tasks ordered and tracked automatically |
-| 🌗 Theme switcher | Pastel and neon-inspired UI with smooth transitions |
-| 🌈 Dark & light modes | Animated toggle with visual enhancements |
-| 🧼 Empty-state illustration | Clean SVG illustration when no tasks exist |
-| 🧠 Motivational quotes banner | Shown dynamically when 1–3 tasks exist |
-| 🎭 Smooth quote transitions | Pleasant reading experience |
-| 🔄 Smooth task transitions | Animations for add, delete, edit, pin, and clear actions |
-| 🔔 Toast notifications | Inform users of actions (add, delete, edit, clear, pin) |
-| 💾 LocalStorage persistence | Tasks saved across sessions |
-| 🧩 Modular JS structure | Organized with ES6 modules (`import/export`) |
-| 📱 Responsive design | Works on all screen sizes |
-| ♿ Accessibility | Keyboard and screen reader support |
-| 🎨 Lucide Icons | Clean, modern visuals |
-| ⚠️ Offline detection banner | Alerts users when offline |
+| ✅ Add, edit, delete, clear, and pin tasks | Full task management with animations and persistence |
+| 🔢 Automatic task numbering | Tasks are numbered dynamically and re-ordered on pinning |
+| 🌗 Smart theme switcher | Seamless dark/light mode toggle with saved preference |
+| 🎨 Dynamic color themes (FAB) | Selectable app background colors with mode-based palettes |
+| 💡 Distinct dark mode colors | Custom deep hues optimized for readability and contrast |
+| 🌈 Adaptive color persistence | Saves separate light and dark mode colors independently |
+| ✨ Selected FAB highlight | Animated visual cue for the currently active color |
+| 🧼 Empty-state illustration | Shown when no tasks are available |
+| 🧠 Motivational quotes banner | Appears when 1–3 tasks exist, rotates automatically |
+| 🎭 Smooth quote transitions | Fade animation between motivational quotes |
+| 🔄 Fluid task animations | Add, edit, delete, clear-all, and pin/unpin animations |
+| 🔔 Toast notifications | Contextual feedback for every task action |
+| 💾 LocalStorage persistence | All settings and tasks saved across sessions |
+| ⚡ Offline detection banner | Temporary alert when network connection is lost |
+| 📱 Responsive design | Fully functional across mobile, tablet, and desktop |
+| ♿ Accessibility friendly | Keyboard shortcuts, ARIA labels, focus visibility |
+| 🎨 Lucide icons | Lightweight, clean, and consistent icon set |
+| 🧩 Modular, clean JS logic | Organized code with improved readability and structure |
 
 ---
 
