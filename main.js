@@ -13,11 +13,16 @@
   const colorWrapper = document.querySelector(".color-theme-wrapper");
   const fabColors = document.querySelectorAll(".fab-color");
   const appContainer = document.querySelector(".app-container");
-
+  const offlineBanner = document.getElementById("offlineBanner");
+  const closeBannerBtn = document.querySelector(".close-banner");
 
   let toastTimeout;
+  let quoteInterval;
+  let quoteIndex = 0;
+  let offlineTimeout;
+  let bannerDebounce;
 
-  // =================== 🧩 GLOBAL VARIABLES & CONSTANTS ===================
+  // =================== 🧩 GLOBAL VARIABLES ===================
   const ANIM_DURATION = 600;
   const motivationalQuotes = [
     "Start where you are. Use what you have. Do what you can.",
@@ -27,12 +32,12 @@
     "One task at a time. You’ve got this!",
   ];
 
-  // =================== 📦 STORAGE UTILITIES ===================
+  // =================== 📦 STORAGE ===================
   const getTasks = () => JSON.parse(localStorage.getItem("tasks")) || [];
   const saveTasks = (tasks) =>
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
-  // =================== 🖋️ TASK RENDERING ===================
+  // =================== 🖋️ TASKS ===================
   const renderTasks = (mode = "", editIndex = -1) => {
     taskList.innerHTML = "";
     const tasks = getTasks();
@@ -84,7 +89,6 @@
       pinBtn.addEventListener("click", () => togglePin(index));
       li.appendChild(pinBtn);
 
-      // Edit button
       const editBtn = document.createElement("button");
       editBtn.classList.add("edit-btn");
       editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
@@ -109,13 +113,12 @@
     });
 
     updateVisualStates();
-    requestAnimationFrame(() => lucide.createIcons()); //prevents flicker when icons re-render fast
+    requestAnimationFrame(() => lucide.createIcons());
   };
 
   const addTask = () => {
     const text = taskInput.value.trim();
-    if (!text) return; // was: if (text === "") return;
-
+    if (!text) return;
     const tasks = getTasks();
     tasks.push({ text, completed: false, isPinned: false });
     saveTasks(tasks);
@@ -147,19 +150,17 @@
     const msg = tasks[index].completed
       ? "Task marked as completed!"
       : "Task marked as incomplete!";
-    const type = tasks[index].completed ? "complete" : "uncheck";
-    showToast(msg, type);
+    showToast(msg, tasks[index].completed ? "complete" : "uncheck");
   };
 
   const togglePin = (index) => {
     const tasks = getTasks();
-    const isNowPinned = !tasks[index].isPinned;
-    tasks[index].isPinned = isNowPinned;
+    tasks[index].isPinned = !tasks[index].isPinned;
     saveTasks(tasks);
     renderTasks();
     showToast(
-      isNowPinned ? "Task pinned!" : "Task unpinned!",
-      isNowPinned ? "pin" : "unpin"
+      tasks[index].isPinned ? "Task pinned!" : "Task unpinned!",
+      tasks[index].isPinned ? "pin" : "unpin"
     );
   };
 
@@ -181,7 +182,6 @@
     const li = taskList.children[index];
     if (!li) return;
     const span = li.querySelector("span:not(.task-number)");
-
     const input = document.createElement("input");
     input.type = "text";
     input.value = oldText;
@@ -225,29 +225,15 @@
     }, ANIM_DURATION);
   };
 
-  // =================== 🔔 TOAST NOTIFICATIONS ===================
+  // =================== 🔔 TOAST ===================
   const showToast = (msg, type = "") => {
     toast.textContent = msg;
     toast.className = `toast show${type ? ` toast-${type}` : ""}`;
     clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => {
-      toast.className = "toast";
-    }, 2000);
+    toastTimeout = setTimeout(() => (toast.className = "toast"), 2000);
   };
 
-// =================== 🌓 THEME TOGGLE ===================
-  const toggleTheme = () => {
-    const isDark = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    applySavedColors();
-  };
-
-  const applySavedTheme = () => {
-    if (localStorage.getItem("theme") === "dark") {
-      document.body.classList.add("dark-mode");
-    }
-  };
-
+  // =================== 🌓 THEME & COLOR ===================
   let selectedLightColor =
     localStorage.getItem("selectedLightColor") || "#f8c8dc";
   let selectedDarkColor =
@@ -255,9 +241,19 @@
 
   const applySavedColors = () => {
     const isDark = document.body.classList.contains("dark-mode");
-    appContainer.style.backgroundColor = isDark
-      ? selectedDarkColor
-      : selectedLightColor;
+    const color = isDark ? selectedDarkColor : selectedLightColor;
+    appContainer.style.backgroundColor = color;
+  };
+
+  const toggleTheme = () => {
+    const isDark = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    applySavedColors();
+  };
+
+  const applySavedTheme = () => {
+    if (localStorage.getItem("theme") === "dark")
+      document.body.classList.add("dark-mode");
   };
 
   colorThemeBtn.addEventListener("click", (e) => {
@@ -269,6 +265,14 @@
     if (!colorWrapper.contains(e.target))
       colorWrapper.classList.remove("active");
   });
+
+  function updateFabColorsForMode() {
+    const isDark = document.body.classList.contains("dark-mode");
+    const color = isDark
+      ? localStorage.getItem("selectedDarkColor") || "#2e2a4a" // default dark
+      : localStorage.getItem("selectedLightColor") || "#f8c8dc"; // default light
+    appContainer.style.backgroundColor = color;
+  }
 
   fabColors.forEach((c) => {
     c.addEventListener("click", () => {
@@ -290,9 +294,7 @@
     });
   });
 
-  let quoteIndex = 0;
-  let quoteInterval;
-
+  // =================== ✨ QUOTES ===================
   const startQuoteRotation = () => {
     if (quoteInterval) clearInterval(quoteInterval);
     quoteText.textContent = motivationalQuotes[quoteIndex];
@@ -307,42 +309,34 @@
   };
 
   const stopQuoteRotation = () => {
-    if (quoteInterval) {
-      clearInterval(quoteInterval);
-      quoteInterval = null;
-    }
+    if (quoteInterval) clearInterval(quoteInterval);
   };
 
-  // =================== 👁️ UI VISUAL STATES ===================
+  // =================== 👁️ UI STATES ===================
   const updateVisualStates = () => {
-    const taskCount = taskList.children.length;
-    if (taskCount === 0) {
+    const count = taskList.children.length;
+    if (count === 0) {
       emptyState.style.display = "block";
       fewTasksBanner.style.display = "none";
-      stopQuoteRotation();
       taskList.style.display = "none";
       clearAllBtn.style.display = "none";
-    } else if (taskCount > 0 && taskCount <= 3) {
+      stopQuoteRotation();
+    } else if (count <= 3) {
       emptyState.style.display = "none";
       fewTasksBanner.style.display = "block";
-      startQuoteRotation();
       taskList.style.display = "block";
       clearAllBtn.style.display = "inline-block";
+      startQuoteRotation();
     } else {
       emptyState.style.display = "none";
       fewTasksBanner.style.display = "none";
-      stopQuoteRotation();
       taskList.style.display = "block";
       clearAllBtn.style.display = "inline-block";
+      stopQuoteRotation();
     }
   };
 
- // =================== 🌐 OFFLINE BANNER =================== 
-  const offlineBanner = document.getElementById("offlineBanner");
-  const closeBannerBtn = document.querySelector(".close-banner");
-  let offlineTimeout;
-
-  let bannerDebounce;
+  // =================== 🌐 OFFLINE ===================
   const updateNetworkBanner = () => {
     clearTimeout(bannerDebounce);
     bannerDebounce = setTimeout(() => {
@@ -364,6 +358,7 @@
     offlineBanner.classList.add("hidden");
   });
 
+  // =================== 🎛️ INPUT HANDLERS ===================
   taskInput.addEventListener(
     "input",
     () => (addBtn.disabled = taskInput.value.trim() === "")
@@ -374,13 +369,21 @@
 
   addBtn.addEventListener("click", addTask);
   clearAllBtn.addEventListener("click", clearAllTasks);
-  themeToggle.addEventListener("click", toggleTheme);
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
 
+    // 🔄 Instantly switch to correct color theme
+    updateFabColorsForMode();
+  });
+
+  // =================== 🚀 INIT ===================
   applySavedTheme();
   applySavedColors();
+  updateFabColorsForMode();
   addBtn.disabled = true;
   renderTasks();
-
   updateNetworkBanner();
   window.addEventListener("beforeunload", stopQuoteRotation);
 })();
