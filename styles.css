@@ -4,7 +4,7 @@
   --color-bg-light: #fafafa;
   --color-bg-dark: #0f0f0f;
   --color-text-light: #333;
-  --color-text-dark: #f0f0f0;
+  --color-text-dark: #fafafa;
 
   --color-banner-bg: #ffeeba;
   --color-banner-text: #856404;
@@ -56,6 +56,7 @@
   box-shadow: var(--shadow-light);
   transition: all var(--transition-medium);
   z-index: 99;
+  backdrop-filter: blur(4px);
 }
 
 .close-banner {
@@ -154,11 +155,14 @@ body.dark-mode .app-container {
 }
 
 /* ---------- Headings ---------- */
-h1 {
+h1,
+h2,
+h3 {
   font-size: 25px;
-  margin: 8px 0 4px ;
+  font-weight: 600;
+  margin: 8px 0 2px;
   text-align: center;
-  color: #444;
+  color: #2a2a2a;
   font-family: monospace, 'Open Sans', sans-serif;
   animation: fadeSlideIn 0.3s backwards;
 }
@@ -171,14 +175,15 @@ body.dark-mode h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1px ;
+  padding: 1px;
   position: relative;
 }
 
 /* Center title even when flex is split */
 .app-header h1 {
   flex: 1;
-  text-align: left; /* move title + subtitle left */
+  text-align: left;
+  /* move title + subtitle left */
   margin: 0;
   font-size: 1.8rem;
 }
@@ -192,7 +197,13 @@ body.dark-mode h1 {
   font-family: 'Inter', sans-serif;
   text-align: left;
   opacity: 0.8;
+  margin-left: 4px;
 }
+
+body.dark-mode .app-header h1::after {
+  color: #bbb;
+}
+
 
 /* Right-side icons container */
 .header-actions {
@@ -212,23 +223,27 @@ body.dark-mode h1 {
   margin: 0 6px 0 3px;
   transition: background-color 0.3s ease;
 }
+
 body.dark-mode .header-actions .divider {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Remove absolute from theme toggle */
 #themeToggle {
+  color: inherit;
+  /* automatically adapts with light/dark text */
   background: none;
   border: none;
   cursor: pointer;
-  width: px;
+  width: 40px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-text-light);
   transition: transform 0.3s ease;
-  position: static; /* ✅ was absolute */
+  position: static;
+  /* ✅ was absolute */
 }
 
 /* Color Theme Button */
@@ -249,6 +264,7 @@ body.dark-mode .header-actions .divider {
   transform: scale(1.1);
   opacity: 0.85;
 }
+
 /* ---------- Color Theme FAB ---------- */
 /* --- FAB container --- */
 .color-theme-wrapper {
@@ -262,7 +278,8 @@ body.dark-mode .header-actions .divider {
   display: flex;
   gap: 8px;
   position: absolute;
-  right: 50px; /* just left of the main palette button */
+  right: 40px;
+  /* just left of the main palette button */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -275,11 +292,10 @@ body.dark-mode .header-actions .divider {
 }
 
 /* ---------- Color FAB: exact light colors + dark equivalents ---------- */
-
 /* Base FAB circle styling */
 .fab-color {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   cursor: pointer;
   transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
@@ -293,21 +309,13 @@ body.dark-mode .header-actions .divider {
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
-/* Base FAB circle styling */
-.fab-color {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
+.fab-color:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.25);
+  outline-offset: 3px;
 }
 
-/* Hover effect */
-.fab-color:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+body.dark-mode .fab-color:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 /* ✨ Selected state (light mode) with pulse */
@@ -315,8 +323,8 @@ body.dark-mode .header-actions .divider {
   transform: scale(1.15);
   animation: fabPulse 2.4s ease-in-out 0s 60;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08),
-              0 0 12px rgba(0, 0, 0, 0.2),
-              0 4px 14px rgba(0, 0, 0, 0.15);
+    0 0 12px rgba(0, 0, 0, 0.2),
+    0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 /* 🌙 Dark mode base */
@@ -330,55 +338,100 @@ body.dark-mode .fab-color.selected {
   transform: scale(1.15);
   animation: fabPulseDark 2.4s ease-in-out 0s 60;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1),
-              0 0 12px rgba(255, 255, 255, 0.25),
-              0 4px 14px rgba(0, 0, 0, 0.6);
+    0 0 12px rgba(255, 255, 255, 0.25),
+    0 4px 14px rgba(0, 0, 0, 0.6);
 }
 
 /* 💎 Pulse keyframes */
 @keyframes fabPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08),
-                0 0 12px rgba(0, 0, 0, 0.2),
-                0 4px 14px rgba(0, 0, 0, 0.15);
+      0 0 12px rgba(0, 0, 0, 0.2),
+      0 4px 14px rgba(0, 0, 0, 0.15);
   }
+
   50% {
     box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.15),
-                0 0 18px rgba(0, 0, 0, 0.25),
-                0 6px 20px rgba(0, 0, 0, 0.2);
+      0 0 18px rgba(0, 0, 0, 0.25),
+      0 6px 20px rgba(0, 0, 0, 0.2);
   }
 }
 
 @keyframes fabPulseDark {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1),
-                0 0 12px rgba(255, 255, 255, 0.25),
-                0 4px 14px rgba(0, 0, 0, 0.6);
+      0 0 12px rgba(255, 255, 255, 0.25),
+      0 4px 14px rgba(0, 0, 0, 0.6);
   }
+
   50% {
     box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.18),
-                0 0 18px rgba(255, 255, 255, 0.35),
-                0 6px 20px rgba(0, 0, 0, 0.6);
+      0 0 18px rgba(255, 255, 255, 0.35),
+      0 6px 20px rgba(0, 0, 0, 0.6);
   }
 }
 
 
 /* 🌤️ Light mode colors */
-.fab-color:nth-child(1) { background-color: #f8c8dc; } /* Pink */
-.fab-color:nth-child(2) { background-color: #b3e5fc; } /* Blue */
-.fab-color:nth-child(3) { background-color: #c8e6c9; } /* Green */
-.fab-color:nth-child(4) { background-color: #fff9c4; } /* Yellow */
+/* ⚠️ Order-dependent: must match JS color array sequence */
+.fab-color:nth-child(1) {
+  background-color: #f8c8dc;
+}
+
+/* Pink */
+.fab-color:nth-child(2) {
+  background-color: #b3e5fc;
+}
+
+/* Blue */
+.fab-color:nth-child(3) {
+  background-color: #c8e6c9;
+}
+
+/* Green */
+.fab-color:nth-child(4) {
+  background-color: #fff9c4;
+}
+
+/* Yellow */
 
 /* --- Dark mode refined colors --- */
-body.dark-mode .fab-color:nth-child(1) { background-color: #2e2a4a; } /* muted indigo */
-body.dark-mode .fab-color:nth-child(2) { background-color: #1e3a5f; } /* navy blue */
-body.dark-mode .fab-color:nth-child(3) { background-color: #224b35; } /* dark forest green */
-body.dark-mode .fab-color:nth-child(4) { background-color: #5a3d2b; } /* coffee brown */
+body.dark-mode .fab-color:nth-child(1) {
+  background-color: #2e2a4a;
+}
+
+/* muted indigo */
+body.dark-mode .fab-color:nth-child(2) {
+  background-color: #1e3a5f;
+}
+
+/* navy blue */
+body.dark-mode .fab-color:nth-child(3) {
+  background-color: #224b35;
+}
+
+/* dark forest green */
+body.dark-mode .fab-color:nth-child(4) {
+  background-color: #5a3d2b;
+}
+
+/* coffee brown */
 
 
 /* Icon appearance */
 .theme-icon {
   width: 22px;
   height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* or flex-end if it’s on the right */
+  gap: 10px;
+  /* space between icons */
   color: var(--color-text-light);
   transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
@@ -393,7 +446,8 @@ body.dark-mode .theme-icon {
   transform: scale(1.2);
   color: var(--color-sun);
   filter: drop-shadow(0 0 4px #f7cc22) drop-shadow(0 0 8px #ffe476);
-  margin-top: 1px; /* fine alignment */
+  margin-top: 1px;
+  /* fine alignment */
   margin-right: -14px;
 }
 
@@ -401,11 +455,9 @@ body.dark-mode .theme-icon {
   opacity: 0;
   transform: scale(0.5);
   color: var(--color-moon);
-  filter: drop-shadow(0 0 5px #00e5ff)
-          drop-shadow(0 0 10px #00e5ff)
-          drop-shadow(0 0 15px #00bfff)
-          drop-shadow(0 0 20px #00ffff);
-  margin-top: 7px; /* pushes slightly down to align with sun */
+  filter: drop-shadow(0 0 5px #00e5ff) drop-shadow(0 0 10px #00e5ff) drop-shadow(0 0 15px #00bfff) drop-shadow(0 0 20px #00ffff);
+  margin-top: 7px;
+  /* pushes slightly down to align with sun */
 }
 
 body.dark-mode #sunIcon {
@@ -439,13 +491,16 @@ body.dark-mode #moonIcon {
   --color-btn-add-dark-hover: #2e7d32;
   --color-btn-add-dark-disabled: #2a2a2a;
   --color-btn-add-dark-disabled-text: #777;
+  --color-btn-add-text: #111;
+  --color-btn-add-dark-text: #f2f2f2;
+
 
   --color-task-bg: #fbe7c6;
   --color-task-bg-hover: #f8d6a0;
-  --color-task-bg-dark: #222;
+  --color-task-bg-dark: #2a2828;
   --color-task-bg-hover-dark: #383838;
   --color-task-text-dark: #e0e0e0;
-  --color-task-completed: #757575;
+  --color-task-completed: #423838;
 
   --color-btn-clear: #CE93D8;
   --color-btn-clear-hover: #bb34d3;
@@ -464,8 +519,6 @@ body.dark-mode #moonIcon {
   --accent-mid: #e52e71;
   --accent-end: #9b00ff;
 
-  /* Slightly warm light grey — readable yet soft */
-  --color-task-completed: #423838;
 }
 
 body.dark-mode {
@@ -517,7 +570,7 @@ body.dark-mode #taskInput::placeholder {
 #addBtn {
   padding: 12px 20px;
   background-color: var(--color-btn-add);
-  color: black;
+  color: var(--color-btn-add-text);
   border: none;
   border-radius: var(--radius-lg);
   cursor: pointer;
@@ -537,7 +590,7 @@ body.dark-mode #taskInput::placeholder {
 
 body.dark-mode #addBtn {
   background-color: var(--color-btn-add-dark);
-  color: var(--color-text-dark);
+  color: var(--color-btn-add-dark-text);
 }
 
 body.dark-mode #addBtn:hover {
@@ -572,6 +625,19 @@ body.dark-mode #addBtn:disabled {
   position: relative;
 }
 
+.task-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.task-section::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+body.dark-mode .task-section::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
 .task-section::after {
   content: '';
   position: absolute;
@@ -587,6 +653,9 @@ body.dark-mode #addBtn:disabled {
 
 body.dark-mode .task-section::after {
   background: linear-gradient(to bottom, rgba(28, 28, 28, 0), #1c1c1c);
+}
+body.dark-mode {
+  --shadow-light: 0 1px 6px rgba(0,0,0,0.6);
 }
 
 /* ---------- Task List ---------- */
@@ -610,6 +679,7 @@ ul#taskList::-webkit-scrollbar {
 ul#taskList::-webkit-scrollbar-thumb {
   background-color: #ff8c00;
   border-radius: var(--radius-md);
+  transition: background-color 0.3s ease;
 }
 
 ul#taskList::-webkit-scrollbar-thumb:hover {
@@ -652,14 +722,10 @@ body.dark-mode #taskList li:hover {
 }
 
 /* ---------- Task Content ---------- */
-.task-item,
-.task-container {
+.task-item{
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.task-item {
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
 }
@@ -734,7 +800,7 @@ body.dark-mode .edit-input {
   border-radius: 2px;
   transform: translateY(-50%) scaleX(0);
   transform-origin: left;
-  transition: transform 0.35s ease;
+  transition: transform 0.35s ease, background 0.3s ease;
   pointer-events: none;
 }
 
@@ -768,6 +834,10 @@ body.dark-mode .edit-input {
 #taskList button:hover {
   transform: scale(1.2);
 }
+#taskList button:focus-visible {
+  outline: 2px solid var(--accent-mid);
+  outline-offset: 2px;
+}
 
 body.dark-mode #taskList button {
   color: #c0c0c0;
@@ -786,20 +856,14 @@ body.dark-mode #taskList button:hover {
 }
 
 /* Hover Effects by Type */
-#taskList button.edit-btn:hover {
-  color: #1976D2;
+#taskList button:hover {
   background: transparent;
 }
 
-#taskList button.delete-btn:hover {
-  color: #D32F2F;
-  background: transparent;
-}
+#taskList button.edit-btn:hover { color: #1976D2; }
+#taskList button.delete-btn:hover { color: #D32F2F; }
+#taskList button.pin-btn:hover { color: #000; }
 
-#taskList button.pin-btn:hover {
-  color: #000;
-  background: transparent;
-}
 
 /* Pin Button */
 .pin-btn {
@@ -843,40 +907,104 @@ body.dark-mode #clearAllBtn:hover {
 }
 
 
-/* ---------- Animation Timing & Variables ---------- */
+/* =========================================================
+   🌈 GLOBAL VARIABLES
+   ========================================================= */
 :root {
   --toast-transition: 0.4s ease;
   --toast-transform: translateX(-50%) translateY(0);
   --anim-fast: 0.3s ease;
   --anim-medium: 0.4s ease-out;
   --anim-slow: 0.6s ease;
+
+  /* ---------- Toast Type Colors ---------- */
+  --toast-add: #38a169;
+  --toast-delete: #fc2f2f;
+  --toast-edit: #3b82f6;
+  --toast-clear: #6c757d;
+  --toast-pin: #f57c00;
+  --toast-unpin: #e76f51;
+  --toast-complete: #6cbf84;
+  --toast-uncheck: #ffb84d;
+
+  --toast-add-dark: #2e7d32;
+  --toast-delete-dark: #c62828;
+  --toast-edit-dark: #1565c0;
+  --toast-clear-dark: #495057;
+  --toast-pin-dark: #ef6c00;
+  --toast-unpin-dark: #d84315;
+  --toast-complete-dark: #388e3c;
+  --toast-uncheck-dark: #ff9800;
 }
 
-/* ---------- Fade Animations ---------- */
-@keyframes fadeSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
+/* =========================================================
+   🌀 ANIMATIONS
+   ========================================================= */
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Fade Animations */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeOut {
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
+  to { opacity: 0; transform: translateY(10px); }
 }
 
-.fade-out {
-  animation: fadeOut var(--anim-fast) forwards;
+/* Disintegrate (Delete) */
+@keyframes disintegrate {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg); filter: blur(0px); }
+  50% { transform: translateY(-10px) rotate(10deg); opacity: 0.5; }
+  100% { transform: translateY(40px) rotate(-20deg); opacity: 0; filter: blur(4px); }
 }
 
-/* ---------- Toast Base ---------- */
+/* Add Pop */
+@keyframes addPop {
+  0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+  60% { transform: translateY(-5px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Edit Flip */
+@keyframes flipEdit {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(90deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+/* Clear Scatter */
+@keyframes scatter {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  100% { opacity: 0; transform: translate(var(--x, 100px), var(--y, -100px)) rotate(720deg); }
+}
+
+/* Floating */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   🎬 TASK ITEM ANIMATIONS
+   ========================================================= */
+.task-item.add-animate { animation: addPop 0.4s ease-out; }
+.task-item.delete-animate { animation: disintegrate var(--anim-slow) forwards; }
+.task-item.edit-animate { animation: flipEdit 0.5s ease-in-out; }
+.task-item.clear-animate { animation: scatter var(--anim-slow) ease forwards; }
+
+.fade-out { animation: fadeOut var(--anim-fast) forwards; }
+
+/* =========================================================
+   🔔 TOAST STYLES
+   ========================================================= */
+
+/* Toast Base */
 .toast {
   visibility: hidden;
   max-width: 90vw;
@@ -884,7 +1012,7 @@ body.dark-mode #clearAllBtn:hover {
   margin: 10px auto;
   background-color: #a0e7e5;
   color: #333;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
   text-align: center;
   padding: 0.6rem 1.2rem;
   border-radius: 20px;
@@ -908,69 +1036,18 @@ body.dark-mode #clearAllBtn:hover {
   pointer-events: auto;
 }
 
-/* ---------- Toast Type Colors ---------- */
-:root {
-  --toast-add: #38a169;
-  --toast-delete: #fc2f2f;
-  --toast-edit: #3b82f6;
-  --toast-clear: #6c757d;
-  --toast-pin: #f57c00;
-  --toast-unpin: #e76f51;
-  --toast-complete: #6cbf84;
-  --toast-uncheck: #ffb84d;
-
-  --toast-add-dark: #2e7d32;
-  --toast-delete-dark: #c62828;
-  --toast-edit-dark: #1565c0;
-  --toast-clear-dark: #495057;
-  --toast-pin-dark: #ef6c00;
-  --toast-unpin-dark: #d84315;
-  --toast-complete-dark: #388e3c;
-  --toast-uncheck-dark: #ff9800;
-}
-
 /* Toast Types */
-.toast-add {
-  background-color: var(--toast-add);
-  color: #fff;
-}
+.toast-add { background-color: var(--toast-add); }
+.toast-delete { background-color: var(--toast-delete); }
+.toast-edit { background-color: var(--toast-edit); }
+.toast-clear { background-color: var(--toast-clear); }
+.toast-pin { background-color: var(--toast-pin); transition: background-color 0.3s, color 0.3s; }
+.toast-unpin { background-color: var(--toast-unpin); transition: background-color 0.3s, color 0.3s; }
+.toast-complete { background-color: var(--toast-complete); }
+.toast-uncheck { background-color: var(--toast-uncheck); }
 
-.toast-delete {
-  background-color: var(--toast-delete);
-  color: #fff;
-}
-
-.toast-edit {
-  background-color: var(--toast-edit);
-  color: #fff;
-}
-
-.toast-clear {
-  background-color: var(--toast-clear);
-  color: #fff;
-}
-
-.toast-pin {
-  background-color: var(--toast-pin);
-  color: #fff;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.toast-unpin {
-  background-color: var(--toast-unpin);
-  color: #fff;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.toast-complete {
-  background-color: var(--toast-complete);
-  color: #000;
-}
-
-.toast-uncheck {
-  background-color: var(--toast-uncheck);
-  color: #000;
-}
+.toast:not(.toast-complete):not(.toast-uncheck) { color: #fff; }
+.toast-complete, .toast-uncheck { color: #000; }
 
 /* Dark Mode Toasts */
 body.dark-mode .toast {
@@ -978,180 +1055,18 @@ body.dark-mode .toast {
   color: #eee;
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
 }
+body.dark-mode .toast-add { background-color: var(--toast-add-dark); }
+body.dark-mode .toast-delete { background-color: var(--toast-delete-dark); }
+body.dark-mode .toast-edit { background-color: var(--toast-edit-dark); }
+body.dark-mode .toast-clear { background-color: var(--toast-clear-dark); }
+body.dark-mode .toast-pin { background-color: var(--toast-pin-dark); }
+body.dark-mode .toast-unpin { background-color: var(--toast-unpin-dark); }
+body.dark-mode .toast-complete { background-color: var(--toast-complete-dark); }
+body.dark-mode .toast-uncheck { background-color: var(--toast-uncheck-dark); }
 
-body.dark-mode .toast-add {
-  background-color: var(--toast-add-dark);
-}
-
-body.dark-mode .toast-delete {
-  background-color: var(--toast-delete-dark);
-}
-
-body.dark-mode .toast-edit {
-  background-color: var(--toast-edit-dark);
-}
-
-body.dark-mode .toast-clear {
-  background-color: var(--toast-clear-dark);
-}
-
-body.dark-mode .toast-pin {
-  background-color: var(--toast-pin-dark);
-}
-
-body.dark-mode .toast-unpin {
-  background-color: var(--toast-unpin-dark);
-}
-
-body.dark-mode .toast-complete {
-  background-color: var(--toast-complete-dark);
-}
-
-body.dark-mode .toast-uncheck {
-  background-color: var(--toast-uncheck-dark);
-}
-
-/* ---------- Responsive Tweaks ---------- */
-@media (max-width: 480px) {
-  body {
-    padding: 20px;
-  }
-
-  .app-container {
-    padding: 22px 18px;
-  }
-
-  .input-section {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  #taskInput,
-  #addBtn {
-    font-size: 15px;
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 22px;
-  }
-
-  #themeToggle {
-    width: 36px;
-    height: 36px;
-    top: 16px;
-    right: 16px;
-  }
-
-  .theme-icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  #taskList li {
-    padding: 8px 4px;
-    font-size: 15px;
-  }
-
-  #taskList button i {
-    width: 18px;
-    height: 18px;
-  }
-
-  #clearAllBtn {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-
-  .toast {
-    font-size: 14px;
-    padding: 10px 16px;
-  }
-}
-
-/* ---------- Disintegrate (Delete) ---------- */
-@keyframes disintegrate {
-  0% {
-    opacity: 1;
-    transform: translateY(0) rotate(0deg);
-    filter: blur(0px);
-  }
-
-  50% {
-    transform: translateY(-10px) rotate(10deg);
-    opacity: 0.5;
-  }
-
-  100% {
-    transform: translateY(40px) rotate(-20deg);
-    opacity: 0;
-    filter: blur(4px);
-  }
-}
-
-.task-item.delete-animate {
-  animation: disintegrate var(--anim-slow) forwards;
-}
-
-/* ---------- Add Pop ---------- */
-@keyframes addPop {
-  0% {
-    opacity: 0;
-    transform: translateY(20px) scale(0.9);
-  }
-
-  60% {
-    transform: translateY(-5px) scale(1.05);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.task-item.add-animate {
-  animation: addPop 0.4s ease-out;
-}
-
-/* ---------- Edit Flip ---------- */
-@keyframes flipEdit {
-  0% {
-    transform: rotateY(0deg);
-  }
-
-  50% {
-    transform: rotateY(90deg);
-  }
-
-  100% {
-    transform: rotateY(0deg);
-  }
-}
-
-.task-item.edit-animate {
-  animation: flipEdit 0.5s ease-in-out;
-}
-
-/* ---------- Clear Scatter ---------- */
-@keyframes scatter {
-  0% {
-    opacity: 1;
-    transform: translate(0, 0) rotate(0);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate(var(--x, 100px), var(--y, -100px)) rotate(720deg);
-  }
-}
-
-.task-item.clear-animate {
-  animation: scatter var(--anim-slow) ease forwards;
-}
-
-
-/* ---------- Section Divider ---------- */
+/* =========================================================
+   🌗 SECTION DIVIDER
+   ========================================================= */
 .section-divider {
   border: none;
   height: 2px;
@@ -1161,35 +1076,27 @@ body.dark-mode .toast-uncheck {
   flex-shrink: 0;
   transition: background 0.3s ease;
 }
-
-.section-divider:last-of-type {
-  margin-top: 6px;
-}
-
+.section-divider:last-of-type { margin-top: 6px; }
 body.dark-mode .section-divider {
   background: linear-gradient(90deg, #444, #555 30%, #666 70%, #777);
 }
 
-/* ---------- Footer ---------- */
+/* =========================================================
+   ⚡ FOOTER
+   ========================================================= */
 .app-footer {
   text-align: center;
   padding: 4px 0;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   font-size: 0.75rem;
-  color: #666;
+  color: #555;
   margin: 0;
   flex-shrink: 0;
   transition: color 0.3s ease;
 }
+body.dark-mode .app-footer { color: #ccc; }
 
-body.dark-mode .app-footer {
-  color: #aaa;
-}
-
-.app-footer p {
-  margin: 0;
-  display: inline-block;
-}
+.app-footer p { margin: 0; display: inline-block; }
 
 .footer-author {
   display: inline-flex;
@@ -1206,72 +1113,48 @@ body.dark-mode .app-footer {
   color: #383838;
   transition: color 0.3s ease, transform 0.3s ease;
 }
+body.dark-mode .app-footer a svg { color: #aaa; }
 
-body.dark-mode .app-footer a svg {
-  color: #aaa;
-}
-
-/* Footer hover states */
 .app-footer a[aria-label="GitHub"]:hover svg {
   color: #000;
   transform: scale(1.15);
 }
-
 .app-footer a[aria-label="LinkedIn"]:hover svg {
   color: #0077b5;
   transform: scale(1.15);
 }
+.app-footer a:hover { opacity: 0.9; }
 
-/* ---------- Empty State ---------- */
+/* =========================================================
+   🧼 EMPTY STATE
+   ========================================================= */
 .empty-state {
   display: none;
   text-align: center;
   padding: 1rem;
   opacity: 0.9;
 }
-
 .empty-state img {
   width: 230px;
   max-width: 80%;
   margin-bottom: 0.5rem;
   animation: float 4s ease-in-out infinite;
 }
-
 .empty-state p {
   font-size: 1rem;
   font-style: italic;
   color: #666;
   opacity: 0.9;
 }
-
 .empty-state .keyword {
   color: #4CAF50;
   font-weight: 500;
 }
+#quoteText { transition: opacity 0.5s ease; opacity: 1; }
 
-#quoteText {
-  transition: opacity 0.5s ease;
-  opacity: 1;
-}
-
-.fade-out {
-  opacity: 0;
-}
-
-/* ---------- Floating Animation ---------- */
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-/* ---------- Few Tasks Banner ---------- */
+/* =========================================================
+   🌿 FEW TASKS BANNER
+   ========================================================= */
 .few-tasks-banner {
   display: none;
   text-align: center;
@@ -1289,15 +1172,34 @@ body.dark-mode .app-footer a svg {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ---------- Fade In Animation ---------- */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+/* =========================================================
+   📱 RESPONSIVE TWEAKS
+   ========================================================= */
+@media (max-width: 480px) {
+  body { padding: 20px; }
+  .app-container { padding: 22px 18px; }
+  .input-section { flex-direction: column; gap: 10px; }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  #taskInput, #addBtn { font-size: 15px; padding: 10px; }
+  h1 { font-size: 22px; }
+
+  #themeToggle { width: 36px; height: 36px; top: 16px; right: 16px; }
+  .theme-icon { width: 20px; height: 20px; }
+
+  #taskList li { padding: 8px 4px; font-size: 15px; }
+  #taskList button i { width: 18px; height: 18px; }
+
+  #clearAllBtn { font-size: 14px; padding: 8px 16px; }
+  .toast { font-size: 14px; padding: 10px 16px; }
+}
+
+/* =========================================================
+   🚫 REDUCED MOTION SUPPORT
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0s !important; transition-duration: 0s !important; }
+  .task-item, .empty-state img, .few-tasks-banner {
+    animation: none !important;
+    transition: none !important;
   }
 }
