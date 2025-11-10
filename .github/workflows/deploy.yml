@@ -12,7 +12,12 @@ permissions:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages   # ✅ Required for Pages deployment
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,5 +31,6 @@ jobs:
           path: './' # or your build folder if you have one, e.g. 'dist'
 
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
 
