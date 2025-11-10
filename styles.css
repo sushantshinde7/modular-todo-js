@@ -265,6 +265,17 @@ body.dark-mode .header-actions .divider {
   opacity: 0.85;
 }
 
+#themeToggle,
+#colorThemeBtn {
+  outline: none;
+}
+
+#themeToggle:focus-visible,
+#colorThemeBtn:focus-visible {
+  outline: 2px solid var(--accent-mid); /* only for keyboard users */
+  outline-offset: 3px;
+}
+
 /* ---------- Color Theme FAB ---------- */
 /* --- FAB container --- */
 .color-theme-wrapper {
