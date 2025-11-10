@@ -109,7 +109,9 @@ body.dark-mode .close-banner:hover {
 
 /* ---------- Body & Theme ---------- */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
   background-color: var(--color-bg-light);
   color: var(--color-text-light);
   display: flex;
@@ -119,6 +121,7 @@ body {
   padding: 30px;
   transition: background-color var(--transition-slow), color var(--transition-slow);
 }
+
 
 body.dark-mode {
   background-color: var(--color-bg-dark);
