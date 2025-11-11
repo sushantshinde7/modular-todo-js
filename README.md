@@ -1,8 +1,8 @@
 📝 Modular To-Do App
 
-A sleek, responsive, and customizable To-Do List web app built using modular JavaScript (ES Modules), HTML, and CSS. It offers a full suite of task management features with smooth animations, toast notifications, light/dark themes, and motivational touches — all within a scalable and maintainable codebase.
-
 👉 Live Demo: https://sushantshinde7.github.io/modular-todo-js/
+
+A sleek, responsive, and customizable To-Do List web app built using modular JavaScript (ES Modules), HTML, and CSS...
 
 ## 🎞️ Live Demo 
 ![To‑Do App Demo](./Assets/Todo-app-Demo.gif)
@@ -12,9 +12,9 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 
 | Feature | Description |
 |---------|-------------|
-| ✅ Add, edit, delete, clear, and pin tasks | Full task management with animations and persistence |
+| ✅ Add, edit, delete, clear, and pin tasks | Manage tasks with animations & persistence |
 | 🔢 Automatic task numbering | Tasks are numbered dynamically and re-ordered on pinning |
-| 🌗 Smart theme switcher | Seamless dark/light mode toggle with saved preference |
+| 🌗 Smart theme switcher | Light/dark mode with saved preference |
 | 🎨 Dynamic color themes (FAB) | Selectable app background colors with mode-based palettes |
 | 💡 Distinct dark mode colors | Custom deep hues optimized for readability and contrast |
 | 🌈 Adaptive color persistence | Saves separate light and dark mode colors independently |
@@ -44,7 +44,7 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 - Option 2: Use the Live Server extension in VS Code for auto-refresh while editing. 
 
  
-📁 Folder Structure
+🗂️ Project Structure
 ```
 modular-todo-js/
 ├── Assets                   → Main Assets directory
@@ -74,7 +74,7 @@ modular-todo-js/
 🙋‍♂️ Author 
 - Sushant Shinde 
 - GitHub: @sushantshinde7 
-- linkedin: https://www.linkedin.com/in/sushantshinde7/ 
+- Linkedin: https://www.linkedin.com/in/sushantshinde7/ 
 
 
 
