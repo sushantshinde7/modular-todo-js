@@ -162,10 +162,6 @@
   color: var(--banner-hover-text-light);
 }
 
-.hidden {
-  display: none;
-}
-
 /* 🌙 Dark Mode Banner */
 body.dark-mode .offline-banner {
   background-color: var(---banner-bg-dark);
@@ -233,9 +229,7 @@ body.dark-mode .app-container {
 }
 
 /* ---------- Headings ---------- */
-h1,
-h2,
-h3 {
+h1,h2,h3 {
   font-size: 25px;
   font-weight: 600;
   margin: 8px 0 2px;
@@ -308,8 +302,7 @@ body.dark-mode .header-actions .divider {
 
 /* Remove absolute from theme toggle */
 #themeToggle {
-  color: inherit;
-  /* automatically adapts with light/dark text */
+  color: inherit;/* automatically adapts with light/dark text */
   background: none;
   border: none;
   cursor: pointer;
@@ -320,8 +313,7 @@ body.dark-mode .header-actions .divider {
   justify-content: center;
   color: var(--color-text-light);
   transition: transform 0.3s ease;
-  position: static;
-  /* ✅ was absolute */
+  position: static; /* ✅ was absolute */
 }
 
 /* Color Theme Button */
@@ -367,8 +359,7 @@ body.dark-mode .header-actions .divider {
   display: flex;
   gap: 8px;
   position: absolute;
-  right: 40px;
-  /* just left of the main palette button */
+  right: 40px; /* just left of the main palette button */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -517,10 +508,8 @@ body.dark-mode .fab-color:nth-child(4) {
   height: 22px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  /* or flex-end if it’s on the right */
-  gap: 10px;
-  /* space between icons */
+  justify-content: center;  /* or flex-end if it’s on the right */
+  gap: 10px;  /* space between icons */
   color: var(--color-text-light);
   transition: opacity var(--transition-slow), transform var(--transition-slow);
 }
@@ -535,8 +524,7 @@ body.dark-mode .theme-icon {
   transform: scale(1.2);
   color: var(--color-sun);
   filter: drop-shadow(0 0 4px #f7cc22) drop-shadow(0 0 8px #ffe476);
-  margin-top: 1px;
-  /* fine alignment */
+  margin-top: 1px;  /* fine alignment */
   margin-right: -14px;
 }
 
@@ -545,8 +533,7 @@ body.dark-mode .theme-icon {
   transform: scale(0.5);
   color: var(--color-moon);
   filter: drop-shadow(0 0 5px #00e5ff) drop-shadow(0 0 10px #00e5ff) drop-shadow(0 0 15px #00bfff) drop-shadow(0 0 20px #00ffff);
-  margin-top: 7px;
-  /* pushes slightly down to align with sun */
+  margin-top: 7px;  /* pushes slightly down to align with sun */
 }
 
 body.dark-mode #sunIcon {
@@ -816,8 +803,7 @@ body.dark-mode .edit-input {
 /* --- Completed Task Animation --- */
 .completed {
   position: relative;
-  text-decoration: none;
-  /* prevent instant line-through */
+  text-decoration: none;  /* prevent instant line-through */
   opacity: 0.6;
   color: var(--color-task-completed, #b0b0b0);
   font-style: italic;
