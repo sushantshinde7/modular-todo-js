@@ -288,7 +288,7 @@ body.dark-mode .app-header h1::after {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: -2px;
+  gap: 1px;
   position: relative;
 }
 
