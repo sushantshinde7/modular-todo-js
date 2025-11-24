@@ -116,6 +116,19 @@
   margin: 0;
   padding: 0;
 }
+.update-banner {
+  position: fixed;
+  bottom: 14px;
+  right: 14px;
+  background: #222;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 9999;
+  animation: fadeUp 0.3s ease;
+}
+
 
 .hidden {
   display: none;
@@ -970,6 +983,17 @@ body.dark-mode #clearAllBtn:hover {
   to { opacity: 0; transform: translateY(10px); }
 }
 
+/* Fade In */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Disintegrate (Delete) */
 @keyframes disintegrate {
   0% { opacity: 1; transform: translateY(0) rotate(0deg); filter: blur(0px); }
@@ -1001,12 +1025,6 @@ body.dark-mode #clearAllBtn:hover {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-15px); }
-}
-
-/* Fade In */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes add-in {

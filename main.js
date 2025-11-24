@@ -1,3 +1,5 @@
+import { registerServiceWorker } from "./sw-register.js";
+
 // =================== 🌟 ELEMENT REFERENCES ===================
 (() => {
   const taskInput = document.getElementById("taskInput");
@@ -440,8 +442,22 @@
     // 🔄 Instantly switch to correct color theme
     updateFabColorsForMode();
   });
+  // =================== 🔄 UPDATE BANNER (PWA) ===================
+  function showUpdateAvailableBanner() {
+    const banner = document.createElement("div");
+    banner.className = "update-banner";
+    banner.textContent = "🔄 New update available — Tap to refresh";
+
+    banner.addEventListener("click", () => {
+      window.location.reload();
+    });
+
+    document.body.appendChild(banner);
+  }
 
   // =================== 🚀 INIT ===================
+  registerServiceWorker(showUpdateAvailableBanner);
+
   applySavedTheme();
   applySavedColors();
   updateFabColorsForMode();
