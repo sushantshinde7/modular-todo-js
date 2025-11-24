@@ -1,7 +1,7 @@
 {
   "name": "Modular Todo App",
   "short_name": "TodoApp",
-  "start_url": "./index.html",
+  "start_url": "./?source=pwa",
   "scope": "./",
   "display": "standalone",
   "background_color": "#ffffff",
