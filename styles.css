@@ -117,6 +117,9 @@
   padding: 0;
 }
 
+.hidden {
+  display: none;
+}
 /* === Offline Banner === */
 .offline-banner {
   position: relative;
@@ -780,7 +783,13 @@ body.dark-mode #taskList li:hover {
   padding: 0 2px;
   margin-top: 0.1em;
 }
-
+.edit-input:focus {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.12);
+}
+.task-item.edit-saved {
+  animation: edit-saved 700ms ease;
+}
 /* ---------- Edit Input ---------- */
 .edit-input {
   font-size: 1rem;
@@ -791,6 +800,8 @@ body.dark-mode #taskList li:hover {
   background-color: var(--color-input-bg);
   color: #000;
   outline: none;
+  transition: box-shadow 200ms ease, border-color 200ms ease, background-color 200ms ease;
+  box-shadow: 0 0 0 0 rgba(0,0,0,0);
 }
 
 body.dark-mode .edit-input {
@@ -899,10 +910,23 @@ body.dark-mode #taskList button:hover {
   display: flex;
   align-items: center;
   background: transparent;
+  transition: transform 180ms ease, color 180ms ease;
 }
 
 #taskList button.pin-btn.pinned {
   color: #f57c00;
+}
+.pin-btn:active {
+  transform: scale(0.92);
+}
+/* Extra visual distinction for pinned */
+.pin-btn.pinned {
+  transform: rotate(-12deg);
+}
+
+/* Pulse micro-animation when pin/unpin happens */
+.pin-btn.pulse {
+  animation: pin-pulse 380ms ease;
 }
 
 /* ---------- Clear All Button ---------- */
@@ -985,11 +1009,39 @@ body.dark-mode #clearAllBtn:hover {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes add-in {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes edit-saved {
+  0% { background-color: rgba(255, 235, 204, 0.0); }
+  30% { background-color: rgba(255, 235, 204, 0.85); }
+  100% { background-color: transparent; }
+}
+
+@keyframes pin-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+@keyframes delete-out {
+  0% { opacity: 1; transform: translateX(0) scale(1) rotate(0); height: auto; margin: var(--orig-margin, 0.5rem 0); }
+  60% { opacity: .25; transform: translateX(18px) scale(.98) rotate(-2deg); }
+  100% { opacity: 0; transform: translateX(30px) scale(.96) rotate(-3deg); height: 0; margin: 0; padding: 0; }
+}
 /* ================
    🎬 TASK ITEM ANIMATIONS
    ================ */
-.task-item.add-animate { animation: addPop 0.4s ease-out; }
-.task-item.delete-animate { animation: disintegrate var(--anim-slow) forwards; }
+.task-item.add-animate {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  animation: add-in 320ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+.task-item.delete-animate {
+  animation: delete-out 480ms cubic-bezier(.2,.8,.2,1) forwards;
+  transform-origin: left center;
+}
 .task-item.edit-animate { animation: flipEdit 0.5s ease-in-out; }
 .task-item.clear-animate { animation: scatter var(--anim-slow) ease forwards; }
 

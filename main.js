@@ -51,7 +51,9 @@
       const index = task.originalIndex;
       const li = document.createElement("li");
       li.className = "task-item";
+      li.dataset.originalIndex = index; // ⭐ important
 
+      // Animation states
       if (mode === "add" && index === tasks.length - 1)
         li.classList.add("add-animate");
       else if (mode === "edit" && index === editIndex)
@@ -89,6 +91,7 @@
       pinBtn.addEventListener("click", () => togglePin(index));
       li.appendChild(pinBtn);
 
+      // Edit button
       const editBtn = document.createElement("button");
       editBtn.classList.add("edit-btn");
       editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
@@ -114,6 +117,18 @@
 
     updateVisualStates();
     requestAnimationFrame(() => lucide.createIcons());
+
+    // ⭐ Edit success flash (after render)
+    if (mode === "edit" && editIndex !== -1) {
+      const editedLi = [...taskList.children].find(
+        (li) => Number(li.dataset.originalIndex) === editIndex
+      );
+
+      if (editedLi) {
+        editedLi.classList.add("edit-saved");
+        setTimeout(() => editedLi.classList.remove("edit-saved"), 700);
+      }
+    }
   };
 
   const addTask = () => {
@@ -154,10 +169,58 @@
   };
 
   const togglePin = (index) => {
+    // 1) READ BEFORE POSITIONS (old DOM)
+    const beforeItems = [...taskList.children];
+    const beforeRects = beforeItems.map((li) => li.getBoundingClientRect());
+
+    // 2) UPDATE DATA
     const tasks = getTasks();
     tasks[index].isPinned = !tasks[index].isPinned;
     saveTasks(tasks);
+
+    // 3) RE-RENDER (order changes here)
     renderTasks();
+
+    // 4) READ AFTER POSITIONS (new DOM)
+    const afterItems = [...taskList.children];
+    const afterRects = afterItems.map((li) => li.getBoundingClientRect());
+
+    // 5) FLIP ANIMATION
+    afterItems.forEach((li, i) => {
+      const before = beforeRects[i];
+      const after = afterRects[i];
+      if (!before || !after) return;
+
+      const dx = before.left - after.left;
+      const dy = before.top - after.top;
+
+      // instantly place item at its previous spot
+      li.style.transform = `translate(${dx}px, ${dy}px)`;
+      li.style.transition = "transform 0ms";
+
+      requestAnimationFrame(() => {
+        li.style.transform = "";
+        li.style.transition = "transform 450ms cubic-bezier(.2,.8,.2,1)";
+      });
+
+      li.addEventListener(
+        "transitionend",
+        () => {
+          li.style.transition = "";
+        },
+        { once: true }
+      );
+    });
+
+    // 6) PULSE EFFECT FOR THE PIN BUTTON
+    const li = afterItems[index];
+    const pinBtn = li?.querySelector(".pin-btn");
+    if (pinBtn) {
+      pinBtn.classList.add("pulse");
+      setTimeout(() => pinBtn.classList.remove("pulse"), 380);
+    }
+
+    // 7) TOAST
     showToast(
       tasks[index].isPinned ? "Task pinned!" : "Task unpinned!",
       tasks[index].isPinned ? "pin" : "unpin"
