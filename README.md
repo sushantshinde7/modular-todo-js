@@ -15,7 +15,7 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 
 ## 🎥 Preview 
 
-![To‑Do App Demo](./Assets/Todo-app-Demo.gif)
+![To‑Do App Demo](./assets/Todo-app-Demo.gif)
 
 
 ## 📌 Features
@@ -56,7 +56,7 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 🗂️ Project Structure
 ```
 modular-todo-js/
-├── Assets                   → Main Assets directory
+├── assets                   → Main Assets directory
 |   └── no-tasks.svg         → Empty task/state illustration
 |   └── Todo-app-Demo.gif    → Demo gif
 ├── index.html               → Main HTML structure
