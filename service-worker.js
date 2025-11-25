@@ -1,4 +1,5 @@
-const CACHE_NAME = "todo-app-v2";
+const CACHE_NAME = "todo-app-v3"; // bump version to force fresh cache
+
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,12 +10,13 @@ const APP_SHELL = [
   "./manifest.json",
   "./favicon.ico",
 
-  // assets
-  "./Assets/no-tasks.svg",
-  "./Assets/Todo-app-Demo.gif",
-  "./Assets/icons/icon-192.png",
-  "./Assets/icons/icon-512.png",
-  "./Assets/icons/maskable-icon-512.png"
+  // assets 
+  "./assets/no-tasks.svg",
+  "./assets/Todo-app-Demo.gif",
+
+  "./assets/icons/icon-192.png",
+  "./assets/icons/icon-512.png",
+  "./assets/icons/maskable-icon-512.png"
 ];
 
 // Install SW and cache everything
@@ -43,5 +45,6 @@ self.addEventListener("activate", event => {
       )
     )
   );
+
   self.clients.claim();
 });
