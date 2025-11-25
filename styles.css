@@ -223,7 +223,7 @@ body.dark-mode {
 .app-container {
   background-color: #c6e3f0;
   /* mint pastel */
-  padding: 24px 20px;
+  padding: 20px 16px;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   width: 100%;
@@ -574,7 +574,7 @@ body.dark-mode {
 .input-section {
   display: flex;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 10px;
 }
 
 #taskInput {
@@ -698,6 +698,37 @@ body.dark-mode .task-section::after {
 }
 body.dark-mode {
   --shadow-light: 0 1px 6px rgba(0,0,0,0.6);
+}
+
+.task-filters {
+  display: flex;
+  margin: 4px 0;
+  border-radius: 0.75rem;
+  border: #000 solid 1px;
+  backdrop-filter: blur(4px);
+  max-width: 98.2%;
+}
+
+.task-filters button {
+  flex: 1;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.task-filters button:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.task-filters button.active {
+  background: rgba(255, 255, 255, 0.3);
+  color: #000;
+  font-weight: 600;
 }
 
 /* ---------- Task List ---------- */
@@ -1151,7 +1182,7 @@ body.dark-mode .section-divider {
    ================ */
 .app-footer {
   text-align: center;
-  padding: 4px 0;
+  padding: 5px 0;
   font-family: 'Inter', 'Segoe UI', sans-serif;
   font-size: 0.75rem;
   color: #555;

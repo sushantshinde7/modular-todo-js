@@ -29,7 +29,10 @@
     <!-- 🎨 Styles & Fonts -->
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="favicon.ico" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- ⚙️ Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
@@ -186,7 +189,12 @@
             Start by adding your <span class="keyword">first task</span>.
           </p>
         </div>
-
+        <div class="task-filters">
+          <button data-filter="all" class="active">All</button>
+          <button data-filter="completed">Completed</button>
+          <button data-filter="pending">Pending</button>
+          <button data-filter="pinned">Pinned</button>
+        </div>
         <!-- Task list -->
         <ul id="taskList" role="list" aria-label="List of tasks"></ul>
       </section>
@@ -199,12 +207,14 @@
         <p id="quoteText">You're doing great. Keep going!</p>
       </div>
 
-      <button id="clearAllBtn" type="button" class="actions-footer">Clear All Tasks</button>
+      <button id="clearAllBtn" type="button" class="actions-footer">
+        Clear All Tasks
+      </button>
 
       <hr class="section-divider" />
 
       <!-- 🧑‍💻 Footer -->
-      <footer class="app-footer" >
+      <footer class="app-footer">
         <p>
           ✨ Stay focused & finish strong — built with ❤️ by
           <span class="footer-author">Sushant</span>

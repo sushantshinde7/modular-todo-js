@@ -23,6 +23,7 @@ import { registerServiceWorker } from "./sw-register.js";
   let quoteIndex = 0;
   let offlineTimeout;
   let bannerDebounce;
+  let currentFilter = "all";
 
   // =================== 🧩 GLOBAL VARIABLES ===================
   const ANIM_DURATION = 600;
@@ -42,7 +43,17 @@ import { registerServiceWorker } from "./sw-register.js";
   // =================== 🖋️ TASKS ===================
   const renderTasks = (mode = "", editIndex = -1) => {
     taskList.innerHTML = "";
-    const tasks = getTasks();
+    let tasks = getTasks();
+
+    // ⭐ NEW — Apply selected filter
+    if (currentFilter === "completed") {
+      tasks = tasks.filter((t) => t.completed);
+    } else if (currentFilter === "pending") {
+      tasks = tasks.filter((t) => !t.completed);
+    } else if (currentFilter === "pinned") {
+      tasks = tasks.filter((t) => t.isPinned);
+    }
+    // "all" = no filter
 
     // Sort tasks: pinned first
     const sortedTasks = tasks
@@ -454,6 +465,18 @@ import { registerServiceWorker } from "./sw-register.js";
 
     document.body.appendChild(banner);
   }
+  document.querySelectorAll(".task-filters button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      currentFilter = btn.dataset.filter;
+
+      document
+        .querySelectorAll(".task-filters button")
+        .forEach((b) => b.classList.remove("active"));
+
+      btn.classList.add("active");
+      renderTasks();
+    });
+  });
 
   // =================== 🚀 INIT ===================
   registerServiceWorker(showUpdateAvailableBanner);
