@@ -700,36 +700,73 @@ body.dark-mode {
   --shadow-light: 0 1px 6px rgba(0,0,0,0.6);
 }
 
+/* ---------- Task Filters (Modern + Minimal) ---------- */
 .task-filters {
   display: flex;
-  margin: 4px 0;
-  border-radius: 0.75rem;
-  border: #000 solid 1px;
-  backdrop-filter: blur(4px);
-  max-width: 98.2%;
+  margin: 4px 2px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
+/* Make it same width/flow as the task list */
+.task-filters {
+  max-width: 100%;
+}
+
+/* Buttons */
 .task-filters button {
   flex: 1;
-  padding: 6px 12px;
+  padding: 1px 0;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   background: transparent;
-  color: #fff;
+  color: var(--color-task-text, #222);
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 14px;
-  transition: 0.2s;
+  transition: 0.25s ease;
 }
 
+/* Hover */
 .task-filters button:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
+/* Active */
 .task-filters button.active {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(0,0,0,0.10);   /* soft neutral tint */
   color: #000;
   font-weight: 600;
+  border: 1px solid rgba(0,0,0,0.25);
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
+  transform: translateY(-1px);
 }
+
+/* Dark Mode */
+body.dark-mode .task-filters {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .task-filters button {
+  color: #e2e2e2;
+}
+
+body.dark-mode .task-filters button:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+body.dark-mode .task-filters button.active {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+  transform: translateY(-1px);
+}
+
 
 /* ---------- Task List ---------- */
 ul#taskList {
@@ -1227,7 +1264,7 @@ body.dark-mode .app-footer a svg { color: #aaa; }
 .empty-state {
   display: none;
   text-align: center;
-  padding: 1rem;
+  padding: 0.5rem;
   opacity: 0.9;
 }
 .empty-state img {
