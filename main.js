@@ -422,28 +422,31 @@ import { registerServiceWorker } from "./sw-register.js";
   function updateEmptyStateUI() {
     const isDark = document.body.classList.contains("dark-mode");
 
-    let img = "assets/no-tasks.svg";
+    let img = "assets/no-tasks.svg"; // fallback
     let showText = true;
-    let textHTML = `
-    <strong>Clean slate!</strong>
-    Start by adding your <span class="keyword">first task</span>.
-  `;
+    let textHTML = `<strong>Clean slate!</strong> Start by adding your <span class="keyword">first task</span>.`;
 
     if (currentFilter === "completed") {
-      // no completed tasks
       img = isDark
         ? "assets/no-completed-dark.svg"
         : "assets/no-completed-light.svg";
       showText = false;
-    }
-
-    if (currentFilter === "pinned") {
-      // no pinned tasks
+    } else if (currentFilter === "pinned") {
       img = isDark ? "assets/no-pinned-dark.svg" : "assets/no-pinned-light.svg";
       showText = false;
+    } else if (currentFilter === "all" && getTasks().length === 0) {
+      img = isDark ? "assets/no-task-dark.svg" : "assets/no-task-light.svg";
+      showText = false;
+    } else if (currentFilter === "pending") {
+      const pendingTasks = getTasks().filter((t) => !t.completed);
+      if (pendingTasks.length === 0) {
+        img = isDark
+          ? "assets/no-pending-dark.svg"
+          : "assets/no-pending-light.svg";
+        showText = false;
+      }
     }
 
-    // Apply changes
     const imgEl = document.getElementById("emptyStateImg");
     const textEl = document.getElementById("emptyStateText");
 
