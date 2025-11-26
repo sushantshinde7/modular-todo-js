@@ -376,6 +376,54 @@ import { registerServiceWorker } from "./sw-register.js";
       colorWrapper.classList.remove("active");
     });
   });
+  // =================== 🎨 FAB COLOR TOOLTIP (Dynamic) ===================
+
+  // =================== 🎨 CUSTOM TOOLTIP FOR FAB COLORS ===================
+let tipEl;
+
+// Create tooltip element once
+function createTip() {
+  tipEl = document.createElement("div");
+  tipEl.className = "custom-tip";
+  document.body.appendChild(tipEl);
+}
+createTip();
+
+// Show tooltip
+function showTip(text, x, y) {
+  tipEl.textContent = text;
+  tipEl.style.left = x + "px";
+  tipEl.style.top = y + "px";
+  tipEl.style.opacity = 1;
+  tipEl.style.transform = "translateY(0px)";
+}
+
+// Hide tooltip
+function hideTip() {
+  tipEl.style.opacity = 0;
+  tipEl.style.transform = "translateY(4px)";
+}
+
+fabColors.forEach((fab) => {
+  fab.addEventListener("mouseenter", (e) => {
+    const isDark = document.body.classList.contains("dark-mode");
+    const name = isDark ? fab.dataset.nameDark : fab.dataset.nameLight;
+
+    const rect = fab.getBoundingClientRect();
+    const x = rect.left + rect.width / 2 - tipEl.offsetWidth / 2;
+    const y = rect.top - 32;
+
+    showTip(name, x, y);
+  });
+
+  fab.addEventListener("mousemove", (e) => {
+    const rect = fab.getBoundingClientRect();
+    tipEl.style.left = rect.left + rect.width / 2 - tipEl.offsetWidth / 2 + "px";
+    tipEl.style.top = rect.top - 32 + "px";
+  });
+
+  fab.addEventListener("mouseleave", hideTip);
+});
 
   // =================== ✨ QUOTES ===================
   const startQuoteRotation = () => {

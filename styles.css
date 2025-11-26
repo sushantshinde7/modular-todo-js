@@ -515,8 +515,19 @@ body.dark-mode .fab-color:nth-child(4) {
   background-color: #5a3d2b;
 }
 
-/* coffee brown */
-
+.custom-tip {
+  position: fixed;
+  padding: 4px 8px;
+  background: rgba(20, 20, 20, 0.85);
+  color: white;
+  font-size: 11px;
+  border-radius: 50px; /* pill */
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 140ms ease, transform 140ms ease;
+  z-index: 9999;
+}
 
 /* Icon appearance */
 .theme-icon {
