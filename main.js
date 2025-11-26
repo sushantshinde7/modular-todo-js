@@ -530,6 +530,12 @@ import { registerServiceWorker } from "./sw-register.js";
 
   // =================== 🚀 INIT ===================
   registerServiceWorker(showUpdateAvailableBanner);
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.ready.then((reg) => {
+      // Tell SW to activate immediately
+      reg.active?.postMessage("skipWaiting");
+    });
+  }
 
   applySavedTheme();
   applySavedColors();
