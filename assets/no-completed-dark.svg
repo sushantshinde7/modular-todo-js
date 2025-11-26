@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <!-- Background -->
+  <rect width="400" height="400" fill="#000"></rect>
+
+  <!-- Soft geometric BG graphics -->
+  <circle cx="320" cy="80" r="80" fill="none" stroke="#fff" stroke-opacity="0.06" stroke-width="20"></circle>
+  <rect x="-40" y="230" width="200" height="200" rx="30" fill="#fff" opacity="0.05"></rect>
+
+  <!-- Heading -->
+  <text x="50%" y="45%" text-anchor="middle" font-family="Inter, sans-serif" font-size="26" fill="#fff" font-weight="800" letter-spacing="2">
+    NO TASK COMPLETED
+  </text>
+
+  <!-- Tagline -->
+  <text x="50%" y="62%" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" fill="#fff" opacity="0.7">
+    You haven't completed any tasks yet
+  </text>
+</svg>

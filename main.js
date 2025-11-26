@@ -48,89 +48,91 @@ import { registerServiceWorker } from "./sw-register.js";
     // ⭐ SHOW / HIDE FILTER BAR
     const filterBar = document.getElementById("taskFilters");
     if (tasks.length === 0) {
-        filterBar.style.display = "none";
+      filterBar.style.display = "none";
     } else {
-        filterBar.style.display = "flex";
+      filterBar.style.display = "flex";
     }
 
     // ⭐ Apply selected filter
     if (currentFilter === "completed") {
-        tasks = tasks.filter((t) => t.completed);
+      tasks = tasks.filter((t) => t.completed);
     } else if (currentFilter === "pending") {
-        tasks = tasks.filter((t) => !t.completed);
+      tasks = tasks.filter((t) => !t.completed);
     } else if (currentFilter === "pinned") {
-        tasks = tasks.filter((t) => t.isPinned);
+      tasks = tasks.filter((t) => t.isPinned);
     }
     // "all" = no filter
 
     // ⭐ Sort tasks: pinned first
     const sortedTasks = tasks
-        .map((task, index) => ({ ...task, originalIndex: index }))
-        .sort((a, b) => b.isPinned - a.isPinned);
+      .map((task, index) => ({ ...task, originalIndex: index }))
+      .sort((a, b) => b.isPinned - a.isPinned);
 
     sortedTasks.forEach((task, sortedIndex) => {
-        const index = task.originalIndex;
-        const li = document.createElement("li");
-        li.className = "task-item";
-        li.dataset.originalIndex = index;
+      const index = task.originalIndex;
+      const li = document.createElement("li");
+      li.className = "task-item";
+      li.dataset.originalIndex = index;
 
-        // Animations
-        if (mode === "add" && index === tasks.length - 1)
-            li.classList.add("add-animate");
-        else if (mode === "edit" && index === editIndex)
-            li.classList.add("edit-animate");
+      // Animations
+      if (mode === "add" && index === tasks.length - 1)
+        li.classList.add("add-animate");
+      else if (mode === "edit" && index === editIndex)
+        li.classList.add("edit-animate");
 
-        // Number
-        const numberSpan = document.createElement("span");
-        numberSpan.className = "task-number";
-        numberSpan.textContent = `${sortedIndex + 1}. `;
-        li.appendChild(numberSpan);
+      // Number
+      const numberSpan = document.createElement("span");
+      numberSpan.className = "task-number";
+      numberSpan.textContent = `${sortedIndex + 1}. `;
+      li.appendChild(numberSpan);
 
-        // Checkbox
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = task.completed;
-        checkbox.addEventListener("change", () => toggleComplete(index));
-        li.appendChild(checkbox);
+      // Checkbox
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = task.completed;
+      checkbox.addEventListener("change", () => toggleComplete(index));
+      li.appendChild(checkbox);
 
-        // Text
-        const span = document.createElement("span");
-        span.textContent = task.text;
-        if (task.completed) span.classList.add("completed");
-        span.addEventListener("click", () => toggleComplete(index));
-        li.appendChild(span);
+      // Text
+      const span = document.createElement("span");
+      span.textContent = task.text;
+      if (task.completed) span.classList.add("completed");
+      span.addEventListener("click", () => toggleComplete(index));
+      li.appendChild(span);
 
-        // Pin button
-        const pinBtn = document.createElement("button");
-        pinBtn.classList.add("pin-btn");
-        if (task.isPinned) pinBtn.classList.add("pinned");
-        pinBtn.innerHTML = `<i data-lucide="${task.isPinned ? "pin" : "pin-off"}"></i>`;
-        pinBtn.title = task.isPinned ? "Unpin Task" : "Pin Task";
-        pinBtn.setAttribute("aria-label", pinBtn.title);
-        pinBtn.addEventListener("click", () => togglePin(index));
-        li.appendChild(pinBtn);
+      // Pin button
+      const pinBtn = document.createElement("button");
+      pinBtn.classList.add("pin-btn");
+      if (task.isPinned) pinBtn.classList.add("pinned");
+      pinBtn.innerHTML = `<i data-lucide="${
+        task.isPinned ? "pin" : "pin-off"
+      }"></i>`;
+      pinBtn.title = task.isPinned ? "Unpin Task" : "Pin Task";
+      pinBtn.setAttribute("aria-label", pinBtn.title);
+      pinBtn.addEventListener("click", () => togglePin(index));
+      li.appendChild(pinBtn);
 
-        // Edit button
-        const editBtn = document.createElement("button");
-        editBtn.classList.add("edit-btn");
-        editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
-        editBtn.title = "Edit Task";
-        editBtn.setAttribute("aria-label", "Edit Task");
-        editBtn.addEventListener("click", () =>
-            editTask(index, span.textContent)
-        );
-        li.appendChild(editBtn);
+      // Edit button
+      const editBtn = document.createElement("button");
+      editBtn.classList.add("edit-btn");
+      editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
+      editBtn.title = "Edit Task";
+      editBtn.setAttribute("aria-label", "Edit Task");
+      editBtn.addEventListener("click", () =>
+        editTask(index, span.textContent)
+      );
+      li.appendChild(editBtn);
 
-        // Delete button
-        const deleteBtn = document.createElement("button");
-        deleteBtn.classList.add("delete-btn");
-        deleteBtn.innerHTML = `<i data-lucide="trash-2"></i>`;
-        deleteBtn.title = "Delete Task";
-        deleteBtn.setAttribute("aria-label", "Delete Task");
-        deleteBtn.addEventListener("click", () => deleteTask(index));
-        li.appendChild(deleteBtn);
+      // Delete button
+      const deleteBtn = document.createElement("button");
+      deleteBtn.classList.add("delete-btn");
+      deleteBtn.innerHTML = `<i data-lucide="trash-2"></i>`;
+      deleteBtn.title = "Delete Task";
+      deleteBtn.setAttribute("aria-label", "Delete Task");
+      deleteBtn.addEventListener("click", () => deleteTask(index));
+      li.appendChild(deleteBtn);
 
-        taskList.appendChild(li);
+      taskList.appendChild(li);
     });
 
     updateVisualStates();
@@ -138,17 +140,16 @@ import { registerServiceWorker } from "./sw-register.js";
 
     // ⭐ Edit flash
     if (mode === "edit" && editIndex !== -1) {
-        const editedLi = [...taskList.children].find(
-            (li) => Number(li.dataset.originalIndex) === editIndex
-        );
+      const editedLi = [...taskList.children].find(
+        (li) => Number(li.dataset.originalIndex) === editIndex
+      );
 
-        if (editedLi) {
-            editedLi.classList.add("edit-saved");
-            setTimeout(() => editedLi.classList.remove("edit-saved"), 700);
-        }
+      if (editedLi) {
+        editedLi.classList.add("edit-saved");
+        setTimeout(() => editedLi.classList.remove("edit-saved"), 700);
+      }
     }
-};
-
+  };
 
   const addTask = () => {
     const text = taskInput.value.trim();
@@ -399,6 +400,7 @@ import { registerServiceWorker } from "./sw-register.js";
     const count = taskList.children.length;
     if (count === 0) {
       emptyState.style.display = "block";
+      updateEmptyStateUI();
       fewTasksBanner.style.display = "none";
       taskList.style.display = "none";
       clearAllBtn.style.display = "none";
@@ -417,6 +419,43 @@ import { registerServiceWorker } from "./sw-register.js";
       stopQuoteRotation();
     }
   };
+  function updateEmptyStateUI() {
+    const isDark = document.body.classList.contains("dark-mode");
+
+    let img = "assets/no-tasks.svg";
+    let showText = true;
+    let textHTML = `
+    <strong>Clean slate!</strong>
+    Start by adding your <span class="keyword">first task</span>.
+  `;
+
+    if (currentFilter === "completed") {
+      // no completed tasks
+      img = isDark
+        ? "assets/no-completed-dark.svg"
+        : "assets/no-completed-light.svg";
+      showText = false;
+    }
+
+    if (currentFilter === "pinned") {
+      // no pinned tasks
+      img = isDark ? "assets/no-pinned-dark.svg" : "assets/no-pinned-light.svg";
+      showText = false;
+    }
+
+    // Apply changes
+    const imgEl = document.getElementById("emptyStateImg");
+    const textEl = document.getElementById("emptyStateText");
+
+    imgEl.src = img;
+
+    if (showText) {
+      textEl.style.display = "block";
+      textEl.innerHTML = textHTML;
+    } else {
+      textEl.style.display = "none";
+    }
+  }
 
   // =================== 🌐 OFFLINE ===================
   const updateNetworkBanner = () => {
@@ -458,6 +497,7 @@ import { registerServiceWorker } from "./sw-register.js";
 
     // 🔄 Instantly switch to correct color theme
     updateFabColorsForMode();
+    updateEmptyStateUI();
   });
   // =================== 🔄 UPDATE BANNER (PWA) ===================
   function showUpdateAvailableBanner() {
@@ -481,6 +521,7 @@ import { registerServiceWorker } from "./sw-register.js";
 
       btn.classList.add("active");
       renderTasks();
+      updateEmptyStateUI();
     });
   });
 
