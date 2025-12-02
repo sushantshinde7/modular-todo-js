@@ -5,10 +5,11 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white&style=flat)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen&style=flat)
+![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8?logo=pwa&logoColor=white&style=flat)
 ![License](https://img.shields.io/badge/License-MIT-blue&style=flat)
 
 
-> “A simple interface for complex productivity — built with clean, modular JavaScript.”
+> “Now a full PWA — fast, installable, offline-ready, and built with clean modular JavaScript.”
 
 A sleek, responsive, and customizable To-Do List web app built using modular JavaScript (ES Modules), HTML, and CSS.
 
@@ -40,6 +41,12 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 | ♿ Accessibility | Keyboard shortcuts and ARIA labels |
 | 🎨 Lucide icons | Clean, lightweight icon set |
 | 🧩 Modular JS logic | Readable and scalable codebase |
+| 📱 PWA Support | Installable on any device with offline mode and smart caching |
+| 🔍 Task Filters | Filter tasks by All, Pending, Completed, or Pinned |
+| 🖼️ Improved Empty States | New light/dark SVGs for no-task and no-pending views |
+| 🎨 Dynamic Color Tooltip | Live accent-color preview for both themes |
+| 🖱️ Themed Scrollbar | Scrollbar thumb adapts to your selected color |
+| ✨ Enhanced Micro-Animations | Smoother CRUD and pin/unpin animations |
 
 
 
@@ -78,6 +85,14 @@ modular-todo-js/
 ![LocalStorage](https://img.shields.io/badge/-LocalStorage-FFA500?style=flat)
 ![Lucide Icons](https://img.shields.io/badge/-Lucide%20Icons-7E5BEF?style=flat)
 > Developed using HTML5 for structure, CSS3 for styling and responsiveness, and modular JavaScript (ES6+) for clean logic. Tasks persist via LocalStorage, with a modern UI enhanced by Lucide Icons.
+
+## 🆕 What's New
+- Full PWA support with offline caching, install prompt & update banner  
+- Brand-new task filtering (All / Pending / Completed / Pinned)  
+- New empty-state illustrations for light & dark themes  
+- Dynamic theme-color tooltip with live preview  
+- Improved animations for CRUD actions and pin/unpin  
+- Theme-adaptive scrollbar styling  
 
 📐 UI & UX Highlights
 - Smooth task animations for add, delete, edit, pin, and clear actions.
