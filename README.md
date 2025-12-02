@@ -62,16 +62,36 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
  
 🗂️ Project Structure
 ```
-modular-todo-js/
-├── assets                   → Main Assets directory
-|   └── no-tasks.svg         → Empty task/state illustration
-|   └── Todo-app-Demo.gif    → Demo gif
-├── index.html               → Main HTML structure
-├── styles.css               → Stylesheet for themes and layout
-├── main.js                  → Entry point script (initializes the app)
-├── dom.js                   → Handles DOM rendering and updates
-├── todo.js                  → Logic for task handling (add, delete, update)
-└── README.md                → Project documentation
+todo-modules-app/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml            → GitHub Pages deployment workflow
+│
+├── assets/
+│   ├── icons/                    → Empty-state SVGs (light/dark variants)
+│   │   ├── no-completed-dark.svg
+│   │   ├── no-completed-light.svg
+│   │   ├── no-pending-dark.svg
+│   │   ├── no-pending-light.svg
+│   │   ├── no-pinned-dark.svg
+│   │   ├── no-pinned-light.svg
+│   │   ├── no-task-dark.svg
+│   │   ├── no-task-light.svg
+│   │   └── no-tasks.svg
+│   │
+│   └── Todo-app-Demo.gif         → App demo preview
+│
+├── dom.js                        → DOM rendering & UI updates
+├── favicon.ico                   → App icon
+├── index.html                    → Main HTML structure
+├── main.js                       → App bootstrap / initialization
+├── manifest.json                 → PWA manifest (icons, theme, install config)
+├── README.md                     → Project documentation
+├── service-worker.js             → Offline caching + update logic (PWA)
+├── styles.css                    → Main stylesheet (themes, layout, UI)
+├── sw-register.js                → Registers service worker & update banner
+└── todo.js                       → Core task logic (add/edit/delete/pin/filter)
+
 
 ```
 
