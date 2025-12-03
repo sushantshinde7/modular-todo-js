@@ -38,39 +38,55 @@ import { registerServiceWorker } from "./sw-register.js";
   // Auto focus on page load
   taskInput.focus();
 
-// Dynamic placeholder rotation (smooth fade only on placeholder)
-const placeholderTexts = [
-  "Add your task",
-  "What do you want to do?",
-  "Something on your mind?",
-  "Write your next plan",
-  "Type and press Enter",
-];
+  // Dynamic placeholder rotation (smooth fade only on placeholder)
+  const placeholderTexts = [
+    "Add your task",
+    "What do you want to do?",
+    "Something on your mind?",
+    "Write your next plan",
+    "Type and press Enter",
+  ];
 
-let placeholderIndex = 0;
-const input = document.getElementById("taskInput");
+  let placeholderIndex = 0;
+  const input = document.getElementById("taskInput");
 
-function rotatePlaceholder() {
-  input.classList.add("placeholder-hide"); // fade out
+  function rotatePlaceholder() {
+    input.classList.add("placeholder-hide"); // fade out
 
-  setTimeout(() => {
-    // update placeholder text
-    input.placeholder = placeholderTexts[placeholderIndex];
-    placeholderIndex = (placeholderIndex + 1) % placeholderTexts.length;
+    setTimeout(() => {
+      // update placeholder text
+      input.placeholder = placeholderTexts[placeholderIndex];
+      placeholderIndex = (placeholderIndex + 1) % placeholderTexts.length;
 
-    input.classList.remove("placeholder-hide"); // fade in
-  }, 250); // matches CSS timing
-}
+      input.classList.remove("placeholder-hide"); // fade in
+    }, 250); // matches CSS timing
+  }
 
-// start cycle
-setInterval(rotatePlaceholder, 3000);
-rotatePlaceholder();
-
+  // start cycle
+  setInterval(rotatePlaceholder, 3000);
+  rotatePlaceholder();
 
   // =================== 📦 STORAGE ===================
   const getTasks = () => JSON.parse(localStorage.getItem("tasks")) || [];
   const saveTasks = (tasks) =>
     localStorage.setItem("tasks", JSON.stringify(tasks));
+
+  // =================== 🔢 FILTER COUNTS ===================
+ function updateFilterCounts() {
+  const tasks = getTasks();
+  const allBtn = document.querySelector('button[data-filter="all"]');
+  const completedBtn = document.querySelector('button[data-filter="completed"]');
+  const pendingBtn = document.querySelector('button[data-filter="pending"]');
+  const pinnedBtn = document.querySelector('button[data-filter="pinned"]');
+
+  if (!allBtn) return; // safeguard if buttons not rendered yet
+
+  allBtn.innerHTML = `All <span class="task-count">${tasks.length}</span>`;
+  completedBtn.innerHTML = `Completed <span class="task-count">${tasks.filter(t => t.completed).length}</span>`;
+  pendingBtn.innerHTML = `Pending <span class="task-count">${tasks.filter(t => !t.completed).length}</span>`;
+  pinnedBtn.innerHTML = `Pinned <span class="task-count">${tasks.filter(t => t.isPinned).length}</span>`;
+}
+ 
 
   // =================== 🖋️ TASKS ===================
   const renderTasks = (mode = "", editIndex = -1) => {
@@ -168,6 +184,7 @@ rotatePlaceholder();
     });
 
     updateVisualStates();
+    updateFilterCounts(); // ✅ update filter counts dynamically
     requestAnimationFrame(() => lucide.createIcons());
 
     // ⭐ Edit flash
@@ -624,6 +641,7 @@ rotatePlaceholder();
   updateFabColorsForMode();
   addBtn.disabled = true;
   renderTasks();
+  updateFilterCounts();
   updateNetworkBanner();
   window.addEventListener("beforeunload", stopQuoteRotation);
 })();

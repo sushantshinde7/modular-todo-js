@@ -739,7 +739,12 @@ body.dark-mode {
 /* Buttons */
 .task-filters button {
   flex: 1;
-  padding: 1px 0;
+  padding: 2px 4px;
+  min-width: 70px;
+  display: flex;              
+  align-items: center;        
+  justify-content: center;    
+  gap: 4px;
   border: none;
   border-radius: 6px;
   background: transparent;
@@ -747,6 +752,7 @@ body.dark-mode {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+  line-height: 1.2;
   transition: 0.25s ease;
 }
 
@@ -763,6 +769,13 @@ body.dark-mode {
   border: 1px solid rgba(0,0,0,0.25);
   box-shadow: inset 0 1px 2px rgba(255,255,255,0.4);
   transform: translateY(-1px);
+}
+/* Remove badge bg when its filter button is active */
+.task-filters button.active .task-count {
+  background: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 /* Dark Mode */
@@ -786,6 +799,45 @@ body.dark-mode .task-filters button.active {
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
   transform: translateY(-1px);
 }
+
+/* ---------- Count Badge (Transparent Circle) ---------- */
+.task-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 0.72em;
+  font-weight: 600;
+  border-radius: 50%;
+  margin-left: 2px;
+  line-height: 1;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  
+  /* Light mode transparent badge */
+  background-color: rgba(0, 0, 0, 0.07);
+  color: #222;
+}
+
+/* When parent button is active — keep badge separate */
+.task-filters button.active .task-count {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: #000;
+}
+
+/* Dark mode badge */
+body.dark-mode .task-count {
+  background-color: rgba(255, 255, 255, 0.10);
+  color: #fff;
+}
+
+/* Dark mode + active button */
+body.dark-mode .task-filters button.active .task-count {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+
 
 
 /* ---------- Task List ---------- */
