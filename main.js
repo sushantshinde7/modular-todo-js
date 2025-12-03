@@ -35,6 +35,38 @@ import { registerServiceWorker } from "./sw-register.js";
     "One task at a time. You’ve got this!",
   ];
 
+  // Auto focus on page load
+  taskInput.focus();
+
+// Dynamic placeholder rotation (smooth fade only on placeholder)
+const placeholderTexts = [
+  "Add your task",
+  "What do you want to do?",
+  "Something on your mind?",
+  "Write your next plan",
+  "Type and press Enter",
+];
+
+let placeholderIndex = 0;
+const input = document.getElementById("taskInput");
+
+function rotatePlaceholder() {
+  input.classList.add("placeholder-hide"); // fade out
+
+  setTimeout(() => {
+    // update placeholder text
+    input.placeholder = placeholderTexts[placeholderIndex];
+    placeholderIndex = (placeholderIndex + 1) % placeholderTexts.length;
+
+    input.classList.remove("placeholder-hide"); // fade in
+  }, 250); // matches CSS timing
+}
+
+// start cycle
+setInterval(rotatePlaceholder, 3000);
+rotatePlaceholder();
+
+
   // =================== 📦 STORAGE ===================
   const getTasks = () => JSON.parse(localStorage.getItem("tasks")) || [];
   const saveTasks = (tasks) =>
@@ -379,51 +411,52 @@ import { registerServiceWorker } from "./sw-register.js";
   // =================== 🎨 FAB COLOR TOOLTIP (Dynamic) ===================
 
   // =================== 🎨 CUSTOM TOOLTIP FOR FAB COLORS ===================
-let tipEl;
+  let tipEl;
 
-// Create tooltip element once
-function createTip() {
-  tipEl = document.createElement("div");
-  tipEl.className = "custom-tip";
-  document.body.appendChild(tipEl);
-}
-createTip();
+  // Create tooltip element once
+  function createTip() {
+    tipEl = document.createElement("div");
+    tipEl.className = "custom-tip";
+    document.body.appendChild(tipEl);
+  }
+  createTip();
 
-// Show tooltip
-function showTip(text, x, y) {
-  tipEl.textContent = text;
-  tipEl.style.left = x + "px";
-  tipEl.style.top = y + "px";
-  tipEl.style.opacity = 1;
-  tipEl.style.transform = "translateY(0px)";
-}
+  // Show tooltip
+  function showTip(text, x, y) {
+    tipEl.textContent = text;
+    tipEl.style.left = x + "px";
+    tipEl.style.top = y + "px";
+    tipEl.style.opacity = 1;
+    tipEl.style.transform = "translateY(0px)";
+  }
 
-// Hide tooltip
-function hideTip() {
-  tipEl.style.opacity = 0;
-  tipEl.style.transform = "translateY(4px)";
-}
+  // Hide tooltip
+  function hideTip() {
+    tipEl.style.opacity = 0;
+    tipEl.style.transform = "translateY(4px)";
+  }
 
-fabColors.forEach((fab) => {
-  fab.addEventListener("mouseenter", (e) => {
-    const isDark = document.body.classList.contains("dark-mode");
-    const name = isDark ? fab.dataset.nameDark : fab.dataset.nameLight;
+  fabColors.forEach((fab) => {
+    fab.addEventListener("mouseenter", (e) => {
+      const isDark = document.body.classList.contains("dark-mode");
+      const name = isDark ? fab.dataset.nameDark : fab.dataset.nameLight;
 
-    const rect = fab.getBoundingClientRect();
-    const x = rect.left + rect.width / 2 - tipEl.offsetWidth / 2;
-    const y = rect.top - 32;
+      const rect = fab.getBoundingClientRect();
+      const x = rect.left + rect.width / 2 - tipEl.offsetWidth / 2;
+      const y = rect.top - 32;
 
-    showTip(name, x, y);
+      showTip(name, x, y);
+    });
+
+    fab.addEventListener("mousemove", (e) => {
+      const rect = fab.getBoundingClientRect();
+      tipEl.style.left =
+        rect.left + rect.width / 2 - tipEl.offsetWidth / 2 + "px";
+      tipEl.style.top = rect.top - 32 + "px";
+    });
+
+    fab.addEventListener("mouseleave", hideTip);
   });
-
-  fab.addEventListener("mousemove", (e) => {
-    const rect = fab.getBoundingClientRect();
-    tipEl.style.left = rect.left + rect.width / 2 - tipEl.offsetWidth / 2 + "px";
-    tipEl.style.top = rect.top - 32 + "px";
-  });
-
-  fab.addEventListener("mouseleave", hideTip);
-});
 
   // =================== ✨ QUOTES ===================
   const startQuoteRotation = () => {
@@ -550,6 +583,7 @@ fabColors.forEach((fab) => {
     updateFabColorsForMode();
     updateEmptyStateUI();
   });
+
   // =================== 🔄 UPDATE BANNER (PWA) ===================
   function showUpdateAvailableBanner() {
     const banner = document.createElement("div");

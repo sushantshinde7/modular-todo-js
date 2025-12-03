@@ -602,6 +602,15 @@ body.dark-mode {
 #taskInput::placeholder {
   color: var(--color-input-placeholder);
 }
+/* fade ONLY placeholder text */
+#taskInput::placeholder {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+#taskInput.placeholder-hide::placeholder {
+  opacity: 0;
+}
 
 #taskInput:focus {
   outline: none;
