@@ -1,4 +1,4 @@
-import { registerServiceWorker } from "./sw-register.js";
+import { registerServiceWorker } from "../sw-register.js";
 
 // =================== 🌟 ELEMENT REFERENCES ===================
 (() => {
