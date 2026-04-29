@@ -92,33 +92,51 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 todo-modules-app/
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml            → GitHub Pages deployment workflow
+│       └── deploy.yml
 │
 ├── assets/
-│   ├── icons/                    → Empty-state SVGs (light/dark variants)
-│   │   ├── no-completed-dark.svg
-│   │   ├── no-completed-light.svg
-│   │   ├── no-pending-dark.svg
-│   │   ├── no-pending-light.svg
-│   │   ├── no-pinned-dark.svg
-│   │   ├── no-pinned-light.svg
-│   │   ├── no-task-dark.svg
-│   │   ├── no-task-light.svg
-│   │   └── no-tasks.svg
+│   ├── icons/
+│   │   ├── icon-192.png
+│   │   ├── icon-512.png
+│   │   └── maskable-icon-512.png
 │   │
-│   └── Todo-app-Demo.gif         → App demo preview
+│   ├── no-completed-dark.svg
+│   ├── no-completed-light.svg
+│   ├── no-pending-dark.svg
+│   ├── no-pending-light.svg
+│   ├── no-pinned-dark.svg
+│   ├── no-pinned-light.svg
+│   ├── no-task-dark.svg
+│   ├── no-task-light.svg
+│   ├── no-tasks.svg
+│   │
+│   └── Todo-app-Demo.gif
 │
-├── dom.js                        → DOM rendering & UI updates
-├── favicon.ico                   → App icon
-├── index.html                    → Main HTML structure
-├── main.js                       → App bootstrap / initialization
-├── manifest.json                 → PWA manifest (icons, theme, install config)
-├── README.md                     → Project documentation
-├── service-worker.js             → Offline caching + update logic (PWA)
-├── styles.css                    → Main stylesheet (themes, layout, UI)
-├── sw-register.js                → Registers service worker & update banner
-└── todo.js                       → Core task logic (add/edit/delete/pin/filter)
-
+├── src/
+│   ├── main.js
+│   │
+│   ├── config/
+│   │   └── constants.js
+│   │
+│   ├── tasks/
+│   │   ├── taskStore.js
+│   │   ├── taskManager.js
+│   │   └── taskUI.js
+│   │
+│   └── ui/
+│       ├── themeManager.js
+│       ├── feedbackUI.js
+│       └── bannerUI.js
+│
+├── styles/
+│   └── styles.css
+│
+├── index.html
+├── favicon.ico
+├── manifest.json
+├── service-worker.js
+├── sw-register.js
+└── README.md
 
 ```
 
