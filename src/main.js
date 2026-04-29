@@ -1,618 +1,172 @@
 import { registerServiceWorker } from "../sw-register.js";
+import {
+  ANIM_DURATION,
+  motivationalQuotes,
+  placeholderTexts,
+} from "./config/constants.js";
 
-// =================== 🌟 ELEMENT REFERENCES ===================
+import { getTasks } from "./tasks/taskStore.js";
+
+import {
+  stopQuoteRotation,
+  updateEmptyStateUI,
+} from "./ui/feedbackUI.js";
+
+import { renderTasks } from "./tasks/taskUI.js";
+
+import {
+  addTask,
+  toggleComplete,
+  togglePin,
+  deleteTask,
+  editTask,
+  clearAllTasks,
+} from "./tasks/taskManager.js";
+
+import { initThemeManager } from "./ui/themeManager.js";
+
+import {
+  initOfflineBanner,
+  showUpdateAvailableBanner,
+} from "./ui/bannerUI.js";
+
+// =================== APP BOOTSTRAP ===================
 (() => {
+  // =================== ELEMENT REFERENCES ===================
   const taskInput = document.getElementById("taskInput");
   const addBtn = document.getElementById("addBtn");
   const taskList = document.getElementById("taskList");
   const clearAllBtn = document.getElementById("clearAllBtn");
   const toast = document.getElementById("toast");
+
   const themeToggle = document.getElementById("themeToggle");
-  const emptyState = document.getElementById("emptyState");
-  const fewTasksBanner = document.getElementById("fewTasksBanner");
-  const quoteText = document.getElementById("quoteText");
   const colorThemeBtn = document.getElementById("colorThemeBtn");
   const colorWrapper = document.querySelector(".color-theme-wrapper");
   const fabColors = document.querySelectorAll(".fab-color");
   const appContainer = document.querySelector(".app-container");
+
+  const emptyState = document.getElementById("emptyState");
+  const fewTasksBanner = document.getElementById("fewTasksBanner");
+  const quoteText = document.getElementById("quoteText");
+
   const offlineBanner = document.getElementById("offlineBanner");
   const closeBannerBtn = document.querySelector(".close-banner");
 
-  let toastTimeout;
-  let quoteInterval;
-  let quoteIndex = 0;
-  let offlineTimeout;
-  let bannerDebounce;
   let currentFilter = "all";
 
-  // =================== 🧩 GLOBAL VARIABLES ===================
-  const ANIM_DURATION = 600;
-  const motivationalQuotes = [
-    "Start where you are. Use what you have. Do what you can.",
-    "Small steps every day lead to big results.",
-    "You don't need more time. You just need to decide.",
-    "Progress, not perfection.",
-    "One task at a time. You’ve got this!",
-  ];
-
-  // Auto focus on page load
   taskInput.focus();
 
-  // Dynamic placeholder rotation (smooth fade only on placeholder)
-  const placeholderTexts = [
-    "Add your task",
-    "What do you want to do?",
-    "Something on your mind?",
-    "Write your next plan",
-    "Type and press Enter",
-  ];
-
+  // =================== PLACEHOLDER ROTATION ===================
   let placeholderIndex = 0;
-  const input = document.getElementById("taskInput");
 
   function rotatePlaceholder() {
-    input.classList.add("placeholder-hide"); // fade out
+    taskInput.classList.add("placeholder-hide");
 
     setTimeout(() => {
-      // update placeholder text
-      input.placeholder = placeholderTexts[placeholderIndex];
-      placeholderIndex = (placeholderIndex + 1) % placeholderTexts.length;
+      taskInput.placeholder = placeholderTexts[placeholderIndex];
+      placeholderIndex =
+        (placeholderIndex + 1) % placeholderTexts.length;
 
-      input.classList.remove("placeholder-hide"); // fade in
-    }, 250); // matches CSS timing
+      taskInput.classList.remove("placeholder-hide");
+    }, 250);
   }
 
-  // start cycle
   setInterval(rotatePlaceholder, 3000);
   rotatePlaceholder();
 
-  // =================== 📦 STORAGE ===================
-  const getTasks = () => JSON.parse(localStorage.getItem("tasks")) || [];
-  const saveTasks = (tasks) =>
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+  // =================== SHARED RENDER CONFIG ===================
+  const getRenderConfig = () => ({
+    taskList,
+    clearAllBtn,
+    emptyState,
+    fewTasksBanner,
+    quoteText,
+    motivationalQuotes,
+    currentFilter,
+    getTasksFn: getTasks,
 
-  // =================== 🔢 FILTER COUNTS ===================
- function updateFilterCounts() {
-  const tasks = getTasks();
-  const allBtn = document.querySelector('button[data-filter="all"]');
-  const completedBtn = document.querySelector('button[data-filter="completed"]');
-  const pendingBtn = document.querySelector('button[data-filter="pending"]');
-  const pinnedBtn = document.querySelector('button[data-filter="pinned"]');
+    toggleComplete: (index) =>
+      toggleComplete({
+        index,
+        taskList,
+        toast,
+        renderContext: getRenderConfig(),
+      }),
 
-  if (!allBtn) return; // safeguard if buttons not rendered yet
+    togglePin: (index) =>
+      togglePin({
+        index,
+        taskList,
+        toast,
+        renderContext: getRenderConfig(),
+      }),
 
-  allBtn.innerHTML = `All <span class="task-count">${tasks.length}</span>`;
-  completedBtn.innerHTML = `Completed <span class="task-count">${tasks.filter(t => t.completed).length}</span>`;
-  pendingBtn.innerHTML = `Pending <span class="task-count">${tasks.filter(t => !t.completed).length}</span>`;
-  pinnedBtn.innerHTML = `Pinned <span class="task-count">${tasks.filter(t => t.isPinned).length}</span>`;
-}
- 
+    editTask: (index, oldText) =>
+      editTask({
+        index,
+        oldText,
+        taskList,
+        toast,
+        renderContext: getRenderConfig(),
+      }),
 
-  // =================== 🖋️ TASKS ===================
-  const renderTasks = (mode = "", editIndex = -1) => {
-    taskList.innerHTML = "";
-    let tasks = getTasks();
-
-    // ⭐ SHOW / HIDE FILTER BAR
-    const filterBar = document.getElementById("taskFilters");
-    if (tasks.length === 0) {
-      filterBar.style.display = "none";
-    } else {
-      filterBar.style.display = "flex";
-    }
-
-    // ⭐ Apply selected filter
-    if (currentFilter === "completed") {
-      tasks = tasks.filter((t) => t.completed);
-    } else if (currentFilter === "pending") {
-      tasks = tasks.filter((t) => !t.completed);
-    } else if (currentFilter === "pinned") {
-      tasks = tasks.filter((t) => t.isPinned);
-    }
-    // "all" = no filter
-
-    // ⭐ Sort tasks: pinned first
-    const sortedTasks = tasks
-      .map((task, index) => ({ ...task, originalIndex: index }))
-      .sort((a, b) => b.isPinned - a.isPinned);
-
-    sortedTasks.forEach((task, sortedIndex) => {
-      const index = task.originalIndex;
-      const li = document.createElement("li");
-      li.className = "task-item";
-      li.dataset.originalIndex = index;
-
-      // Animations
-      if (mode === "add" && index === tasks.length - 1)
-        li.classList.add("add-animate");
-      else if (mode === "edit" && index === editIndex)
-        li.classList.add("edit-animate");
-
-      // Number
-      const numberSpan = document.createElement("span");
-      numberSpan.className = "task-number";
-      numberSpan.textContent = `${sortedIndex + 1}. `;
-      li.appendChild(numberSpan);
-
-      // Checkbox
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = task.completed;
-      checkbox.addEventListener("change", () => toggleComplete(index));
-      li.appendChild(checkbox);
-
-      // Text
-      const span = document.createElement("span");
-      span.textContent = task.text;
-      if (task.completed) span.classList.add("completed");
-      span.addEventListener("click", () => toggleComplete(index));
-      li.appendChild(span);
-
-      // Pin button
-      const pinBtn = document.createElement("button");
-      pinBtn.classList.add("pin-btn");
-      if (task.isPinned) pinBtn.classList.add("pinned");
-      pinBtn.innerHTML = `<i data-lucide="${
-        task.isPinned ? "pin" : "pin-off"
-      }"></i>`;
-      pinBtn.title = task.isPinned ? "Unpin Task" : "Pin Task";
-      pinBtn.setAttribute("aria-label", pinBtn.title);
-      pinBtn.addEventListener("click", () => togglePin(index));
-      li.appendChild(pinBtn);
-
-      // Edit button
-      const editBtn = document.createElement("button");
-      editBtn.classList.add("edit-btn");
-      editBtn.innerHTML = `<i data-lucide="pencil"></i>`;
-      editBtn.title = "Edit Task";
-      editBtn.setAttribute("aria-label", "Edit Task");
-      editBtn.addEventListener("click", () =>
-        editTask(index, span.textContent)
-      );
-      li.appendChild(editBtn);
-
-      // Delete button
-      const deleteBtn = document.createElement("button");
-      deleteBtn.classList.add("delete-btn");
-      deleteBtn.innerHTML = `<i data-lucide="trash-2"></i>`;
-      deleteBtn.title = "Delete Task";
-      deleteBtn.setAttribute("aria-label", "Delete Task");
-      deleteBtn.addEventListener("click", () => deleteTask(index));
-      li.appendChild(deleteBtn);
-
-      taskList.appendChild(li);
-    });
-
-    updateVisualStates();
-    updateFilterCounts(); // ✅ update filter counts dynamically
-    requestAnimationFrame(() => lucide.createIcons());
-
-    // ⭐ Edit flash
-    if (mode === "edit" && editIndex !== -1) {
-      const editedLi = [...taskList.children].find(
-        (li) => Number(li.dataset.originalIndex) === editIndex
-      );
-
-      if (editedLi) {
-        editedLi.classList.add("edit-saved");
-        setTimeout(() => editedLi.classList.remove("edit-saved"), 700);
-      }
-    }
-  };
-
-  const addTask = () => {
-    const text = taskInput.value.trim();
-    if (!text) return;
-    const tasks = getTasks();
-    tasks.push({ text, completed: false, isPinned: false });
-    saveTasks(tasks);
-    taskInput.value = "";
-    renderTasks("add");
-    showToast("Task added!", "add");
-    addBtn.disabled = true;
-  };
-
-  const toggleComplete = (index) => {
-    const tasks = getTasks();
-    tasks[index].completed = !tasks[index].completed;
-    saveTasks(tasks);
-    renderTasks();
-
-    // 🌈 Animate gradient strike-through after rendering
-    const li = taskList.children[index];
-    if (li) {
-      const span = li.querySelector("span:not(.task-number)");
-      if (span && tasks[index].completed) {
-        span.classList.add("completed");
-        setTimeout(() => span.classList.add("active"), 20);
-      } else if (span) {
-        span.classList.remove("active");
-        setTimeout(() => span.classList.remove("completed"), 350);
-      }
-    }
-
-    const msg = tasks[index].completed
-      ? "Task marked as completed!"
-      : "Task marked as incomplete!";
-    showToast(msg, tasks[index].completed ? "complete" : "uncheck");
-  };
-
-  const togglePin = (index) => {
-    // 1) READ BEFORE POSITIONS (old DOM)
-    const beforeItems = [...taskList.children];
-    const beforeRects = beforeItems.map((li) => li.getBoundingClientRect());
-
-    // 2) UPDATE DATA
-    const tasks = getTasks();
-    tasks[index].isPinned = !tasks[index].isPinned;
-    saveTasks(tasks);
-
-    // 3) RE-RENDER (order changes here)
-    renderTasks();
-
-    // 4) READ AFTER POSITIONS (new DOM)
-    const afterItems = [...taskList.children];
-    const afterRects = afterItems.map((li) => li.getBoundingClientRect());
-
-    // 5) FLIP ANIMATION
-    afterItems.forEach((li, i) => {
-      const before = beforeRects[i];
-      const after = afterRects[i];
-      if (!before || !after) return;
-
-      const dx = before.left - after.left;
-      const dy = before.top - after.top;
-
-      // instantly place item at its previous spot
-      li.style.transform = `translate(${dx}px, ${dy}px)`;
-      li.style.transition = "transform 0ms";
-
-      requestAnimationFrame(() => {
-        li.style.transform = "";
-        li.style.transition = "transform 450ms cubic-bezier(.2,.8,.2,1)";
-      });
-
-      li.addEventListener(
-        "transitionend",
-        () => {
-          li.style.transition = "";
-        },
-        { once: true }
-      );
-    });
-
-    // 6) PULSE EFFECT FOR THE PIN BUTTON
-    const li = afterItems[index];
-    const pinBtn = li?.querySelector(".pin-btn");
-    if (pinBtn) {
-      pinBtn.classList.add("pulse");
-      setTimeout(() => pinBtn.classList.remove("pulse"), 380);
-    }
-
-    // 7) TOAST
-    showToast(
-      tasks[index].isPinned ? "Task pinned!" : "Task unpinned!",
-      tasks[index].isPinned ? "pin" : "unpin"
-    );
-  };
-
-  const deleteTask = (index) => {
-    const li = taskList.children[index];
-    if (li) {
-      li.classList.add("delete-animate");
-      const tasks = getTasks();
-      tasks.splice(index, 1);
-      saveTasks(tasks);
-      setTimeout(() => {
-        renderTasks();
-        showToast("Task deleted!", "delete");
-      }, 600);
-    }
-  };
-
-  const editTask = (index, oldText) => {
-    const li = taskList.children[index];
-    if (!li) return;
-    const span = li.querySelector("span:not(.task-number)");
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = oldText;
-    input.className = "edit-input";
-    span.replaceWith(input);
-    input.focus();
-
-    input.addEventListener("blur", () => {
-      const newText = input.value.trim();
-      if (!newText) {
-        // 🟢 simplified check
-        showToast("Task cannot be empty!", "error");
-        renderTasks();
-        return;
-      }
-      const tasks = getTasks();
-      tasks[index].text = newText;
-      saveTasks(tasks);
-      renderTasks("edit", index);
-      showToast("Task updated!", "edit");
-    });
-
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") input.blur();
-    });
-  };
-
-  const clearAllTasks = () => {
-    [...taskList.children].forEach((li) => {
-      const randomX = Math.random() * 200 - 100;
-      const randomY = Math.random() * 200 - 100;
-      li.style.setProperty("--x", `${randomX}px`);
-      li.style.setProperty("--y", `${randomY}px`);
-      li.classList.add("clear-animate");
-    });
-
-    setTimeout(() => {
-      localStorage.removeItem("tasks");
-      renderTasks();
-      showToast("All tasks cleared!", "clear");
-    }, ANIM_DURATION);
-  };
-
-  // =================== 🔔 TOAST ===================
-  const showToast = (msg, type = "") => {
-    toast.textContent = msg;
-    toast.className = `toast show${type ? ` toast-${type}` : ""}`;
-    clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => (toast.className = "toast"), 2000);
-  };
-
-  // =================== 🌓 THEME & COLOR ===================
-  let selectedLightColor =
-    localStorage.getItem("selectedLightColor") || "#f8c8dc";
-  let selectedDarkColor =
-    localStorage.getItem("selectedDarkColor") || "#9f5976";
-
-  const applySavedColors = () => {
-    const isDark = document.body.classList.contains("dark-mode");
-    const color = isDark ? selectedDarkColor : selectedLightColor;
-    appContainer.style.backgroundColor = color;
-  };
-
-  const toggleTheme = () => {
-    const isDark = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    applySavedColors();
-  };
-
-  const applySavedTheme = () => {
-    if (localStorage.getItem("theme") === "dark")
-      document.body.classList.add("dark-mode");
-  };
-
-  colorThemeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    colorWrapper.classList.toggle("active");
+    deleteTask: (index) =>
+      deleteTask({
+        index,
+        taskList,
+        toast,
+        renderContext: getRenderConfig(),
+      }),
   });
 
-  document.addEventListener("click", (e) => {
-    if (!colorWrapper.contains(e.target))
-      colorWrapper.classList.remove("active");
+  // =================== SHARED HANDLER CONTEXT ===================
+  const getHandlerContext = () => ({
+    taskInput,
+    addBtn,
+    taskList,
+    toast,
+    renderContext: getRenderConfig(),
+    animDuration: ANIM_DURATION,
   });
 
-  function updateFabColorsForMode() {
-    const isDark = document.body.classList.contains("dark-mode");
-    const color = isDark
-      ? localStorage.getItem("selectedDarkColor") || "#2e2a4a" // default dark
-      : localStorage.getItem("selectedLightColor") || "#f8c8dc"; // default light
-    appContainer.style.backgroundColor = color;
-  }
-
-  fabColors.forEach((c) => {
-    c.addEventListener("click", () => {
-      const isDark = document.body.classList.contains("dark-mode");
-      const color = isDark ? c.dataset.dark : c.dataset.color;
-      appContainer.style.backgroundColor = color;
-
-      if (isDark) {
-        selectedDarkColor = color;
-        localStorage.setItem("selectedDarkColor", color);
-      } else {
-        selectedLightColor = color;
-        localStorage.setItem("selectedLightColor", color);
-      }
-
-      fabColors.forEach((x) => x.classList.remove("selected"));
-      c.classList.add("selected");
-      colorWrapper.classList.remove("active");
-    });
-  });
-  // =================== 🎨 FAB COLOR TOOLTIP (Dynamic) ===================
-
-  // =================== 🎨 CUSTOM TOOLTIP FOR FAB COLORS ===================
-  let tipEl;
-
-  // Create tooltip element once
-  function createTip() {
-    tipEl = document.createElement("div");
-    tipEl.className = "custom-tip";
-    document.body.appendChild(tipEl);
-  }
-  createTip();
-
-  // Show tooltip
-  function showTip(text, x, y) {
-    tipEl.textContent = text;
-    tipEl.style.left = x + "px";
-    tipEl.style.top = y + "px";
-    tipEl.style.opacity = 1;
-    tipEl.style.transform = "translateY(0px)";
-  }
-
-  // Hide tooltip
-  function hideTip() {
-    tipEl.style.opacity = 0;
-    tipEl.style.transform = "translateY(4px)";
-  }
-
-  fabColors.forEach((fab) => {
-    fab.addEventListener("mouseenter", (e) => {
-      const isDark = document.body.classList.contains("dark-mode");
-      const name = isDark ? fab.dataset.nameDark : fab.dataset.nameLight;
-
-      const rect = fab.getBoundingClientRect();
-      const x = rect.left + rect.width / 2 - tipEl.offsetWidth / 2;
-      const y = rect.top - 32;
-
-      showTip(name, x, y);
-    });
-
-    fab.addEventListener("mousemove", (e) => {
-      const rect = fab.getBoundingClientRect();
-      tipEl.style.left =
-        rect.left + rect.width / 2 - tipEl.offsetWidth / 2 + "px";
-      tipEl.style.top = rect.top - 32 + "px";
-    });
-
-    fab.addEventListener("mouseleave", hideTip);
+  // =================== THEME INIT ===================
+  initThemeManager({
+    themeToggle,
+    colorThemeBtn,
+    colorWrapper,
+    fabColors,
+    appContainer,
+    updateEmptyStateUI,
+    getTasks,
+    getCurrentFilter: () => currentFilter,
   });
 
-  // =================== ✨ QUOTES ===================
-  const startQuoteRotation = () => {
-    if (quoteInterval) clearInterval(quoteInterval);
-    quoteText.textContent = motivationalQuotes[quoteIndex];
-    quoteInterval = setInterval(() => {
-      quoteText.classList.add("fade-out");
-      setTimeout(() => {
-        quoteIndex = (quoteIndex + 1) % motivationalQuotes.length;
-        quoteText.textContent = motivationalQuotes[quoteIndex];
-        quoteText.classList.remove("fade-out");
-      }, 500);
-    }, 5000);
-  };
-
-  const stopQuoteRotation = () => {
-    if (quoteInterval) clearInterval(quoteInterval);
-  };
-
-  // =================== 👁️ UI STATES ===================
-  const updateVisualStates = () => {
-    const count = taskList.children.length;
-    if (count === 0) {
-      emptyState.style.display = "block";
-      updateEmptyStateUI();
-      fewTasksBanner.style.display = "none";
-      taskList.style.display = "none";
-      clearAllBtn.style.display = "none";
-      stopQuoteRotation();
-    } else if (count <= 3) {
-      emptyState.style.display = "none";
-      fewTasksBanner.style.display = "block";
-      taskList.style.display = "block";
-      clearAllBtn.style.display = "inline-block";
-      startQuoteRotation();
-    } else {
-      emptyState.style.display = "none";
-      fewTasksBanner.style.display = "none";
-      taskList.style.display = "block";
-      clearAllBtn.style.display = "inline-block";
-      stopQuoteRotation();
-    }
-  };
-  function updateEmptyStateUI() {
-    const isDark = document.body.classList.contains("dark-mode");
-
-    let img = "assets/no-tasks.svg"; // fallback
-    let showText = true;
-    let textHTML = `<strong>Clean slate!</strong> Start by adding your <span class="keyword">first task</span>.`;
-
-    if (currentFilter === "completed") {
-      img = isDark
-        ? "assets/no-completed-dark.svg"
-        : "assets/no-completed-light.svg";
-      showText = false;
-    } else if (currentFilter === "pinned") {
-      img = isDark ? "assets/no-pinned-dark.svg" : "assets/no-pinned-light.svg";
-      showText = false;
-    } else if (currentFilter === "all" && getTasks().length === 0) {
-      img = isDark ? "assets/no-task-dark.svg" : "assets/no-task-light.svg";
-      showText = false;
-    } else if (currentFilter === "pending") {
-      const pendingTasks = getTasks().filter((t) => !t.completed);
-      if (pendingTasks.length === 0) {
-        img = isDark
-          ? "assets/no-pending-dark.svg"
-          : "assets/no-pending-light.svg";
-        showText = false;
-      }
-    }
-
-    const imgEl = document.getElementById("emptyStateImg");
-    const textEl = document.getElementById("emptyStateText");
-
-    imgEl.src = img;
-
-    if (showText) {
-      textEl.style.display = "block";
-      textEl.innerHTML = textHTML;
-    } else {
-      textEl.style.display = "none";
-    }
-  }
-
-  // =================== 🌐 OFFLINE ===================
-  const updateNetworkBanner = () => {
-    clearTimeout(bannerDebounce);
-    bannerDebounce = setTimeout(() => {
-      clearTimeout(offlineTimeout);
-      if (!navigator.onLine) {
-        offlineBanner.classList.remove("hidden");
-        offlineTimeout = setTimeout(
-          () => offlineBanner.classList.add("hidden"),
-          10000
-        );
-      } else offlineBanner.classList.add("hidden");
-    }, 300);
-  };
-
-  window.addEventListener("online", updateNetworkBanner);
-  window.addEventListener("offline", updateNetworkBanner);
-  closeBannerBtn?.addEventListener("click", () => {
-    clearTimeout(offlineTimeout);
-    offlineBanner.classList.add("hidden");
+  // =================== BANNER INIT ===================
+  initOfflineBanner({
+    offlineBanner,
+    closeBannerBtn,
   });
 
-  // =================== 🎛️ INPUT HANDLERS ===================
-  taskInput.addEventListener(
-    "input",
-    () => (addBtn.disabled = taskInput.value.trim() === "")
-  );
+  // =================== INPUT HANDLERS ===================
+  taskInput.addEventListener("input", () => {
+    addBtn.disabled = taskInput.value.trim() === "";
+  });
+
   taskInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && taskInput.value.trim() !== "") addTask();
+    if (e.key === "Enter" && taskInput.value.trim()) {
+      addTask(getHandlerContext());
+    }
   });
 
-  addBtn.addEventListener("click", addTask);
-  clearAllBtn.addEventListener("click", clearAllTasks);
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-
-    // 🔄 Instantly switch to correct color theme
-    updateFabColorsForMode();
-    updateEmptyStateUI();
+  addBtn.addEventListener("click", () => {
+    addTask(getHandlerContext());
   });
 
-  // =================== 🔄 UPDATE BANNER (PWA) ===================
-  function showUpdateAvailableBanner() {
-    const banner = document.createElement("div");
-    banner.className = "update-banner";
-    banner.textContent = "🔄 New update available — Tap to refresh";
+  clearAllBtn.addEventListener("click", () => {
+    clearAllTasks(getHandlerContext());
+  });
 
-    banner.addEventListener("click", () => {
-      window.location.reload();
-    });
-
-    document.body.appendChild(banner);
-  }
+  // =================== FILTER HANDLERS ===================
   document.querySelectorAll(".task-filters button").forEach((btn) => {
     btn.addEventListener("click", () => {
       currentFilter = btn.dataset.filter;
@@ -622,26 +176,26 @@ import { registerServiceWorker } from "../sw-register.js";
         .forEach((b) => b.classList.remove("active"));
 
       btn.classList.add("active");
-      renderTasks();
-      updateEmptyStateUI();
+
+      renderTasks(getRenderConfig());
+
+      updateEmptyStateUI(currentFilter, getTasks);
     });
   });
 
-  // =================== 🚀 INIT ===================
+  // =================== SERVICE WORKER ===================
   registerServiceWorker(showUpdateAvailableBanner);
+
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.ready.then((reg) => {
-      // Tell SW to activate immediately
       reg.active?.postMessage("skipWaiting");
     });
   }
 
-  applySavedTheme();
-  applySavedColors();
-  updateFabColorsForMode();
+  // =================== INITIAL RENDER ===================
   addBtn.disabled = true;
-  renderTasks();
-  updateFilterCounts();
-  updateNetworkBanner();
+
+  renderTasks(getRenderConfig());
+
   window.addEventListener("beforeunload", stopQuoteRotation);
 })();
