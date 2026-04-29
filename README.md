@@ -1,6 +1,9 @@
 # 📝 Modular To-Do App  
 
-👉 Live Demo: https://sushantshinde7.github.io/modular-todo-js/  
+> 🔗 Live Demo: [Modular Todo App Live](https://sushantshinde7.github.io/modular-todo-js/)
+
+> 📦 Repository: [modular-todo-js](https://github.com/sushantshinde7/modular-todo-js)
+ 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white&style=flat)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white&style=flat)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black&style=flat)
@@ -21,32 +24,56 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 
 ## 📌 Features
 
+### Core Features
+
 | Feature | Description |
-|----------|-------------|
-| ✅ Add, edit, delete, pin | Full task control with smooth animations |
-| 🔢 Auto numbering | Tasks are numbered and re-ordered on pin |
-| 🌗 Theme switcher | Light/Dark mode with saved preference |
-| 🎨 Color themes (FAB) | Pick background colors per mode |
-| 💡 Dark mode colors | Custom hues for better contrast |
-| 🌈 Color persistence | Remembers colors for each theme |
-| ✨ FAB highlight | Shows the active color with animation |
-| 🧼 Empty state | Illustrated view when no tasks exist |
-| 🧠 Motivational quotes | Rotates quotes when 1–3 tasks exist |
-| 🎭 Quote transitions | Smooth fade between quotes |
-| 🔄 Task animations | Add, edit, pin/unpin, and clear-all |
-| 🔔 Toast notifications | Instant feedback on actions |
-| 💾 LocalStorage | Saves tasks and settings locally |
-| ⚡ Offline alert | Detects lost connection temporarily |
-| 📱 Responsive | Works across all devices |
-| ♿ Accessibility | Keyboard shortcuts and ARIA labels |
-| 🎨 Lucide icons | Clean, lightweight icon set |
-| 🧩 Modular JS logic | Readable and scalable codebase |
-| 📱 PWA Support | Installable on any device with offline mode and smart caching |
-| 🔍 Task Filters | Filter tasks by All, Pending, Completed, or Pinned |
-| 🖼️ Improved Empty States | New light/dark SVGs for no-task and no-pending views |
-| 🎨 Dynamic Color Tooltip | Live accent-color preview for both themes |
-| 🖱️ Themed Scrollbar | Scrollbar thumb adapts to your selected color |
-| ✨ Enhanced Micro-Animations | Smoother CRUD and pin/unpin animations |
+|--------|-------------|
+| ✅ Add, edit, delete, pin | Full task control with smooth interactions |
+| 📌 Smart Pin Sorting | Pinned tasks stay on top while preserving order |
+| 🔍 Task Filters | View All, Pending, Completed, or Pinned tasks |
+| 🔢 Auto Numbering | Tasks re-number automatically on pin/unpin |
+| 📊 Live Task Counts | Real-time counts across all filters |
+| ✏️ Inline Editing | Edit tasks in place with Enter or blur-to-save |
+| ⌨️ Keyboard-First Input | Enter-to-add with auto-focus and keyboard flow |
+| 💾 LocalStorage | Tasks and preferences persist locally |
+| 📱 PWA Support | Installable app with offline mode and smart caching |
+| ⚡ Offline Alert | Detects temporary network loss |
+| 🔄 App Update Banner | Notifies users when a new version is available |
+
+
+### UX, Interaction & Visual Feedback
+
+| Feature | Description |
+|--------|-------------|
+| 🔄 Task Animations | Smooth add, edit, pin/unpin, and clear-all |
+| 🧠 Smooth Reordering | FLIP-based animations for natural motion |
+| ✨ Enhanced Micro-Animations | Polished transitions across CRUD actions |
+| 🎯 Completion Feedback | Gradient strike-through on task completion |
+| 🔔 Toast Notifications | Instant feedback on user actions |
+| 🧼 Empty State | Illustrated view when no tasks exist |
+| 🧭 Contextual Empty States | Filter-aware empty views |
+| 🖼️ Improved Empty States | Light/Dark SVGs for no-task and no-pending |
+| 🧠 Motivational Quotes | Rotates quotes when task count is low |
+| 🎭 Quote Transitions | Smooth fade between quotes |
+| 💬 Smart Input Hints | Dynamic placeholders guide user intent |
+
+
+### Theming, Accessibility & Architecture
+
+| Feature | Description |
+|--------|-------------|
+| 🌗 Theme Switcher | Light/Dark mode with saved preference |
+| 🎨 Color Themes (FAB) | Accent color selection per theme |
+| 🌈 Color Persistence | Remembers colors per theme |
+| 💡 Dark Mode Colors | Contrast-optimized dark palette |
+| ✨ FAB Highlight | Active color indicator with animation |
+| 🎨 Dynamic Color Tooltip | Live accent preview |
+| 🖱️ Themed Scrollbar | Scrollbar adapts to selected color |
+| 📱 Responsive | Works seamlessly across devices |
+| ♿ Accessibility | Keyboard navigation and ARIA labels |
+| 🎨 Lucide Icons | Lightweight, consistent icon system |
+| 🧩 Modular JS Logic | Clean, scalable architecture |
+| 🧩 UI State Handling | Centralized logic for UI conditions |
 
 
 
