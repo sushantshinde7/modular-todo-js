@@ -14,7 +14,7 @@
 
 > “Now a full PWA — fast, installable, offline-ready, and built with clean modular JavaScript.”
 
-A sleek, responsive, and customizable To-Do List web app built using modular JavaScript (ES Modules), HTML, and CSS.
+A sleek, responsive, and customizable To-Do application built using modular JavaScript (ES Modules), HTML, and CSS.
 
 
 ## 🎥 Preview 
@@ -37,7 +37,7 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 | ⌨️ Keyboard-First Input | Enter-to-add with auto-focus and keyboard flow |
 | 💾 LocalStorage | Tasks and preferences persist locally |
 | 📱 PWA Support | Installable app with offline mode and smart caching |
-| ⚡ Offline Alert | Detects temporary network loss |
+| ⚡ Offline Alert | Dismissible offline banner on network loss |
 | 🔄 App Update Banner | Notifies users when a new version is available |
 
 
@@ -74,12 +74,14 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
 | 🎨 Lucide Icons | Lightweight, consistent icon system |
 | 🧩 Modular JS Logic | Clean, scalable architecture |
 | 🧩 UI State Handling | Centralized logic for UI conditions |
+| ♻️ Smart SW Update Flow | Detects service worker updates and prompts refresh |
+| 🧱 Separated Concern Modules | Logic split into task, UI, config, and state layers |
 
 
 
 🚀 Getting Started
-- Clone the repository 
-- git clone https://github.com/sushantshinde7/To-Do-App.git 
+- Clone the repository  
+- git clone https://github.com/sushantshinde7/modular-todo-js.git
 
 
 📂 Open in your browser
@@ -89,7 +91,7 @@ A sleek, responsive, and customizable To-Do List web app built using modular Jav
  
 🗂️ Project Structure
 ```
-todo-modules-app/
+modular-todo-js/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml
@@ -139,6 +141,7 @@ todo-modules-app/
 └── README.md
 
 ```
+> Project follows a separation-of-concerns architecture by isolating task logic, UI rendering, feedback systems, theme management, and configuration into dedicated ES module layers.
 
 
 🛠 Tech Stack
@@ -149,10 +152,11 @@ todo-modules-app/
 ![ES6 Modules](https://img.shields.io/badge/-ES6%20Modules-323330?logo=javascript&logoColor=yellow&style=flat)
 ![LocalStorage](https://img.shields.io/badge/-LocalStorage-FFA500?style=flat)
 ![Lucide Icons](https://img.shields.io/badge/-Lucide%20Icons-7E5BEF?style=flat)
-> Developed using HTML5 for structure, CSS3 for styling and responsiveness, and modular JavaScript (ES6+) for clean logic. Tasks persist via LocalStorage, with a modern UI enhanced by Lucide Icons.
+> Developed using HTML5 for structure, CSS3 for styling and responsiveness, and modular JavaScript (ES6 Modules) for separated, maintainable application architecture. Tasks persist via LocalStorage, with a modern UI enhanced by Lucide Icons.
 
 ## 🆕 What's New
-- Full PWA support with offline caching, install prompt & update banner  
+- Refactored monolithic logic into modular ES6 architecture  
+- Full PWA support with installability, offline caching, and update banner  
 - Brand-new task filtering (All / Pending / Completed / Pinned)  
 - New empty-state illustrations for light & dark themes  
 - Dynamic theme-color tooltip with live preview  
