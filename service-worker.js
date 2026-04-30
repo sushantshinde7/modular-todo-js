@@ -1,4 +1,4 @@
-const CACHE_NAME = "todo-app-v5";
+const CACHE_NAME = "todo-app-v6";
 
 const APP_SHELL = [
   "./",
@@ -8,8 +8,8 @@ const APP_SHELL = [
 
   "./styles/styles.css",
 
-  // Source Files
   "./src/main.js",
+
   "./src/config/constants.js",
 
   "./src/tasks/taskStore.js",
@@ -20,10 +20,12 @@ const APP_SHELL = [
   "./src/ui/feedbackUI.js",
   "./src/ui/bannerUI.js",
 
-  // Assets
+  "./sw-register.js",
+
+  // Empty State Assets
+  "./assets/no-tasks.svg",
   "./assets/no-task-dark.svg",
   "./assets/no-task-light.svg",
-  "./assets/no-tasks.svg",
 
   "./assets/no-completed-dark.svg",
   "./assets/no-completed-light.svg",
@@ -34,14 +36,15 @@ const APP_SHELL = [
   "./assets/no-pending-dark.svg",
   "./assets/no-pending-light.svg",
 
+  // Media
   "./assets/Todo-app-Demo.gif",
 
+  // Icons
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
   "./assets/icons/maskable-icon-512.png",
 ];
 
-// INSTALL
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
@@ -50,7 +53,6 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-// ACTIVATE
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -65,7 +67,6 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// FETCH
 self.addEventListener("fetch", (event) => {
   const { request } = event;
 
@@ -86,7 +87,6 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-// MANUAL SKIP WAITING
 self.addEventListener("message", (event) => {
   if (event.data === "skipWaiting") {
     self.skipWaiting();
