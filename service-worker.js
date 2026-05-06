@@ -1,4 +1,4 @@
-const CACHE_NAME = "todo-app-v6";
+const CACHE_NAME = "todo-app-v7";
 
 const APP_SHELL = [
   "./",
@@ -22,19 +22,18 @@ const APP_SHELL = [
 
   "./sw-register.js",
 
-  // Empty State Assets
-  "./assets/no-tasks.svg",
-  "./assets/no-task-dark.svg",
-  "./assets/no-task-light.svg",
+// Empty State Assets
+"./assets/no-task-dark.svg",
+"./assets/no-task-light.svg",
 
-  "./assets/no-completed-dark.svg",
-  "./assets/no-completed-light.svg",
+"./assets/no-completed-dark.svg",
+"./assets/no-completed-light.svg",
 
-  "./assets/no-pinned-dark.svg",
-  "./assets/no-pinned-light.svg",
+"./assets/no-pinned-dark.svg",
+"./assets/no-pinned-light.svg",
 
-  "./assets/no-pending-dark.svg",
-  "./assets/no-pending-light.svg",
+"./assets/no-pending-dark.svg",
+"./assets/no-pending-light.svg",
 
   // Media
   "./assets/Todo-app-Demo.gif",
