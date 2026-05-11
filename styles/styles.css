@@ -203,16 +203,23 @@ body {
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 400;
   line-height: 1.5;
+
   background-color: var(--color-bg-light);
   color: var(--color-text-light);
+
+  min-height: 100vh;
+
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 30px;
-  transition: background-color var(--transition-slow), color var(--transition-slow);
-}
 
+  padding: 0 clamp(14px, 4vw, 52px);
+
+  overflow: hidden;
+
+  transition:
+    background-color var(--transition-slow),
+    color var(--transition-slow);
+}
 
 body.dark-mode {
   background-color: var(--color-bg-dark);
@@ -222,20 +229,30 @@ body.dark-mode {
 /* ---------- App Container ---------- */
 .app-container {
   background-color: #c6e3f0;
-  /* mint pastel */
-  padding: 20px 16px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+
   width: 100%;
-  max-width: 600px;
-  height: 87vh;
-  max-height: 87vh;
-  overflow: hidden;
+  max-width: 1700px;
+
+  min-height: 100vh;
+  height: 100vh;
+
+  padding: 18px 22px 14px;
+
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+
+  overflow: hidden;
+
   position: relative;
-  transition: background-color var(--transition-slow), color var(--transition-slow), box-shadow var(--transition-medium);
+
+  border-radius: 24px 24px 0 0;
+
+  box-shadow: var(--shadow-md);
+
+  transition:
+    background-color var(--transition-slow),
+    color var(--transition-slow),
+    box-shadow var(--transition-medium);
 }
 
 body.dark-mode .app-container {
@@ -679,12 +696,18 @@ body.dark-mode #addBtn:disabled {
 /* ---------- Task Section ---------- */
 .task-section {
   flex: 1;
+
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  overflow-y: auto;
-  min-height: 0;
+
   position: relative;
+
+  padding-right: 4px;
 }
 
 .task-section::-webkit-scrollbar {
@@ -842,16 +865,29 @@ body.dark-mode .task-filters button.active .task-count {
 
 /* ---------- Task List ---------- */
 ul#taskList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  overflow-y: auto;
-  min-height: 0;
-  max-height: 100%;
-  padding: 0 4px 0 0;
-  margin: 0;
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-columns: repeat(2, 1fr);*/
+
+  gap: 12px;
+
   list-style: none;
+
+  margin: 0;
+  padding: 6px 2px 18px;
+
+  width: 100%;
 }
+/* ---------- Future Desktop Grid ---------- */
+@media (min-width: 900px) {
+  ul#taskList.two-column-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+/*taskList.classList.add("two-column-layout");*/
+
 
 /* Scrollbar Styling */
 ul#taskList::-webkit-scrollbar {
@@ -880,6 +916,7 @@ body.dark-mode ul#taskList::-webkit-scrollbar-thumb:hover {
 #taskList li {
   background-color: var(--color-task-bg);
   padding: 10px 6px;
+  width: 100%;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -1291,15 +1328,25 @@ body.dark-mode .section-divider {
    ================ */
 .app-footer {
   text-align: center;
-  padding: 5px 0;
+
+  padding: 10px 0 4px;
+
   font-family: 'Inter', 'Segoe UI', sans-serif;
+
   font-size: 0.75rem;
+
   color: #555;
-  margin: 0;
+
+  margin-top: auto;
+
   flex-shrink: 0;
+
   transition: color 0.3s ease;
 }
-body.dark-mode .app-footer { color: #ccc; }
+
+body.dark-mode .app-footer {
+  color: #ccc;
+}
 
 .app-footer p { margin: 0; display: inline-block; }
 
@@ -1382,21 +1429,60 @@ body.dark-mode .app-footer a svg { color: #aaa; }
    📱 RESPONSIVE TWEAKS
    ================ */
 @media (max-width: 480px) {
-  body { padding: 20px; }
-  .app-container { padding: 22px 18px; }
-  .input-section { flex-direction: column; gap: 10px; }
 
-  #taskInput, #addBtn { font-size: 15px; padding: 10px; }
-  h1 { font-size: 22px; }
+  body {
+    padding: 0;
+  }
 
-  #themeToggle { width: 36px; height: 36px; top: 16px; right: 16px; }
-  .theme-icon { width: 20px; height: 20px; }
+  .app-container {
+    border-radius: 0;
+    padding: 16px 14px 10px;
+  }
 
-  #taskList li { padding: 8px 4px; font-size: 15px; }
-  #taskList button i { width: 18px; height: 18px; }
+  .input-section {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-  #clearAllBtn { font-size: 14px; padding: 8px 16px; }
-  .toast { font-size: 14px; padding: 10px 16px; }
+  #taskInput,
+  #addBtn {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  #themeToggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .theme-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  #taskList li {
+    padding: 8px 4px;
+    font-size: 15px;
+  }
+
+  #taskList button i {
+    width: 18px;
+    height: 18px;
+  }
+
+  #clearAllBtn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .toast {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
 }
 
 /* ================
