@@ -110,7 +110,6 @@ modular-todo-js/
 │   ├── no-pinned-light.svg
 │   ├── no-task-dark.svg
 │   ├── no-task-light.svg
-│   ├── no-tasks.svg
 │   │
 │   └── Todo-app-Demo.gif
 │
