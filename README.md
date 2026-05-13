@@ -1,4 +1,4 @@
-# 📝 Modular To-Do App  
+# 📝 Modular To-Do Apps 
 
 > 🔗 Live Demo: [Modular Todo App Live](https://sushantshinde7.github.io/modular-todo-js/)
 
