@@ -747,19 +747,20 @@ body.dark-mode {
 
 /* ---------- Task Filters (Modern + Minimal) ---------- */
 .task-filters {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
+  max-width: 100%;
   margin: 4px 2px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(10px);
+  /* stronger background so tasks don't show through */
+  background: rgba(198, 227, 240, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-/* Make it same width/flow as the task list */
-.task-filters {
-  max-width: 100%;
-}
 
 /* Buttons */
 .task-filters button {
@@ -805,7 +806,7 @@ body.dark-mode {
 
 /* Dark Mode */
 body.dark-mode .task-filters {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(28, 28, 28, 0.9);
   border-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -1434,7 +1435,7 @@ body.dark-mode .app-footer a svg { color: #aaa; }
   body {
     padding: 0;
   }
-  
+
   .app-header h1 {
     font-size: 1.45rem;
   }
