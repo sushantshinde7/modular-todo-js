@@ -2,7 +2,7 @@
 
 > 🔗 Live Demo: [Modular Todo App Live](https://sushantshinde7.github.io/modular-todo-js/)
 
-> 📦 Repository: [modular-todo-js](https://github.com/sushantshinde7/modular-todo-js)
+> 📦 Repository link: [modular-todo-js](https://github.com/sushantshinde7/modular-todo-js)
  
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white&style=flat)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white&style=flat)
