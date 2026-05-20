@@ -41,7 +41,7 @@ A sleek, responsive, and customizable To-Do application built using modular Java
 | 🔄 App Update Banner | Notifies users when a new version is available |
 
 
-### UX, Interaction & Visual Feedback
+### UX, Interactions & Visual Feedback
 
 | Feature | Description |
 |--------|-------------|
